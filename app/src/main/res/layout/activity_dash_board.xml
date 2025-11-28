@@ -1,0 +1,455 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:openDrawer="start">
+
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
+            android:id="@+id/coordinatorLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/container"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/view_labeled">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/action_bar"
+                    android:layout_width="0dp"
+                    android:layout_height="60dp"
+                    android:background="@color/edit_text_labeled"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imageViewMoreOptionDrawer"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="20dp"
+                        android:src="@drawable/more_option"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <View
+                        android:id="@+id/viewSeparator"
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginHorizontal="20dp"
+                        android:background="@color/seperator"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imageViewNotification"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="20dp"
+                        android:src="@drawable/ic_notification"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/imageViewEditProfile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:padding="20dp"
+                        android:src="@drawable/ic_edit"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewTitle"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="20dp"
+                        android:gravity="center"
+                        android:textColor="@color/text_labeled"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        app:fontFamily="@font/montserrat_semi_bold"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:text="Home" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <FrameLayout
+                    android:id="@+id/navHostView"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintBottom_toTopOf="@+id/view"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/action_bar">
+
+                    <fragment
+                        android:id="@+id/navHostFragmentDashboard"
+                        android:name="androidx.navigation.fragment.NavHostFragment"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        app:defaultNavHost="true"
+                        app:navGraph="@navigation/nav_graph_dashboard"
+                        tools:ignore="FragmentTagUsage" />
+
+                </FrameLayout>
+
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="match_parent"
+                    android:layout_height="82dp"
+                    android:background="@drawable/round_corner_bg"
+                    android:backgroundTint="@color/edit_text_labeled"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/cardView" />
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="90dp"
+                    android:layout_marginBottom="-8dp"
+                    app:cardBackgroundColor="@color/edit_text_labeled"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="15dp"
+                    android:outlineAmbientShadowColor="@color/white"
+                    android:outlineSpotShadowColor="@color/white"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/view"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:strokeWidth="0dp">
+
+                    <com.google.android.material.bottomnavigation.BottomNavigationView
+                        android:id="@+id/bottomNavigationViewMain"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@color/edit_text_labeled"
+                        app:itemActiveIndicatorStyle="@style/App.Custom.Indicator"
+                        app:itemIconTint="@drawable/selector_item_icon_color"
+                        app:itemRippleColor="@null"
+                        app:itemTextColor="@drawable/selector_item_icon_color"
+                        app:labelVisibilityMode="labeled"
+                        app:menu="@menu/nav_edit_menu" />
+
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <com.fictivestudios.demo.utils.customLoader.LazyLoader
+                    android:id="@+id/progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="20dp"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:lazyloader_animDur="800"
+                    app:lazyloader_dotsDist="10dp"
+                    app:lazyloader_dotsRadius="6dp"
+                    app:lazyloader_firstDelayDur="150"
+                    app:lazyloader_firstDotColor="@color/red"
+                    app:lazyloader_interpolator="@android:anim/decelerate_interpolator"
+                    app:lazyloader_secondDelayDur="300"
+                    app:lazyloader_secondDotColor="@color/theme_red"
+                    app:lazyloader_thirdDotColor="@color/theme_red"
+                    tools:visibility="visible" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+
+        <com.google.android.material.navigation.NavigationView
+            android:id="@+id/navView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@color/edit_text_labeled"
+            android:fitsSystemWindows="true">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/viewUpperNav"
+                        android:layout_width="match_parent"
+                        android:layout_height="240dp"
+                        android:background="@color/theme_red"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:id="@+id/imageViewCancel"
+                            android:layout_width="15dp"
+                            android:layout_height="15dp"
+                            android:layout_margin="20dp"
+                            android:scaleType="centerCrop"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            tools:srcCompat="@drawable/cancel" />
+
+                        <com.google.android.material.card.MaterialCardView
+                            android:id="@+id/cardViewUserImage"
+                            android:layout_width="120dp"
+                            android:layout_height="120dp"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="40dp"
+                            android:elevation="20dp"
+                            app:cardCornerRadius="100dp"
+                            app:cardElevation="20dp"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:strokeColor="@color/white"
+                            app:strokeWidth="1dp">
+
+                            <com.fictivestudios.demo.utils.CircleImageView
+                                android:id="@+id/imageViewUser"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:scaleType="centerCrop" />
+
+                        </com.google.android.material.card.MaterialCardView>
+
+                        <androidx.appcompat.widget.AppCompatTextView
+                            android:id="@+id/textViewUserName"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:fontFamily="@font/montserrat"
+                            android:gravity="center"
+                            android:paddingTop="8dp"
+                            android:text=""
+                            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+                            android:textColor="@color/white"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="@id/cardViewUserImage"
+                            app:layout_constraintStart_toStartOf="@id/cardViewUserImage"
+                            app:layout_constraintTop_toBottomOf="@+id/cardViewUserImage" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/navHome"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="6dp"
+                        android:layout_marginTop="40dp"
+                        android:drawableStart="@drawable/ic_home"
+                        android:drawablePadding="10dp"
+                        android:gravity="center_vertical"
+                        android:paddingStart="10dp"
+                        android:text="@string/home"
+                        android:textColor="@color/text_labeled"
+                        android:textSize="16sp"
+                        app:fontFamily="@font/montserrat_semi_bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/viewUpperNav"
+                        tools:ignore="RtlSymmetry" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/navCallLogs"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="6dp"
+                        android:layout_marginTop="20dp"
+                        android:drawableStart="@drawable/ic_call_log"
+                        android:drawablePadding="10dp"
+                        android:drawableTint="@color/theme_red"
+                        android:gravity="center_vertical"
+                        android:paddingStart="10dp"
+                        android:text="Call Logs"
+                        android:textColor="@color/text_labeled"
+                        android:textSize="16sp"
+                        app:fontFamily="@font/montserrat_semi_bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/navHome"
+                        tools:ignore="RtlSymmetry" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/navRegisterNumber"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="6dp"
+                        android:layout_marginTop="20dp"
+                        android:drawableStart="@drawable/ic_register"
+                        android:drawablePadding="10dp"
+                        android:drawableTint="@color/theme_red"
+                        android:gravity="center_vertical"
+                        android:paddingStart="10dp"
+                        android:text="Register Phone Number"
+                        android:textColor="@color/text_labeled"
+                        android:textSize="16sp"
+                        app:fontFamily="@font/montserrat_semi_bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/navCallLogs"
+                        tools:ignore="RtlSymmetry" />
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/navScreenShot"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="6dp"
+                        android:layout_marginTop="20dp"
+                        android:drawableStart="@drawable/ic_screen_shot"
+                        android:drawablePadding="10dp"
+                        android:gravity="center_vertical"
+                        android:paddingStart="10dp"
+                        android:text="@string/screenshots"
+                        android:textColor="@color/text_labeled"
+                        android:textSize="16sp"
+                        app:fontFamily="@font/montserrat_semi_bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/navRegisterNumber"
+                        tools:ignore="RtlSymmetry" />
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/navSecurity"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="6dp"
+                        android:layout_marginTop="20dp"
+                        android:drawableStart="@drawable/ic_lock"
+                        android:drawablePadding="10dp"
+                        android:gravity="center_vertical"
+                        android:paddingStart="10dp"
+                        android:text="@string/security_features"
+                        android:textColor="@color/text_labeled"
+                        android:textSize="16sp"
+                        app:fontFamily="@font/montserrat_semi_bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/navScreenShot"
+                        tools:ignore="RtlSymmetry" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/navSubscription"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="6dp"
+                        android:layout_marginTop="20dp"
+                        android:drawableStart="@drawable/is_dollar"
+                        android:drawablePadding="10dp"
+                        android:gravity="center_vertical"
+                        android:paddingStart="10dp"
+                        android:text="@string/subscription"
+                        android:textColor="@color/text_labeled"
+                        android:textSize="16sp"
+                        app:fontFamily="@font/montserrat_semi_bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/navSecurity"
+                        tools:ignore="RtlSymmetry" />
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/navSetting"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="6dp"
+                        android:layout_marginTop="20dp"
+                        android:drawableStart="@drawable/ic_setting"
+                        android:drawablePadding="10dp"
+                        android:gravity="center_vertical"
+                        android:paddingStart="10dp"
+                        android:text="@string/settings"
+                        android:textColor="@color/text_labeled"
+                        android:textSize="16sp"
+                        app:fontFamily="@font/montserrat_semi_bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/navSubscription"
+                        tools:ignore="RtlSymmetry" />
+
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/navPrivacy"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="6dp"
+                        android:layout_marginTop="20dp"
+                        android:drawableStart="@drawable/ic_privacy"
+                        android:drawablePadding="10dp"
+                        android:gravity="center_vertical"
+                        android:paddingStart="10dp"
+                        android:text="@string/privacy_policy"
+                        android:textColor="@color/text_labeled"
+                        android:textSize="16sp"
+                        app:fontFamily="@font/montserrat_semi_bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/navSetting"
+                        tools:ignore="RtlSymmetry" />
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/navTerms"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="6dp"
+                        android:layout_marginTop="20dp"
+                        android:drawableStart="@drawable/ic_terms"
+                        android:drawablePadding="10dp"
+                        android:gravity="center_vertical"
+                        android:paddingStart="10dp"
+                        android:text="@string/terms_amp_conditions"
+                        android:textColor="@color/text_labeled"
+                        android:textSize="16sp"
+                        app:fontFamily="@font/montserrat_semi_bold"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/navPrivacy"
+                        tools:ignore="RtlSymmetry" />
+
+                    <androidx.appcompat.widget.AppCompatImageView
+                        android:id="@+id/navLogout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="40dp"
+                        android:src="@drawable/ic_logout"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/navTerms" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </ScrollView>
+        </com.google.android.material.navigation.NavigationView>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+    <!--    </androidx.constraintlayout.motion.widget.MotionLayout>-->
+</layout>

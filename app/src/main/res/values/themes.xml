@@ -1,0 +1,136 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.Hush" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/theme_red</item>
+        <item name="colorPrimaryVariant">@color/white</item>
+        <item name="colorOnPrimary">@color/theme_red</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/theme_red</item>
+        <item name="colorSecondaryVariant">@color/theme_red</item>
+        <!-- Status bar color. -->
+        <item name="android:windowLightStatusBar">true</item>
+        <!-- Customize your theme here. -->
+        <!--        <item name="android:textColorPrimary">@color/colorTheme</item>-->
+        <item name="android:colorBackground">@color/colorBackground</item>
+        <item name="android:fontFamily">@font/montserrat</item>
+        <item name="cardViewStyle">@style/MyCardViewStyle</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">@color/status_bar_color</item>
+    </style>
+
+    <style name="Theme.Hush" parent="Base.Theme.Hush" />
+    <style name="App.Custom.Indicator" parent="Widget.Material3.BottomNavigationView.ActiveIndicator">
+        <item name="android:color">@null</item>
+    </style>
+
+    <style name="MapDialogFragmentStyle" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+    <style name="PlanTextViewStyle" parent="android:Widget.TextView">
+        <item name="android:fontFamily">@font/montserrat_semi_bold</item>
+    </style>
+
+    <declare-styleable name="LinearDotsLoader">
+        <attr name="loader_noOfDots" format="integer" />
+        <attr name="loader_dotsDist" format="dimension" />
+        <attr name="loader_isSingleDir" format="boolean" />
+        <attr name="loader_expandOnSelect" format="boolean" />
+        <attr name="loader_selectedRadius" format="dimension" />
+    </declare-styleable>
+
+
+    <declare-styleable name="CircleView">
+        <attr name="circleRadius" format="dimension" />
+        <attr name="circleColor" format="color" />
+        <attr name="circleDrawOnlystroke" format="boolean" />
+        <attr name="circleStrokeWidth" format="dimension" />
+    </declare-styleable>
+
+    <declare-styleable name="LazyLoader">
+        <attr name="lazyloader_dotsRadius" format="dimension" />
+        <attr name="lazyloader_dotsDist" format="dimension" />
+        <attr name="lazyloader_firstDotColor" format="color" />
+        <attr name="lazyloader_secondDotColor" format="color" />
+        <attr name="lazyloader_thirdDotColor" format="color" />
+        <attr name="lazyloader_animDur" format="integer" />
+        <attr name="lazyloader_interpolator" format="reference" />
+        <attr name="lazyloader_firstDelayDur" format="integer" />
+        <attr name="lazyloader_secondDelayDur" format="integer" />
+    </declare-styleable>
+
+    <style name="MyCardViewStyle" parent="CardView">
+        <!-- Card background color -->
+        <item name="cardBackgroundColor">@color/white</item>
+        <!-- Ripple for API 21 of android, and regular selector on older -->
+        <item name="android:foreground">?android:selectableItemBackground</item>
+    </style>
+
+    <declare-styleable name="CircularTimerView">
+        <attr name="progressColor" format="color"/>
+        <attr name="backgroundColor" format="color"/>
+        <attr name="progressBackgroundColor" format="color"/>
+        <attr name="strokeWidthDimension" format="dimension"/>
+        <attr name="backgroundWidth" format="float"/>
+        <attr name="roundedCorners" format="boolean"/>
+        <attr name="maxValue" format="float"/>
+        <attr name="progressTextColor" format="color"/>
+        <attr name="textSize" format="dimension"/>
+        <attr name="progressText" format="string"/>
+        <attr name="suffix" format="string"/>
+        <attr name="prefix" format="string"/>
+        <attr name="isClockwise" format="boolean"/>
+        <attr name="startingPoint" format="enum">
+            <enum name="top" value="270" />
+            <enum name="bottom" value="90" />
+            <enum name="right" value="0" />
+            <enum name="left" value="180" />
+        </attr>
+    </declare-styleable>
+
+
+        <declare-styleable name="CircleImageView">
+            <attr name="civ_border_width" format="dimension" />
+            <attr name="civ_border_color" format="color" />
+            <attr name="civ_border_overlay" format="boolean" />
+            <attr name="civ_circle_background_color" format="color" />
+        </declare-styleable>
+
+
+    <style name="ButtonDialogButtonText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/theme_color</item>
+        <item name="android:textAlignment">center</item>
+        <item name="android:padding">15dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+    </style>
+
+    <style name="CustomProgressLoader" parent="Widget.AppCompat.ProgressBar">
+        <item name="colorAccent">@color/theme_red</item> <!-- Set your desired yellow color -->
+        <item name="android:indeterminateTint">@color/theme_red</item>
+        <item name="android:progressTint">@color/theme_red</item>
+    </style>
+
+    <style name="MyBottSheetDialog" parent="Theme.Design.Light.BottomSheetDialog">
+        <!--<item name="android:windowCloseOnTouchOutside">false</item>-->
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:colorBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.3</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+    </style>
+
+    <style name="CropFragmentStyle" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowIsFloating">false</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+</resources>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/view_labeled">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageViewBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:elevation="20dp"
+            android:padding="20dp"
+            android:src="@drawable/ic_back"
+            android:tint="@color/theme_red"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Register Phone Number"
+            android:textColor="@color/text_labeled"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:fontFamily="@font/montserrat_semi_bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/textViewDes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="100dp"
+            android:layout_marginHorizontal="20dp"
+            android:gravity="center"
+            android:text="Make sure you have added the \narea code"
+            android:textColor="@color/text_labeled"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            app:fontFamily="@font/montserrat_semi_bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/textViewTitle" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/materialCardView"
+            android:layout_width="wrap_content"
+            android:layout_height="57dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="2dp"
+            app:cardBackgroundColor="@color/edit_text_labeled"
+            app:cardCornerRadius="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/textInputLayoutPhone"
+            app:layout_constraintEnd_toStartOf="@+id/textInputLayoutPhone"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textInputLayoutPhone"
+            app:strokeWidth="0dp">
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/ccp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingVertical="5dp"
+                app:ccpDialog_textColor="@color/text_labeled"
+                app:ccp_autoDetectCountry="true"
+                app:ccp_textSize="14sp" />
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/textInputLayoutPhone"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginEnd="20dp"
+            android:elevation="10dp"
+            android:hint="Phone number"
+            android:textColorHint="@color/theme_red"
+            android:textSize="14sp"
+            app:boxBackgroundColor="@color/edit_text_labeled"
+            app:boxBackgroundMode="filled"
+            app:boxCornerRadiusBottomEnd="10dp"
+            app:boxCornerRadiusBottomStart="10dp"
+            app:boxCornerRadiusTopEnd="10dp"
+            app:boxCornerRadiusTopStart="10dp"
+            app:boxStrokeColor="@android:color/transparent"
+            app:boxStrokeWidth="0dp"
+            app:boxStrokeWidthFocused="0dp"
+            app:expandedHintEnabled="true"
+            app:hintAnimationEnabled="true"
+            app:hintTextAppearance="?attr/textAppearanceBodySmall"
+            app:hintTextColor="@color/theme_red"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/materialCardView"
+            app:layout_constraintTop_toBottomOf="@+id/textViewDes">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/textInputEditTextPhoneNo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/montserrat"
+                android:inputType="phone"
+                android:maxLength="20"
+                android:singleLine="true"
+                android:textColor="@color/text_labeled"
+                android:textCursorDrawable="@drawable/custom_cursor"
+                tools:ignore="TextContrastCheck" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/buttonSubmit"
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:layout_margin="20dp"
+            android:background="@drawable/round_corner_bg"
+            android:backgroundTint="@color/theme_red"
+            android:fontFamily="@font/montserrat_semi_bold"
+            android:text="Submit"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPhone"
+            tools:ignore="DuplicateSpeakableTextCheck" />
+
+
+        <com.fictivestudios.demo.utils.customLoader.LazyLoader
+            android:layout_width="wrap_content"
+            android:id="@+id/progress"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:layout_marginTop="30dp"
+            app:lazyloader_animDur="800"
+            app:lazyloader_dotsDist="10dp"
+            android:elevation="50dp"
+            app:lazyloader_dotsRadius="6dp"
+            app:lazyloader_firstDelayDur="150"
+            android:visibility="gone"
+            tools:visibility="visible"
+            app:lazyloader_firstDotColor="@color/red"
+            app:lazyloader_interpolator="@android:anim/decelerate_interpolator"
+            app:lazyloader_secondDelayDur="300"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+            app:lazyloader_secondDotColor="@color/theme_red"
+            app:lazyloader_thirdDotColor="@color/theme_red" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</layout>

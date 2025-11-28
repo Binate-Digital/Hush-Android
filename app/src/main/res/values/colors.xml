@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="transparent">#00BCBCBC</color>
+    <color name="text_gray">#BCBCBC</color>
+    <color name="theme_color">#3D85C6</color>
+    <color name="theme_red">#FE0100</color>
+    <color name="text_labeled">#000000</color>
+    <color name="colorBackground">#F6F6F6</color>
+    <color name="status_bar_color">#c01111</color>
+    <color name="icon_labeled">#FFFFFFFF</color>
+    <color name="edit_text_labeled">#FFFFFFFF</color>
+    <color name="edit_text_labeled2">#FFFFFFFF</color>
+    <color name="edit_otp">#FFFFFFFF</color>
+
+    <color name="theme_color_yellow">#FFA515</color>
+    <color name="theme_color_gray">#171717</color>
+    <color name="systemGray5">#ffe5e5ea</color>
+    <color name="systemGray6">#BABAC0</color>
+    <color name="red">#EA4335</color>
+    <color name="gray">#bcbcbc</color>
+    <color name="nav_icon_color">#9DABC5</color>
+    <color name="gray2">#545454</color>
+    <color name="icon_color_dot">#000000</color>
+    <color name="view_labeled">#F5F5F5</color>
+    <color name="card_labeled">#ffffff</color>
+    <color name="card_stroke">#DEDEDE</color>
+    <color name="search_stroke">#CBCBCB</color>
+    <color name="seperator">#CCCCCC</color>
+    <color name="dial_icon_labeled">#000000</color>
+    <color name="dial_button_labeled">#FFFFFF</color>
+    <color name="emoji_labeled">#9DABC5</color>
+    <color name="card_shadow_labeled">#00000000</color>
+    <color name="forward_icon_labeled">#000000</color>
+
+    <color name="regularColor">#d8dbe9</color>
+    <color name="selectedColor">#587bf4</color>
+    <color name="errorColor">#ea4954</color>
+    <color name="design_default_color_primary">#3D85C6</color>
+
+
+    <color name="color_background_box">#F5F5F5</color>
+    <color name="color_background_box_stroke">#DEDEDE</color>
+    <color name="color_background_box_stroke_active">#A5A5A5</color>
+</resources>

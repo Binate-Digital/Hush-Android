@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/splashFragment">
+
+    <fragment
+        android:id="@+id/createNewProfileFragment"
+        android:name="com.fictivestudios.demo.ui.fragments.auth.createNewProfile.CreateNewProfileFragment"
+        android:label="CreateNewProfileFragment"
+        tools:layout="@layout/fragment_create_new_profile">
+        <argument
+            android:name="userId"
+            app:argType="string" />
+
+        <argument
+            android:name="token"
+            app:argType="string" />
+
+        <argument
+            android:name="name"
+            app:argType="string" />
+
+        <argument
+            android:name="phoneNo"
+            app:argType="string"
+            app:nullable="true"/>
+        <action
+            android:id="@+id/action_createNewProfileFragment_to_preLoginFragment"
+            app:destination="@id/preLoginFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/preLoginFragment"
+            app:popUpToInclusive="true" />
+
+    </fragment>
+    <fragment
+        android:id="@+id/privacyPolicyFragment"
+        android:name="com.fictivestudios.demo.ui.fragments.auth.privacy.PrivacyPolicyFragment"
+        android:label="PrivacyPolicyFragment"
+        tools:layout="@layout/fragment_privacy">
+
+        <argument
+            android:name="type"
+            app:argType="string" />
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/splashFragment"
+        android:name="com.fictivestudios.demo.ui.fragments.splash.SplashFragment"
+        android:label="SplashFragment"
+        tools:layout="@layout/fragment_splash">
+        <action
+            android:id="@+id/action_splashFragment_to_preLoginFragment"
+            app:destination="@id/preLoginFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/otpVerificationFragment"
+        android:name="com.fictivestudios.demo.ui.fragments.auth.otp.OtpVerificationFragment"
+        android:label="OtpVerificationFragment"
+        tools:layout="@layout/fragment_otp_verification">
+
+        <argument
+            android:name="token"
+            app:argType="string" />
+
+        <argument
+            android:name="userId"
+            app:argType="string" />
+
+        <argument
+            android:name="phoneNo"
+            app:argType="string" />
+
+        <argument
+            android:name="from"
+            app:argType="string" />
+
+        <argument
+            android:name="firebaseToken"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_otpVerificationFragment_to_createNewProfileFragment"
+            app:destination="@id/createNewProfileFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
+
+            <argument
+                android:name="userId"
+                app:argType="string" />
+
+            <argument
+                android:name="token"
+                app:argType="string" />
+
+            <argument
+                android:name="name"
+                app:argType="string" />
+
+        </action>
+
+        <action
+            android:id="@+id/action_otpVerificationFragment_to_preLoginFragment"
+            app:destination="@id/preLoginFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:popUpTo="@id/preLoginFragment"
+            app:popUpToInclusive="true" />
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/loginWithEmailFragment"
+        android:name="com.fictivestudios.demo.ui.fragments.auth.login.LoginWithEmailFragment"
+        android:label="LoginWithEmailFragment"
+        tools:layout="@layout/fragment_login_with_email">
+        <action
+            android:id="@+id/action_loginWithEmailFragment_to_otpVerificationFragment"
+            app:destination="@id/otpVerificationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" >
+            <argument
+                android:name="token"
+                app:argType="string" />
+
+        </action>
+    </fragment>
+    <fragment
+        android:id="@+id/loginWithPhoneFragment"
+        android:name="com.fictivestudios.demo.ui.fragments.auth.login.LoginWithPhoneFragment"
+        android:label="LoginWithPhoneFragment"
+        tools:layout="@layout/fragment_login_with_phone">
+
+        <argument
+            android:name="firebaseToken"
+            app:argType="string" />
+        <action
+            android:id="@+id/action_loginWithPhoneFragment_to_otpVerificationFragment"
+            app:destination="@id/otpVerificationFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" >
+
+            <argument
+                android:name="phoneNo"
+                app:argType="string" />
+
+            <argument
+                android:name="from"
+                app:argType="string" />
+            <argument
+                android:name="firebaseToken"
+                app:argType="string" />
+        </action >
+    </fragment>
+    <fragment
+        android:id="@+id/preLoginFragment"
+        android:name="com.fictivestudios.demo.ui.fragments.auth.PreLoginFragment"
+        android:label="PreLoginFragment"
+        tools:layout="@layout/fragment_pre_login">
+        <action
+            android:id="@+id/action_preLoginFragment_to_loginWithPhoneFragment"
+            app:destination="@id/loginWithPhoneFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" >
+            <argument
+                android:name="firebaseToken"
+                app:argType="string" />
+        </action>
+        <action
+            android:id="@+id/action_preLoginFragment_to_loginWithEmailFragment"
+            app:destination="@id/loginWithEmailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_preLoginFragment_to_privacyPolicyFragment"
+            app:destination="@id/privacyPolicyFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
+
+            <argument
+                android:name="type"
+                app:argType="string" />
+        </action>
+
+        <action
+            android:id="@+id/action_preLoginFragment_to_createNewProfileFragment"
+            app:destination="@id/createNewProfileFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
+            <argument
+                android:name="userId"
+                app:argType="string" />
+
+            <argument
+                android:name="token"
+                app:argType="string" />
+
+            <argument
+                android:name="name"
+                app:argType="string" />
+        </action>
+    </fragment>
+</navigation>

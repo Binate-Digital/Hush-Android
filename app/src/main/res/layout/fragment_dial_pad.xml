@@ -1,0 +1,330 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/view_labeled">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:overScrollMode="ifContentScrolls">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/textViewDial"
+                    android:layout_width="0dp"
+                    android:layout_height="100dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/dial_pad_text_bg"
+                    android:digits="0123456789"
+                    android:gravity="start|center_vertical"
+                    android:maxLength="15"
+                    android:paddingStart="70dp"
+                    android:focusableInTouchMode="false"
+                    android:textColor="@color/text_labeled"
+                    android:textCursorDrawable="@drawable/custom_cursor"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="RtlSymmetry"
+                    tools:text="0" />
+
+                <com.hbb20.CountryCodePicker
+                    android:id="@+id/ccp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="5dp"
+                    android:paddingVertical="5dp"
+                    app:ccp_arrowColor="@color/text_labeled"
+                    app:ccp_autoDetectCountry="true"
+                    app:ccp_contentColor="@color/text_labeled"
+                    app:ccp_showFlag="false"
+                    app:ccp_showNameCode="false"
+                    app:ccp_textSize="18sp"
+                    app:layout_constraintBottom_toBottomOf="@+id/textViewDial"
+                    app:layout_constraintStart_toStartOf="@+id/textViewDial"
+                    app:layout_constraintTop_toTopOf="@+id/textViewDial" />
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginHorizontal="25dp"
+                    android:layout_marginTop="20dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@id/textViewDial"
+                    app:layout_constraintStart_toStartOf="@id/textViewDial"
+                    app:layout_constraintTop_toBottomOf="@id/textViewDial">
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonDigit1"
+                        android:layout_width="57dp"
+                        android:layout_height="57dp"
+                        android:layout_marginStart="10dp"
+                        android:background="@drawable/dial_pad_button_bg"
+                        android:elevation="10dp"
+                        android:text="@string/_1"
+                        android:textColor="@color/text_labeled"
+                        android:textSize="14sp"
+                        app:cardCornerRadius="57dp"
+                        app:cardElevation="8dp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_goneMarginStart="20dp"
+                        app:strokeColor="@color/card_stroke"
+                        app:strokeWidth="1dp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonDigit2"
+                        android:layout_width="57dp"
+                        android:layout_height="57dp"
+                        android:background="@drawable/dial_pad_button_bg"
+                        android:elevation="10dp"
+                        android:text="@string/_2"
+                        android:textColor="@color/text_labeled"
+                        android:textSize="14sp"
+                        app:cardCornerRadius="57dp"
+                        app:cardElevation="8dp"
+                        app:layout_constraintEnd_toStartOf="@id/buttonDigit3"
+                        app:layout_constraintStart_toEndOf="@id/buttonDigit1"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:strokeColor="@color/card_stroke"
+                        app:strokeWidth="1dp" />
+
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonDigit3"
+                        android:layout_width="57dp"
+                        android:layout_height="57dp"
+                        android:layout_marginEnd="20dp"
+                        android:background="@drawable/dial_pad_button_bg"
+                        android:elevation="10dp"
+                        android:text="@string/_3"
+                        android:textColor="@color/text_labeled"
+                        android:textSize="14sp"
+                        app:cardCornerRadius="57dp"
+                        app:cardElevation="8dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:strokeColor="@color/card_stroke"
+                        app:strokeWidth="1dp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonDigit4"
+                        android:layout_width="57dp"
+                        android:layout_height="57dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/dial_pad_button_bg"
+                        android:elevation="10dp"
+                        android:text="@string/_4"
+                        android:textColor="@color/text_labeled"
+                        android:textSize="14sp"
+                        app:cardCornerRadius="57dp"
+                        app:cardElevation="8dp"
+                        app:layout_constraintStart_toStartOf="@id/buttonDigit1"
+                        app:layout_constraintTop_toBottomOf="@id/buttonDigit1"
+                        app:strokeColor="@color/card_stroke"
+                        app:strokeWidth="1dp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonDigit5"
+                        android:layout_width="57dp"
+                        android:layout_height="57dp"
+                        android:background="@drawable/dial_pad_button_bg"
+                        android:elevation="10dp"
+                        android:text="@string/_5"
+                        android:textColor="@color/text_labeled"
+                        android:textSize="14sp"
+                        app:cardCornerRadius="57dp"
+                        app:cardElevation="8dp"
+                        app:layout_constraintEnd_toStartOf="@+id/buttonDigit6"
+                        app:layout_constraintStart_toEndOf="@id/buttonDigit4"
+                        app:layout_constraintTop_toTopOf="@id/buttonDigit4"
+                        app:strokeColor="@color/card_stroke"
+                        app:strokeWidth="1dp" />
+
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonDigit6"
+                        android:layout_width="57dp"
+                        android:layout_height="57dp"
+                        android:background="@drawable/dial_pad_button_bg"
+                        android:elevation="10dp"
+                        android:text="@string/_6"
+                        android:textColor="@color/text_labeled"
+                        android:textSize="14sp"
+                        app:cardCornerRadius="57dp"
+                        app:cardElevation="8dp"
+                        app:layout_constraintEnd_toEndOf="@id/buttonDigit3"
+                        app:layout_constraintTop_toTopOf="@id/buttonDigit4"
+                        app:strokeColor="@color/card_stroke"
+                        app:strokeWidth="1dp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonDigit7"
+                        android:layout_width="57dp"
+                        android:layout_height="57dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/dial_pad_button_bg"
+                        android:elevation="10dp"
+                        android:text="@string/_7"
+                        android:textColor="@color/text_labeled"
+                        android:textSize="14sp"
+                        app:cardCornerRadius="57dp"
+                        app:cardElevation="8dp"
+                        app:layout_constraintStart_toStartOf="@id/buttonDigit4"
+                        app:layout_constraintTop_toBottomOf="@id/buttonDigit4"
+                        app:strokeColor="@color/card_stroke"
+                        app:strokeWidth="1dp" />
+
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonDigit8"
+                        android:layout_width="57dp"
+                        android:layout_height="57dp"
+                        android:background="@drawable/dial_pad_button_bg"
+                        android:elevation="10dp"
+                        android:text="@string/_8"
+                        android:textColor="@color/text_labeled"
+                        android:textSize="14sp"
+                        app:cardCornerRadius="57dp"
+                        app:cardElevation="8dp"
+                        app:layout_constraintEnd_toStartOf="@+id/buttonDigit9"
+                        app:layout_constraintStart_toEndOf="@id/buttonDigit7"
+                        app:layout_constraintTop_toTopOf="@id/buttonDigit7"
+                        app:strokeColor="@color/card_stroke"
+                        app:strokeWidth="1dp" />
+
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonDigit9"
+                        android:layout_width="57dp"
+                        android:layout_height="57dp"
+                        android:background="@drawable/dial_pad_button_bg"
+                        android:elevation="10dp"
+                        android:text="@string/_9"
+                        android:textColor="@color/text_labeled"
+                        android:textSize="14sp"
+                        app:cardCornerRadius="57dp"
+                        app:cardElevation="8dp"
+                        app:layout_constraintEnd_toEndOf="@id/buttonDigit6"
+                        app:layout_constraintTop_toTopOf="@id/buttonDigit7"
+                        app:strokeColor="@color/card_stroke"
+                        app:strokeWidth="1dp" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonDigitStar"
+                        android:layout_width="57dp"
+                        android:layout_height="57dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/dial_pad_button_bg"
+                        android:elevation="10dp"
+                        android:text="@string/star"
+                        android:textColor="@color/text_labeled"
+                        android:textSize="20sp"
+                        app:cardCornerRadius="57dp"
+                        app:cardElevation="8dp"
+                        app:layout_constraintStart_toStartOf="@id/buttonDigit7"
+                        app:layout_constraintTop_toBottomOf="@id/buttonDigit7"
+                        app:strokeColor="@color/card_stroke"
+                        app:strokeWidth="1dp" />
+
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonDigit0"
+                        android:layout_width="57dp"
+                        android:layout_height="57dp"
+                        android:background="@drawable/dial_pad_button_bg"
+                        android:elevation="10dp"
+                        android:text="@string/_0"
+                        android:textColor="@color/text_labeled"
+                        android:textSize="14sp"
+                        app:cardCornerRadius="57dp"
+                        app:cardElevation="8dp"
+                        app:layout_constraintEnd_toStartOf="@+id/buttonDigitHash"
+                        app:layout_constraintStart_toEndOf="@id/buttonDigitStar"
+                        app:layout_constraintTop_toTopOf="@id/buttonDigitStar"
+                        app:strokeColor="@color/card_stroke"
+                        app:strokeWidth="1dp" />
+
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/buttonDigitHash"
+                        android:layout_width="57dp"
+                        android:layout_height="57dp"
+                        android:background="@drawable/dial_pad_button_bg"
+                        android:elevation="10dp"
+                        android:text="@string/hash"
+                        android:textColor="@color/text_labeled"
+                        android:textSize="14sp"
+                        app:cardCornerRadius="57dp"
+                        app:cardElevation="8dp"
+                        app:layout_constraintEnd_toEndOf="@id/buttonDigit9"
+                        app:layout_constraintTop_toTopOf="@id/buttonDigitStar"
+                        app:strokeColor="@color/card_stroke"
+                        app:strokeWidth="1dp" />
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardViewCall"
+                        android:layout_width="57dp"
+                        android:layout_height="57dp"
+                        android:layout_marginTop="30dp"
+                        android:layout_marginBottom="8dp"
+                        app:cardBackgroundColor="@color/theme_red"
+                        app:cardCornerRadius="57dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/buttonDigit0"
+                        app:layout_constraintStart_toStartOf="@id/buttonDigit0"
+                        app:layout_constraintTop_toBottomOf="@id/buttonDigit0"
+                        app:strokeColor="@color/card_stroke"
+                        app:strokeWidth="0dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@mipmap/phone" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:id="@+id/cardViewDigitBack"
+                        android:layout_width="57dp"
+                        android:layout_height="57dp"
+                        android:layout_marginEnd="20dp"
+                        app:cardBackgroundColor="@color/view_labeled"
+                        app:cardCornerRadius="60dp"
+                        app:layout_constraintBottom_toBottomOf="@id/cardViewCall"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@id/cardViewCall"
+                        app:strokeColor="@color/card_stroke"
+                        app:strokeWidth="0dp">
+
+                        <androidx.appcompat.widget.AppCompatImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:src="@drawable/dial_back" />
+                    </com.google.android.material.card.MaterialCardView>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </ScrollView>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/top_round_corner_bottom_bg">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/reportView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageViewReport"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/ic_error"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewReportTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="-6dp"
+                android:fontFamily="@font/montserrat_semi_bold"
+                android:text="Report"
+                android:textColor="@color/text_labeled"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/imageViewReport"
+                app:layout_constraintTop_toTopOf="@id/imageViewReport" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewReportDes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Report this user"
+                android:textColor="@color/text_labeled"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/imageViewReport"
+                app:layout_constraintTop_toBottomOf="@id/textViewReportTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <View
+            android:id="@+id/viewSeparator"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="15dp"
+            android:background="@color/search_stroke"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/reportView" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/blockView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/top_round_corner_bottom_bg"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewSeparator">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageViewBlock"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:src="@drawable/ic_not_allowed"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewBlockTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:layout_marginTop="-6dp"
+                android:fontFamily="@font/montserrat_semi_bold"
+                android:text="Block"
+                android:textColor="@color/text_labeled"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@+id/imageViewBlock"
+                app:layout_constraintTop_toTopOf="@id/imageViewBlock" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewBlockDes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Block this user"
+                android:textColor="@color/text_labeled"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/imageViewBlock"
+                app:layout_constraintTop_toBottomOf="@id/textViewBlockTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <View
+            android:id="@+id/viewSeparator1"
+            android:layout_width="0dp"
+            android:layout_height="1dp"
+            android:layout_marginHorizontal="20dp"
+            android:background="@color/search_stroke"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/blockView" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/deleteView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/viewSeparator1">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageViewDelete"
+                android:layout_width="24dp"
+                android:layout_height="22dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:src="@mipmap/ic_delete"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewDeleteTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="-6dp"
+                android:fontFamily="@font/montserrat_semi_bold"
+                android:text="Delete"
+                android:textColor="@color/text_labeled"
+                android:textSize="16sp"
+                app:layout_constraintStart_toEndOf="@id/imageViewDelete"
+                app:layout_constraintTop_toTopOf="@id/imageViewDelete" />
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/textViewDeleteDes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:fontFamily="@font/montserrat"
+                android:text="Delete this user"
+                android:textColor="@color/text_labeled"
+                android:textSize="14sp"
+                app:layout_constraintStart_toEndOf="@+id/imageViewDelete"
+                app:layout_constraintTop_toBottomOf="@id/textViewDeleteTitle" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

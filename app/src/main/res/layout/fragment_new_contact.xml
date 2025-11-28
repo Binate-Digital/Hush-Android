@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="viewModel"
+            type="com.fictivestudios.demo.ui.fragments.main.address.AddressViewModel" />
+
+    </data>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/view_labeled">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/view_labeled">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/actionBar"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:background="@color/edit_text_labeled"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageViewBack"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:padding="20dp"
+                    android:src="@drawable/ic_back"
+                    android:tint="@color/red"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewTitle"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="20dp"
+                    android:gravity="center"
+                    android:text="Create New Contact"
+                    android:textColor="@color/text_labeled"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:fontFamily="@font/montserrat_semi_bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginHorizontal="20dp"
+                    android:background="@color/seperator"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+            <com.fictivestudios.demo.utils.customLoader.LazyLoader
+                android:layout_width="wrap_content"
+                android:id="@+id/progress"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:layout_marginTop="30dp"
+                app:lazyloader_animDur="800"
+                app:lazyloader_dotsDist="10dp"
+                app:lazyloader_dotsRadius="6dp"
+                app:lazyloader_firstDelayDur="150"
+                android:visibility="gone"
+                tools:visibility="visible"
+                app:lazyloader_firstDotColor="@color/red"
+                app:lazyloader_interpolator="@android:anim/decelerate_interpolator"
+                app:lazyloader_secondDelayDur="300"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:lazyloader_secondDotColor="@color/theme_red"
+                app:lazyloader_thirdDotColor="@color/theme_red" />
+
+
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/userProfileCardView"
+                android:layout_width="110dp"
+                android:layout_height="110dp"
+                android:layout_marginTop="40dp"
+                app:cardBackgroundColor="#3A3A3A"
+                app:cardCornerRadius="100dp"
+                app:cardElevation="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/actionBar"
+                app:strokeColor="@color/theme_red"
+                app:strokeWidth="1dp">
+
+                <com.fictivestudios.demo.utils.CircleImageView
+                    android:id="@+id/userPersonImageView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:scaleType="centerCrop" />
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/cameraImageView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_camera" />
+
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <LinearLayout
+                android:id="@+id/emailContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/userProfileCardView">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutFullName"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:elevation="20dp"
+                    android:hint="First Name"
+                    android:textColorHint="@color/theme_red"
+                    android:textSize="14sp"
+                    app:boxBackgroundColor="@color/edit_text_labeled"
+                    app:boxBackgroundMode="filled"
+                    app:boxCornerRadiusBottomEnd="10dp"
+                    app:boxCornerRadiusBottomStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxCornerRadiusTopStart="10dp"
+                    app:boxStrokeColor="@android:color/transparent"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
+                    app:hintAnimationEnabled="true"
+                    app:hintTextAppearance="?attr/textAppearanceBodySmall"
+                    app:hintTextColor="@color/theme_red">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textInputEditTextFullName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat"
+                        android:inputType="textPersonName"
+                        android:maxLength="30"
+                        android:singleLine="true"
+                        android:textColor="@color/text_labeled"
+                        android:textCursorDrawable="@drawable/custom_cursor"
+                        tools:ignore="TextContrastCheck" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutLastName"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:elevation="20dp"
+                    android:hint="@string/last_name"
+                    android:textColorHint="@color/theme_red"
+                    android:textSize="14sp"
+                    app:boxBackgroundColor="@color/edit_text_labeled"
+                    app:boxBackgroundMode="filled"
+                    app:boxCornerRadiusBottomEnd="10dp"
+                    app:boxCornerRadiusBottomStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxCornerRadiusTopStart="10dp"
+                    app:boxStrokeColor="@android:color/transparent"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
+                    app:hintAnimationEnabled="true"
+                    app:hintTextAppearance="?attr/textAppearanceBodySmall"
+                    app:hintTextColor="@color/theme_red">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textInputEditTextLastName"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat"
+                        android:inputType="textPersonName"
+                        android:maxLength="30"
+                        android:singleLine="true"
+                        android:textColor="@color/text_labeled"
+                        android:textCursorDrawable="@drawable/custom_cursor"
+                        tools:ignore="TextContrastCheck" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/textInputLayoutPhone"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:elevation="20dp"
+                    android:hint="Phone number"
+                    android:textColorHint="@color/theme_red"
+                    android:textSize="14sp"
+                    app:boxBackgroundColor="@color/edit_text_labeled"
+                    app:boxBackgroundMode="filled"
+                    app:boxCornerRadiusBottomEnd="10dp"
+                    app:boxCornerRadiusBottomStart="10dp"
+                    app:boxCornerRadiusTopEnd="10dp"
+                    app:boxCornerRadiusTopStart="10dp"
+                    app:boxStrokeColor="@android:color/transparent"
+                    app:boxStrokeWidth="0dp"
+                    app:boxStrokeWidthFocused="0dp"
+                    app:hintAnimationEnabled="true"
+                    app:hintTextAppearance="?attr/textAppearanceBodySmall"
+                    app:hintTextColor="@color/theme_red"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/materialCardView"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewWelcomeBack">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/textInputEditTextPhoneNo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/montserrat"
+                        android:inputType="phone"
+                        android:maxLength="14"
+                        android:singleLine="true"
+                        android:textColor="@color/text_labeled"
+                        tools:ignore="TextContrastCheck" />
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    android:layout_marginTop="15dp">
+
+                    <androidx.appcompat.widget.AppCompatTextView
+                        android:id="@+id/textViewNotes"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="6dp"
+                        android:gravity="center"
+                        android:elevation="40dp"
+                        android:text="Notes"
+                        android:textColor="@color/theme_red"
+                        android:textSize="16sp"
+                        app:fontFamily="@font/montserrat"
+                        app:layout_constraintStart_toStartOf="@id/textInputLayoutNotes"
+                        app:layout_constraintTop_toTopOf="@+id/textInputLayoutNotes" />
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/textInputLayoutNotes"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        android:elevation="20dp"
+                        android:textColorHint="@color/text_gray"
+                        app:boxBackgroundColor="@color/edit_text_labeled"
+                        app:boxBackgroundMode="filled"
+                        app:boxCornerRadiusBottomEnd="10dp"
+                        app:boxCornerRadiusBottomStart="10dp"
+                        app:boxCornerRadiusTopEnd="10dp"
+                        app:boxCornerRadiusTopStart="10dp"
+                        app:boxStrokeColor="@android:color/transparent"
+                        app:boxStrokeWidth="0dp"
+                        app:boxStrokeWidthFocused="0dp"
+                        app:hintAnimationEnabled="true"
+                        app:hintEnabled="false"
+                        app:hintTextAppearance="?attr/textAppearanceBodySmall"
+                        app:hintTextColor="@color/theme_red"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/textInputEditTextNotes"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="top"
+                            android:inputType="textMultiLine"
+                            android:maxLength="250"
+                            android:textColor="@color/text_labeled"
+                            android:textCursorDrawable="@drawable/custom_cursor"
+                            app:fontFamily="@font/montserrat"
+                            tools:ignore="TextContrastCheck" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </LinearLayout>
+
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/createButton"
+                android:layout_width="0dp"
+                android:layout_height="45dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginBottom="40dp"
+                android:background="@drawable/round_corner_bg"
+                android:backgroundTint="@color/theme_red"
+                android:text="Create"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="14sp"
+                app:fontFamily="@font/montserrat"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@+id/emailContainer"
+                app:layout_constraintStart_toStartOf="@+id/emailContainer"
+                app:layout_constraintTop_toBottomOf="@+id/emailContainer"
+                tools:ignore="DuplicateSpeakableTextCheck" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+</layout>

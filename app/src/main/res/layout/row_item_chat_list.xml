@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.widget.ImageView.ScaleType" />
+
+
+        <variable
+            name="position"
+            type="Integer" />
+
+        <variable
+            name="viewItemType"
+            type="com.fictivestudios.demo.base.adapter.ViewType" />
+
+        <variable
+            name="actionItemListener"
+            type="com.fictivestudios.demo.base.adapter.OnItemClickListener" />
+
+        <variable
+            name="itemViewModel"
+            type="com.fictivestudios.demo.data.responses.ChatListResponse" />
+
+    </data>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/cardViewUser"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="10dp"
+            android:layout_marginVertical="6dp"
+            android:onClick="@{(v) -> actionItemListener.onItemClicked(v, viewItemType, position)}"
+            app:cardBackgroundColor="@color/card_labeled"
+            app:cardCornerRadius="8dp"
+            app:cardElevation="4dp"
+            android:outlineAmbientShadowColor="@color/gray"
+            android:outlineSpotShadowColor="@color/gray"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/card_stroke">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.card.MaterialCardView
+                    android:id="@+id/cardViewUserImage"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="15dp"
+                    app:cardBackgroundColor="@color/white"
+                    app:cardCornerRadius="50dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:strokeColor="@color/theme_red"
+                    app:strokeWidth="1dp">
+
+                    <com.fictivestudios.demo.utils.CircleImageView
+                        android:id="@+id/imageViewUser"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:scaleType="centerCrop"
+                        android:src="@drawable/person" />
+
+                </com.google.android.material.card.MaterialCardView>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewUserName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:textColor="@color/text_labeled"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/montserrat_semi_bold"
+                    app:layout_constraintEnd_toStartOf="@+id/textViewTimeStamp"
+                    app:layout_constraintStart_toEndOf="@+id/cardViewUserImage"
+                    app:layout_constraintTop_toTopOf="@+id/cardViewUserImage"
+                    tools:text="Title" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewLastMessage"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:ellipsize="end"
+                    android:maxLength="21"
+                    android:textColor="#828282"
+                    android:textSize="14sp"
+                    app:fontFamily="@font/montserrat_semi_bold"
+                    app:layout_constraintEnd_toStartOf="@+id/textViewTimeStamp"
+                    app:layout_constraintStart_toEndOf="@+id/cardViewUserImage"
+                    app:layout_constraintTop_toBottomOf="@+id/textViewUserName"
+                    tools:text="Send a follow request" />
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewTimeStamp"
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:gravity="end"
+                    android:text="9:40 PM"
+                    android:textColor="@color/text_labeled"
+                    android:textSize="12sp"
+                    app:fontFamily="@font/montserrat"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+
+                    app:layout_constraintTop_toBottomOf="@+id/appCompatButton" />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/appCompatButton"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:layout_margin="15dp"
+                    android:background="@drawable/dial_pad_button_bg"
+                    android:backgroundTint="@color/theme_red"
+                    android:fontFamily="@font/montserrat_semi_bold"
+                    android:text="1"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>
