@@ -1,5 +1,6 @@
 package com.fictivestudios.demo.ui.fragments.auth.otp
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -70,8 +71,9 @@ class OtpViewModel @Inject constructor(private val repository: AuthRepository) :
     }
 
     suspend fun saveLoggedInUser(userInfo: LoginUserResponse, token: String?) {
+        Log.d("saveLoggedInUser","called$userInfo")
         repository.saveAccessToken(token ?: "")
-        repository.saveLoginUserId(userInfo._id)
+        repository.saveLoginUserId(userInfo._id?:"")
         repository.saveUserProfileData(userInfo)
         repository.setUserLoggedIn()
     }

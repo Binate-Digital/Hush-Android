@@ -11,7 +11,8 @@
         android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:openDrawer="start">
+        tools:openDrawer="start"
+        android:fitsSystemWindows="true">
 
         <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:id="@+id/coordinatorLayout"
@@ -22,7 +23,8 @@
                 android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/view_labeled">
+                android:background="@color/view_labeled"
+                android:fitsSystemWindows="true">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/action_bar"

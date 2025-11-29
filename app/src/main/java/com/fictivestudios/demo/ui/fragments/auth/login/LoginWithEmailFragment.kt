@@ -107,7 +107,7 @@ class LoginWithEmailFragment : BaseFragment(R.layout.fragment_login_with_email),
                         findNavController().navigate(
                             LoginWithEmailFragmentDirections.actionLoginWithEmailFragmentToOtpVerificationFragment(
                                 data.value.token.toString(),
-                                loginData._id, "", "email_fragment", ""
+                                loginData._id?:"", "", "email_fragment", ""
                             )
                         )
                         enableUserTouch()

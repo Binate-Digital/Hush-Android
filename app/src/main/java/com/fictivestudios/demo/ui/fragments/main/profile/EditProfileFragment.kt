@@ -224,7 +224,7 @@ class EditProfileFragment : BaseFragment(R.layout.fragment_edit_profile),
             }
 
             binding.textInputEditTextFullName.setText(it.name)
-            binding.textInputEditTextLocation.setText(it.location.address)
+            binding.textInputEditTextLocation.setText(it.location?.address)
             binding.textInputEditTextPhoneNo.setText(it.phone)
             binding.textInputEditTextDescription.setText(it.description)
         }

@@ -165,14 +165,6 @@ data class MapResponse(
     var latlong: LatLng? = null
 )
 
-
-data class Location(
-
-    val type: String,
-    val address: String? = null,
-    val coordinates: ArrayList<Double>
-)
-
 data class ReportUser(val contactId: String, val text: String)
 data class BlockUser(val contactId: String)
 data class VerifyCodeRequest(val pincode: String)
@@ -205,41 +197,52 @@ data class RegisterPhoneNoData(
     val validationCode: String
 )
 
-data class LoginUserResponse(
+data class Location(
+    val type: String? = null,
+    val address: String? = null,
+    val coordinates: List<Double>? = null
+)
 
-    val location: Location,
-    val _id: String,
-    val email: String,
-    var phone: String,
-    val socialPhone: String,
-    val name: String,
-    val profileImage: String,
-    val description: String,
-    val otp: Int,
-    val notification: Int,
-    val stripeId: String,
-    val block: Boolean,
-    val isVerified: Int,
-    var phoneSid: String,
-    val isForget: Int,
-    val isProfileCompleted: Int,
-    val token: String,
-    val searchCount: Int,
-    val userSocialToken: String,
-    val userSocialType: String,
-    val userDeviceType: String,
-    val userDeviceToken: String,
-    val isDeleted: Int,
-    val createdAt: String,
-    val updatedAt: String,
-    val __v: Int,
-    var fingerprintLock: Int,
-    var pinLock: Int,
-    val pincode: Int,
-    val faceLock: Int,
-    val passtype: String,
-    var patternLock: Int,
-    var pinVerified: Int
+data class LoginUserResponse(
+    var location: Location? = null,
+    var _id: String? = null,
+    var email: String? = null,
+    var phone: String? = null,
+    var phoneSid: String? = null,
+    var purchasedTwilioNumber: String? = null,
+    var purchasedTwilioSid: String? = null,
+    var socialPhone: String? = null,
+    var name: String? = null,
+    var profileImage: String? = null,
+    var description: String? = null,
+    var pincode: Int? = null,
+    var pinVerified: Int? = null,
+    var pinCreated: Int? = null,
+    var pattern: List<Any>? = null,
+    var patternCreated: Int? = null,
+    var patternVerified: Int? = null,
+    var otp: Int? = null,
+    var passtype: String? = null,
+    var pinLock: Int? = null,
+    var fingerprintLock: Int? = null,
+    var patternLock: Int? = null,
+    var faceLock: Int? = null,
+    var notification: Int? = null,
+    var stripeId: String? = null,
+    var block: Boolean? = null,
+    var isVerified: Int? = null,
+    var isForget: Int? = null,
+    var isProfileCompleted: Int? = null,
+    var token: String? = null,
+    var searchCount: Int? = null,
+    var userSocialToken: String? = null,
+    var userSocialType: String? = null,
+    var userDeviceType: String? = null,
+    var userDeviceToken: String? = null,
+    var isDeleted: Int? = null,
+    var createdAt: String? = null,
+    var updatedAt: String? = null,
+    var __v: Int? = null
 )
 
 data class ContactResponse(

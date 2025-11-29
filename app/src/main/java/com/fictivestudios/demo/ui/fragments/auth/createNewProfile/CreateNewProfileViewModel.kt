@@ -60,7 +60,7 @@ class CreateNewProfileViewModel @Inject constructor(private val repository: Auth
 
     suspend fun saveLoggedInUser(userInfo: LoginUserResponse, token: String?)  {
         repository.saveAccessToken(token ?: "")
-        repository.saveLoginUserId(userInfo._id)
+        repository.saveLoginUserId(userInfo._id?:"")
         repository.saveUserProfileData(userInfo)
         repository.setUserLoggedIn()
     }

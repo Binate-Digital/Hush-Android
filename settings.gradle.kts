@@ -18,5 +18,5 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "Hush"
-include(":app",":player")
+include(":app")
  

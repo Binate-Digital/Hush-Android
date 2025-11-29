@@ -135,8 +135,8 @@ class PreLoginFragment : BaseFragment(R.layout.fragment_pre_login), View.OnClick
                         showToast(data.value.message)
                         findNavController().navigate(
                             PreLoginFragmentDirections.actionPreLoginFragmentToCreateNewProfileFragment(
-                                data.value.data._id,
-                                data.value.data.token, data.value.data.name, ""
+                                data.value.data._id?:"",
+                                data.value.data.token?:"", data.value.data.name?:"", ""
                             )
                         )
                     } else if (data.value.data?.isDeleted == LoginUserDeleteEnum.USER_DELETED.getValue()) {
@@ -144,7 +144,7 @@ class PreLoginFragment : BaseFragment(R.layout.fragment_pre_login), View.OnClick
 
                         requireActivity().runOnUiThread {
                             showToast(data.value.message)
-                            showRecoverAccountDialog(data.value.data._id)
+                            showRecoverAccountDialog(data.value.data._id?:"")
                         }
                     } else showToast("Invalid User")
                 }

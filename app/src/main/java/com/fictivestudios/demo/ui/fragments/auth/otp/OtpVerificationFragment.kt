@@ -130,8 +130,9 @@ class OtpVerificationFragment : BaseFragment(R.layout.fragment_otp_verification)
                             this.isProfileCompleted == LoginProfileVerifiedEnum.USER_PROFILE_COMPLETE.getValue()
                         ) {
                             lifecycleScope.launch {
+                                Log.d("OTP RESPONSE",data.value.data.toString())
                                 viewModel.saveLoggedInUser(data.value.data!!, data.value.data.token)
-                                delay(2000)
+                                delay(10000)
                                 showToast(data.value.message)
                                 binding.progress.hide()
                                 val bundle = Bundle()
@@ -147,7 +148,7 @@ class OtpVerificationFragment : BaseFragment(R.layout.fragment_otp_verification)
                         ) {
                             findNavController().navigate(
                                 OtpVerificationFragmentDirections.actionOtpVerificationFragmentToCreateNewProfileFragment(
-                                    this._id,
+                                    this._id?:"",
                                     this.token ?: "",
                                     "", ""
                                 )
@@ -218,14 +219,14 @@ class OtpVerificationFragment : BaseFragment(R.layout.fragment_otp_verification)
                             binding.otpView.resetEditText()
                             findNavController().navigate(
                                 OtpVerificationFragmentDirections.actionOtpVerificationFragmentToCreateNewProfileFragment(
-                                    loginResponse._id,
+                                    loginResponse._id?:"",
                                     loginResponse.token ?: "",
                                     loginResponse.name ?: "", args.phoneNo
                                 )
                             )
                         } else if (loginResponse.isDeleted == LoginUserDeleteEnum.USER_DELETED.getValue()) {
                             binding.otpView.resetEditText()
-                            showRecoverAccountDialog(loginResponse._id)
+                            showRecoverAccountDialog(loginResponse._id?:"")
 
                         } else showToast("Invalid User")
                     }

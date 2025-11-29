@@ -267,5 +267,22 @@
                 android:name="attachmentId"
                 app:argType="string" />
         </action>
+
+        <action
+            android:id="@+id/action_securityFeatureFragment_to_exoPlayerFragment"
+            app:destination="@id/exoPlayerFragment">
+            <argument
+                android:name="url"
+                app:argType="string" />
+        </action>
+    </fragment>
+
+    <fragment
+        android:id="@+id/exoPlayerFragment"
+        android:name="com.fictivestudios.demo.ui.fragments.main.player.ExoPlayerFragment"
+        android:label="ExoPlayerFragment">
+        <argument
+            android:name="url"
+            app:argType="string" />
     </fragment>
 </navigation>

@@ -17,8 +17,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.arezoonazer.player.argument.PlayerParams
-import com.arezoonazer.player.extension.startPlayer
 import com.fictivestudios.demo.R
 import com.fictivestudios.demo.base.adapter.GenericListAdapter
 import com.fictivestudios.demo.base.adapter.OnItemClickListener
@@ -337,7 +335,9 @@ class SecurityFeatureFragment : BaseFragment(R.layout.fragment_security_feature)
                     )
                 )
             } else {
-                startPlayer(getPlayerParam(data), requireContext())
+                findNavController().navigate(
+                    SecurityFeatureFragmentDirections.actionSecurityFeatureFragmentToExoPlayerFragment(IMAGE_BASE_URL + data.file)
+                )
             }
         }
     }
@@ -460,9 +460,5 @@ class SecurityFeatureFragment : BaseFragment(R.layout.fragment_security_feature)
                     findNavController().popBackStack()
                 }
             })
-    }
-
-    private fun getPlayerParam(data: Attachments): PlayerParams {
-        return PlayerParams(url = IMAGE_BASE_URL + data.file)
     }
 }

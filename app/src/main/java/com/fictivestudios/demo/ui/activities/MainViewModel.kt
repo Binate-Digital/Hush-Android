@@ -41,8 +41,18 @@ class MainViewModel @Inject constructor(val repository: AuthRepository) :
 
     var userData: LoginUserResponse? = null
 
-    init {
-        viewModelScope.launch { userData = getLoginUserData() }
+
+
+
+    fun getUserData(
+        isDataNull: (Boolean) -> Unit
+    )= viewModelScope.launch {
+        userData = getLoginUserData()
+        if( getLoginUserData() == null){
+            isDataNull(true)
+        }else{
+            isDataNull(false)
+        }
     }
 
     fun uploadScreenShot(

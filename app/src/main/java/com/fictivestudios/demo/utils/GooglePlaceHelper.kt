@@ -51,7 +51,7 @@ class GooglePlaceHelper(
 
         // Set the fields to specify which types of place data to return.
         val fields: List<Place.Field> =
-            listOf<Place.Field>(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
+            listOf<Place.Field>(Place.Field.ID, Place.Field.DISPLAY_NAME, Place.Field.LOCATION)
 
         // Start the autocomplete intent.
         val autocompleteActivityMode: AutocompleteActivityMode = if (isFullScreen) {
@@ -107,9 +107,9 @@ class GooglePlaceHelper(
                 else -> {
                     Log.d("CheckMap", "Else:  resultCode = ${resultCode}, data = ${data}")
                     val place: Place = Autocomplete.getPlaceFromIntent(data) as Place
-                    val locationName: String = place.name.toString()
-                    val latitude: Double = place.latLng?.latitude ?: 0.0
-                    val longitude: Double = place.latLng?.longitude ?: 0.0
+                    val locationName: String = place.displayName.toString()
+                    val latitude: Double = place.location?.latitude ?: 0.0
+                    val longitude: Double = place.location?.longitude ?: 0.0
                     Log.d(
                         TAG,
                         "onActivityResult MAP: locationName = $locationName"

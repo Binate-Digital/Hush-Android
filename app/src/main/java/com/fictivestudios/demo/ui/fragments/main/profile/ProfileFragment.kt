@@ -113,7 +113,7 @@ class ProfileFragment : BaseFragment(R.layout.fragment_profile), View.OnClickLis
             }
 
             binding.userNameTextView.text = it.name
-            binding.locationTextView.text = it.location.address
+            binding.locationTextView.text = it.location?.address
             binding.phoneNoTextView.text = it.phone
             binding.textViewDescription.text = it.description
         }

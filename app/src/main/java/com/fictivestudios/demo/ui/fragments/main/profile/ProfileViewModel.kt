@@ -89,7 +89,7 @@ ProfileViewModel @Inject constructor(private val repository: AuthRepository) :
 
 
     suspend fun saveLoggedInUser(userInfo: LoginUserResponse) {
-        repository.saveLoginUserId(userInfo._id)
+        repository.saveLoginUserId(userInfo._id?:"")
         repository.saveUserProfileData(userInfo)
         repository.setUserLoggedIn()
     }

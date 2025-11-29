@@ -13,8 +13,10 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.WindowInsetsController
 import androidx.activity.OnBackPressedCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
@@ -22,6 +24,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
@@ -151,8 +156,16 @@ class DashBoardActivity : BaseActivity(), View.OnClickListener {
     @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
+
         super.onCreate(savedInstanceState)
         _binding = ActivityDashBoardBinding.inflate(layoutInflater)
+
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updatePadding(top = systemBars.top, bottom = systemBars.bottom)
+            insets
+        }
+
         setContentView(binding.root)
         initialize()
         setObserver()
@@ -173,7 +186,8 @@ class DashBoardActivity : BaseActivity(), View.OnClickListener {
         dialog?.dismiss()
     }
 
-    override fun initialize() {56
+    override fun initialize() {
+        56
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.navHostFragmentDashboard) as NavHostFragment
         setOnBackPressedListener()
@@ -183,18 +197,22 @@ class DashBoardActivity : BaseActivity(), View.OnClickListener {
         navController.addOnDestinationChangedListener(destinationChangedListener)
         binding.bottomNavigationViewMain.setupWithNavController(navController)
 
-            toggle = ActionBarDrawerToggle(
+        toggle = ActionBarDrawerToggle(
             this,
             binding.drawerLayout,
             R.string.open,
             R.string.close
         )
-        if (viewModel.userData == null) {
-            showToast("something went wrong.")
-            val intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-            finish()
+
+        viewModel.getUserData { isDataNull ->
+            if (isDataNull) {
+                showToast("something went wrong.")
+                val intent = Intent(this, MainActivity::class.java)
+                startActivity(intent)
+                finish()
+            }
         }
+
 
         setUserDataInDrawer(viewModel.userData)
         viewModel.getCallTokenApi()

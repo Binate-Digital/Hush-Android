@@ -103,6 +103,7 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        Log.d("Splash","called")
         _binding = FragmentSplashBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
@@ -543,7 +544,7 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash) {
     @SuppressLint("RestrictedApi")
     private fun stopCamera() {
         // Unbind the camera provider and release the camera resources
-        cameraProvider?.shutdown()
+        cameraProvider?.shutdownAsync()
         cameraProvider?.unbindAll()
         cameraProvider = null
         imageCapture = null

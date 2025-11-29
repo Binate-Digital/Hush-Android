@@ -25,6 +25,10 @@ abstract class BaseRepository(
 
 
     suspend fun getLoginUserData(): LoginUserResponse? {
+        Log.d("GetLogin Data","${Gson().fromJson(
+            preferences.getStringData(USER_INFO),
+            LoginUserResponse::class.java
+        )}")
         return Gson().fromJson(
             preferences.getStringData(USER_INFO),
             LoginUserResponse::class.java
@@ -57,8 +61,15 @@ abstract class BaseRepository(
 
 
     suspend fun saveUserProfileData(userInfo: LoginUserResponse) {
-        preferences.setStringData(USER_INFO, Gson().toJson(userInfo))
+        try {
+            val json = Gson().toJson(userInfo)
+            Log.d("saveUserProfileData", "Saving User: $json")
+            preferences.setStringData(USER_INFO, json)
+        } catch (e: Exception) {
+            Log.e("saveUserProfileData", "Error saving user data", e)
+        }
     }
+
     suspend fun saveRegisterPhoneNoData(phoneInfo: RegisterPhoneNoData) {
         preferences.setStringData(USER_PHONE_SID, Gson().toJson(phoneInfo))
     }
