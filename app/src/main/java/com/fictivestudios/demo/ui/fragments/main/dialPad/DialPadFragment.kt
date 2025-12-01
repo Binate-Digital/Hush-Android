@@ -50,6 +50,7 @@ class DialPadFragment : BaseFragment(R.layout.fragment_dial_pad), View.OnClickLi
     }
 
     override fun initialize() {
+        viewModel.getUserData()
         toneGenerator = ToneGenerator(STREAM_VOICE_CALL, 100)
         binding.ccp.registerCarrierNumberEditText(binding.textViewDial)
         binding.ccp.setDefaultCountryUsingNameCode("US")
@@ -62,7 +63,7 @@ class DialPadFragment : BaseFragment(R.layout.fragment_dial_pad), View.OnClickLi
         binding.cardViewDigitBack.setOnClickListener(this)
 
         binding.cardViewCall.setSafeOnClickListener {
-            if (viewModel.userData?.phoneSid.isNullOrEmpty()) {
+            if (viewModel.userData?.purchasedTwilioSid.isNullOrEmpty()) {
                 showToast("Please register phone number first")
                 findNavController().navigate(R.id.registerPhoneNo)
                 return@setSafeOnClickListener
@@ -77,6 +78,11 @@ class DialPadFragment : BaseFragment(R.layout.fragment_dial_pad), View.OnClickLi
             intent.putExtra(
                 "phone_no",
                 phoneNo
+            )
+
+            intent.putExtra(
+                "token",
+                viewModel.callToken
             )
             intent.putExtra("user_name", viewModel.userData?.name)
             startActivity(intent)

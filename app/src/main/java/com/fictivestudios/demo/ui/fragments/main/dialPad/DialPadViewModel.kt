@@ -1,5 +1,6 @@
 package com.fictivestudios.demo.ui.fragments.main.dialPad
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.fictivestudios.demo.base.viewModel.BaseViewModel
 import com.fictivestudios.demo.data.repositories.AuthRepository
@@ -13,11 +14,9 @@ class DialPadViewModel @Inject constructor(private val repository: AuthRepositor
     BaseViewModel(repository) {
 
      var userData: LoginUserResponse? = null
-
-    init {
-        viewModelScope.launch {
-            userData = getLoginUserData()
-        }
+     var callToken: String? = null
+    fun getUserData()= viewModelScope.launch {
+        userData = getLoginUserData()
+        callToken = getCallToken()
     }
-
 }

@@ -40,6 +40,7 @@ class CallActivity : BaseActivity(), View.OnClickListener {
     private var activeCall: Call? = null
     private var userName = ""
     private var userPhoneNo = ""
+    private var token = ""
     private var elapsedTime: Long = 0
 
     private val requestCallPermissionLauncher =
@@ -75,8 +76,9 @@ class CallActivity : BaseActivity(), View.OnClickListener {
         _binding = ActivityCallBinding.inflate(layoutInflater)
 
         userPhoneNo = intent.getStringExtra("phone_no") ?: ""
+        token = intent.getStringExtra("token") ?: ""
         userName = intent.getStringExtra("user_name") ?: ""
-
+        viewModel.init()
         binding.textViewUserName.text = userName
         setContentView(binding.root)
         initialize()
@@ -193,7 +195,7 @@ class CallActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun makeTwilioVoiceCall(phoneNumber: String) {
-        if (viewModel.callAccessToken.isNullOrEmpty()) {
+        if (token.isEmpty()) {
             showToast("Invalid Token")
             this.finish()
         }
@@ -205,7 +207,7 @@ class CallActivity : BaseActivity(), View.OnClickListener {
         params["To"] = phoneNumber
         Voice.enableInsights(true)
 //        Voice.setRegion(region)
-        val connectOptions = ConnectOptions.Builder(viewModel.callAccessToken)
+        val connectOptions = ConnectOptions.Builder(token)
             .params(params)
             .build()
         activeCall = Voice.connect(this, connectOptions, OutgoingCallListener())

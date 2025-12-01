@@ -15,10 +15,9 @@ class CallViewModel @Inject constructor(val repository: AuthRepository) :
     var userData: LoginUserResponse? = null
     var callAccessToken = ""
 
-    init {
-        viewModelScope.launch {
-            userData = getLoginUserData()
-            callAccessToken = getCallToken()
-        }
+
+    fun init() =  viewModelScope.launch {
+        userData = getLoginUserData()
+        callAccessToken = getCallToken()
     }
 }
