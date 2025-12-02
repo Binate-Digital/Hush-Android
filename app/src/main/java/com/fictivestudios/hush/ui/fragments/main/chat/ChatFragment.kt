@@ -1,6 +1,7 @@
 package com.fictivestudios.hush.ui.fragments.main.chat
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -72,6 +73,14 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat), SwipeRefreshLayout.On
 
     override fun initialize() {
         setRecyclerView()
+        viewModel.getUserData()
+        lifecycleScope.launch {
+            viewModel.messages.collect { list ->
+                Log.d("Socket IO Message", "$list")
+            }
+        }
+
+
     }
 
     override fun setOnClickListener() {

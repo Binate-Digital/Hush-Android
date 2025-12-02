@@ -185,7 +185,6 @@ class DashBoardActivity : BaseActivity(), View.OnClickListener {
     }
 
     override fun initialize() {
-        56
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.navHostFragmentDashboard) as NavHostFragment
         setOnBackPressedListener()
@@ -208,11 +207,13 @@ class DashBoardActivity : BaseActivity(), View.OnClickListener {
                 val intent = Intent(this, MainActivity::class.java)
                 startActivity(intent)
                 finish()
+            }else{
+                setUserDataInDrawer(viewModel.userData)
             }
         }
 
 
-        setUserDataInDrawer(viewModel.userData)
+
         viewModel.getCallTokenApi()
 
         if (!checkCameraPermission()) {

@@ -1,7 +1,7 @@
 package com.fictivestudios.hush.utils
 
 object Constants {
-    const val BASE_URL = "https://host2.appsstaging.com:3012/"
+    const val BASE_URL = /*"https://host2.appsstaging.com:3012/"*/ "https://complementary-lakia-manducable.ngrok-free.dev/"
     const val IMAGE_BASE_URL = "https://host2.appsstaging.com:3012/"
     const val REQUEST_PERMISSION_CODE = 100
     const val REQUEST_IMAGE_MULTIPLE_PICK_CODE = 102

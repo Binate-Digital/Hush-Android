@@ -1,5 +1,6 @@
 package com.fictivestudios.hush.ui.activities
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -48,6 +49,7 @@ class MainViewModel @Inject constructor(val repository: AuthRepository) :
         isDataNull: (Boolean) -> Unit
     )= viewModelScope.launch {
         userData = getLoginUserData()
+        Log.d("dashboard user data","$userData")
         if( getLoginUserData() == null){
             isDataNull(true)
         }else{
