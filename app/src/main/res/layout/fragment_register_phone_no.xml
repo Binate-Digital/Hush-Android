@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
-            android:text="Register Phone Number"
+            android:text="Buy Number"
             android:textColor="@color/text_labeled"
             android:textSize="18sp"
             android:textStyle="bold"
@@ -33,110 +33,75 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/textViewDes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="100dp"
-            android:layout_marginHorizontal="20dp"
-            android:gravity="center"
-            android:text="Make sure you have added the \narea code"
-            android:textColor="@color/text_labeled"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:fontFamily="@font/montserrat_semi_bold"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/textViewTitle" />
-
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/materialCardView"
-            android:layout_width="wrap_content"
-            android:layout_height="57dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="2dp"
-            app:cardBackgroundColor="@color/edit_text_labeled"
-            app:cardCornerRadius="10dp"
-            app:layout_constraintBottom_toBottomOf="@+id/textInputLayoutPhone"
-            app:layout_constraintEnd_toStartOf="@+id/textInputLayoutPhone"
+            android:id="@+id/cardView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/card_labeled"
+            app:strokeWidth="0dp"
+            android:visibility="gone"
+            app:cardCornerRadius="16dp"
+            android:layout_margin="16dp"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textInputLayoutPhone"
-            app:strokeWidth="0dp">
+            app:layout_constraintEnd_toEndOf="parent">
 
-            <com.hbb20.CountryCodePicker
-                android:id="@+id/ccp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingVertical="5dp"
-                app:ccpDialog_textColor="@color/text_labeled"
-                app:ccp_autoDetectCountry="true"
-                app:ccp_textSize="14sp" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/imageView"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/user_check"
+                    android:layout_margin="16dp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <androidx.appcompat.widget.AppCompatTextView
+                    android:id="@+id/textViewAssignNo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:textColor="@color/text_labeled"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:maxLines="2"
+                    android:ellipsize="end"
+                    app:fontFamily="@font/montserrat_semi_bold"
+                    app:layout_constraintBottom_toBottomOf="@+id/imageView"
+                    app:layout_constraintEnd_toStartOf="@+id/buttonBuy"
+                    app:layout_constraintStart_toEndOf="@+id/imageView"
+                    app:layout_constraintTop_toTopOf="@+id/imageView"
+                    android:text="No number assign yet." />
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/buttonBuy"
+                    android:layout_width="80dp"
+                    android:layout_height="40dp"
+                    android:layout_margin="16dp"
+                    android:background="@drawable/round_corner_bg"
+                    android:backgroundTint="@color/theme_red"
+                    android:fontFamily="@font/montserrat_semi_bold"
+                    android:text="Buy"
+                    android:textAllCaps="false"
+                    android:textColor="@color/white"
+                    android:textSize="16sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    tools:ignore="DuplicateSpeakableTextCheck" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
         </com.google.android.material.card.MaterialCardView>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayoutPhone"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="40dp"
-            android:layout_marginEnd="20dp"
-            android:elevation="10dp"
-            android:hint="Phone number"
-            android:textColorHint="@color/theme_red"
-            android:textSize="14sp"
-            app:boxBackgroundColor="@color/edit_text_labeled"
-            app:boxBackgroundMode="filled"
-            app:boxCornerRadiusBottomEnd="10dp"
-            app:boxCornerRadiusBottomStart="10dp"
-            app:boxCornerRadiusTopEnd="10dp"
-            app:boxCornerRadiusTopStart="10dp"
-            app:boxStrokeColor="@android:color/transparent"
-            app:boxStrokeWidth="0dp"
-            app:boxStrokeWidthFocused="0dp"
-            app:expandedHintEnabled="true"
-            app:hintAnimationEnabled="true"
-            app:hintTextAppearance="?attr/textAppearanceBodySmall"
-            app:hintTextColor="@color/theme_red"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/materialCardView"
-            app:layout_constraintTop_toBottomOf="@+id/textViewDes">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/textInputEditTextPhoneNo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/montserrat"
-                android:inputType="phone"
-                android:maxLength="20"
-                android:singleLine="true"
-                android:textColor="@color/text_labeled"
-                android:textCursorDrawable="@drawable/custom_cursor"
-                tools:ignore="TextContrastCheck" />
-
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/buttonSubmit"
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_margin="20dp"
-            android:background="@drawable/round_corner_bg"
-            android:backgroundTint="@color/theme_red"
-            android:fontFamily="@font/montserrat_semi_bold"
-            android:text="Submit"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayoutPhone"
-            tools:ignore="DuplicateSpeakableTextCheck" />
 
 
-        <com.fictivestudios.demo.utils.customLoader.LazyLoader
+
+        <com.fictivestudios.hush.utils.customLoader.LazyLoader
             android:layout_width="wrap_content"
             android:id="@+id/progress"
             android:layout_height="wrap_content"

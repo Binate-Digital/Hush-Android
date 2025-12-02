@@ -16,15 +16,15 @@
 
         <variable
             name="viewItemType"
-            type="com.fictivestudios.demo.base.adapter.ViewType" />
+            type="com.fictivestudios.hush.base.adapter.ViewType" />
 
         <variable
             name="actionItemListener"
-            type="com.fictivestudios.demo.base.adapter.OnItemClickListener" />
+            type="com.fictivestudios.hush.base.adapter.OnItemClickListener" />
 
         <variable
             name="itemViewModel"
-            type="com.fictivestudios.demo.data.responses.Message" />
+            type="com.fictivestudios.hush.data.responses.Message" />
 
     </data>
 
@@ -45,7 +45,7 @@
             app:strokeColor="@color/theme_red"
             app:strokeWidth="1dp">
 
-            <com.fictivestudios.demo.utils.CircleImageView
+            <com.fictivestudios.hush.utils.CircleImageView
                 android:id="@+id/imageViewUser"
                 android:layout_width="match_parent"
                android:scaleType="centerCrop"

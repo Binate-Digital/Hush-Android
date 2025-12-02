@@ -7,7 +7,7 @@
 
         <variable
             name="viewModel"
-            type="com.fictivestudios.demo.ui.fragments.main.profile.ProfileViewModel" />
+            type="com.fictivestudios.hush.ui.fragments.main.profile.ProfileViewModel" />
 
     </data>
 
@@ -94,7 +94,7 @@
                     app:strokeColor="@color/theme_red"
                     app:strokeWidth="1dp">
 
-                    <com.fictivestudios.demo.utils.CircleImageView
+                    <com.fictivestudios.hush.utils.CircleImageView
                         android:id="@+id/userPersonImageView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -315,7 +315,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
-        <com.fictivestudios.demo.utils.customLoader.LazyLoader
+        <com.fictivestudios.hush.utils.customLoader.LazyLoader
             android:id="@+id/progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

@@ -60,7 +60,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <com.fictivestudios.demo.utils.ZoomableImageView
+        <com.fictivestudios.hush.utils.ZoomableImageView
             android:id="@+id/imageViewPreview"
             android:layout_width="0dp"
             android:layout_height="0dp"
@@ -69,7 +69,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/actionBar" />
 
-        <com.fictivestudios.demo.utils.customLoader.LazyLoader
+        <com.fictivestudios.hush.utils.customLoader.LazyLoader
             android:id="@+id/progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

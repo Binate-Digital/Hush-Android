@@ -58,7 +58,7 @@
                         android:scaleType="centerCrop"
                         android:src="@drawable/ic_camera" />
 
-                    <com.fictivestudios.demo.utils.CircleImageView
+                    <com.fictivestudios.hush.utils.CircleImageView
                         android:id="@+id/userPersonImageView"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
@@ -293,7 +293,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.core.widget.NestedScrollView>
 
-        <com.fictivestudios.demo.utils.customLoader.LazyLoader
+        <com.fictivestudios.hush.utils.customLoader.LazyLoader
             android:id="@+id/progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

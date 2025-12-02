@@ -43,7 +43,7 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:strokeWidth="1dp">
 
-                    <com.fictivestudios.demo.utils.CircleImageView
+                    <com.fictivestudios.hush.utils.CircleImageView
                         android:id="@+id/imageViewUser"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"

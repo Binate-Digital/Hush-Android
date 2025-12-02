@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/createNewProfileFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.auth.createNewProfile.CreateNewProfileFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.auth.createNewProfile.CreateNewProfileFragment"
         android:label="CreateNewProfileFragment"
         tools:layout="@layout/fragment_create_new_profile">
         <argument
@@ -39,7 +39,7 @@
     </fragment>
     <fragment
         android:id="@+id/privacyPolicyFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.auth.privacy.PrivacyPolicyFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.auth.privacy.PrivacyPolicyFragment"
         android:label="PrivacyPolicyFragment"
         tools:layout="@layout/fragment_privacy">
 
@@ -51,7 +51,7 @@
     </fragment>
     <fragment
         android:id="@+id/splashFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.splash.SplashFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.splash.SplashFragment"
         android:label="SplashFragment"
         tools:layout="@layout/fragment_splash">
         <action
@@ -64,7 +64,7 @@
     </fragment>
     <fragment
         android:id="@+id/otpVerificationFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.auth.otp.OtpVerificationFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.auth.otp.OtpVerificationFragment"
         android:label="OtpVerificationFragment"
         tools:layout="@layout/fragment_otp_verification">
 
@@ -123,7 +123,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginWithEmailFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.auth.login.LoginWithEmailFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.auth.login.LoginWithEmailFragment"
         android:label="LoginWithEmailFragment"
         tools:layout="@layout/fragment_login_with_email">
         <action
@@ -141,7 +141,7 @@
     </fragment>
     <fragment
         android:id="@+id/loginWithPhoneFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.auth.login.LoginWithPhoneFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.auth.login.LoginWithPhoneFragment"
         android:label="LoginWithPhoneFragment"
         tools:layout="@layout/fragment_login_with_phone">
 
@@ -170,7 +170,7 @@
     </fragment>
     <fragment
         android:id="@+id/preLoginFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.auth.PreLoginFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.auth.PreLoginFragment"
         android:label="PreLoginFragment"
         tools:layout="@layout/fragment_pre_login">
         <action

@@ -419,7 +419,7 @@
 
         </com.google.android.material.card.MaterialCardView>
 
-        <com.fictivestudios.demo.utils.customLoader.LazyLoader
+        <com.fictivestudios.hush.utils.customLoader.LazyLoader
             android:id="@+id/progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

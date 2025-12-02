@@ -29,7 +29,7 @@
             app:strokeColor="@color/theme_red"
             app:strokeWidth="2dp">
 
-            <com.fictivestudios.demo.utils.CircleImageView
+            <com.fictivestudios.hush.utils.CircleImageView
                 android:id="@+id/imageViewUser"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"

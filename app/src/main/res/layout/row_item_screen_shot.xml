@@ -15,15 +15,15 @@
 
         <variable
             name="viewItemType"
-            type="com.fictivestudios.demo.base.adapter.ViewType" />
+            type="com.fictivestudios.hush.base.adapter.ViewType" />
 
         <variable
             name="actionItemListener"
-            type="com.fictivestudios.demo.base.adapter.OnItemClickListener" />
+            type="com.fictivestudios.hush.base.adapter.OnItemClickListener" />
 
         <variable
             name="itemViewModel"
-            type="com.fictivestudios.demo.data.responses.Screenshots" />
+            type="com.fictivestudios.hush.data.responses.Screenshots" />
 
     </data>
 

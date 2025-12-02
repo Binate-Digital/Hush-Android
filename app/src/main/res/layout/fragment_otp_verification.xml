@@ -76,7 +76,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textViewOtp" />
 
-                <com.fictivestudios.demo.utils.otpview.OTPTextView
+                <com.fictivestudios.hush.utils.otpview.OTPTextView
                     android:id="@+id/otpView"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -103,7 +103,7 @@
                     app:otp_text_size="15sp"
                     app:width="45dp" />
 
-                <com.fictivestudios.demo.utils.CircularTimerView
+                <com.fictivestudios.hush.utils.CircularTimerView
                     android:id="@+id/progressTimer"
                     android:layout_width="120dp"
                     android:layout_height="120dp"
@@ -126,7 +126,7 @@
         </ScrollView>
 
 
-        <com.fictivestudios.demo.utils.customLoader.LazyLoader
+        <com.fictivestudios.hush.utils.customLoader.LazyLoader
             android:layout_width="wrap_content"
             android:id="@+id/progress"
             android:layout_height="wrap_content"

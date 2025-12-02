@@ -9,11 +9,11 @@ plugins {
 }
 
 android {
-    namespace = "com.fictivestudios.demo"
+    namespace = "com.fictivestudios.hush"
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.fictivestudios.demo"
+        applicationId = "com.fictivestudios.hush"
         minSdk = 30
         targetSdk = 36
         versionCode = 1

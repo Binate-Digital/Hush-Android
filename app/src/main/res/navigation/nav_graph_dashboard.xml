@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/profileFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.main.profile.ProfileFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.main.profile.ProfileFragment"
         android:label="ProfileFragment"
         tools:layout="@layout/fragment_profile">
         <action
@@ -36,7 +36,7 @@
 
     <fragment
         android:id="@+id/chatFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.main.chat.ChatFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.main.chat.ChatFragment"
         android:label="ChatFragment"
         tools:layout="@layout/fragment_chat">
 
@@ -63,7 +63,7 @@
     </fragment>
     <fragment
         android:id="@+id/addressFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.main.address.AddressFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.main.address.AddressFragment"
         android:label="AddressFragment"
         tools:layout="@layout/fragment_address">
         <action
@@ -89,27 +89,27 @@
     </fragment>
     <fragment
         android:id="@+id/dialPadFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.main.dialPad.DialPadFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.main.dialPad.DialPadFragment"
         android:label="DialPadFragment"
         tools:layout="@layout/fragment_dial_pad" />
     <fragment
         android:id="@+id/editProfileFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.main.profile.EditProfileFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.main.profile.EditProfileFragment"
         android:label="EditProfileFragment"
         tools:layout="@layout/fragment_edit_profile" />
     <fragment
         android:id="@+id/notificationFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.main.notification.NotificationFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.main.notification.NotificationFragment"
         android:label="NotificationFragment"
         tools:layout="@layout/fragment_notification" />
     <fragment
         android:id="@+id/createNewContactFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.main.address.CreateNewContactFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.main.address.CreateNewContactFragment"
         android:label="CreateNewContactFragment"
         tools:layout="@layout/fragment_new_contact" />
     <fragment
         android:id="@+id/userProfileFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.main.profile.UserProfileFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.main.profile.UserProfileFragment"
         android:label="UserProfileFragment"
         tools:layout="@layout/fragment_user_profile">
 
@@ -134,7 +134,7 @@
     </fragment>
     <fragment
         android:id="@+id/chatDetailFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.main.chat.ChatDetailFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.main.chat.ChatDetailFragment"
         android:label="ChatDetailFragment"
         tools:layout="@layout/fragment_chat_detail">
         <action
@@ -153,7 +153,7 @@
     </fragment>
     <fragment
         android:id="@+id/settingFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.main.settings.SettingFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.main.settings.SettingFragment"
         android:label="SettingFragment"
         tools:layout="@layout/fragment_setting">
         <action
@@ -170,17 +170,17 @@
 
     <fragment
         android:id="@+id/blockUserFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.main.blockUser.BlockUserFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.main.blockUser.BlockUserFragment"
         android:label="BlockUserFragment"
         tools:layout="@layout/fragment_block_user" />
     <fragment
         android:id="@+id/privacyPolicyFragment2"
-        android:name="com.fictivestudios.demo.ui.fragments.auth.privacy.PrivacyPolicyFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.auth.privacy.PrivacyPolicyFragment"
         android:label="PrivacyPolicyFragment"
         tools:layout="@layout/fragment_privacy" />
     <fragment
         android:id="@+id/imagePreviewFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.main.previewFragment.ImagePreviewFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.main.previewFragment.ImagePreviewFragment"
         android:label="ImagePreviewFragment"
         tools:layout="@layout/fragment_image_preview">
 
@@ -198,24 +198,24 @@
     </fragment>
     <fragment
         android:id="@+id/callLogFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.main.callLog.CallLogFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.main.callLog.CallLogFragment"
         android:label="CallLogFragment"
         tools:layout="@layout/fragment_call_log" />
 
 
     <fragment
         android:id="@+id/patternFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.main.patternFragment.PatternFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.main.patternFragment.PatternFragment"
         android:label="PatternFragment"
         tools:layout="@layout/fragment_pattern" />
     <fragment
         android:id="@+id/pinFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.main.pinFragment.PinFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.main.pinFragment.PinFragment"
         android:label="PinFragment"
         tools:layout="@layout/fragment_pin" />
     <fragment
         android:id="@+id/appLockManagerFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.main.appLockManager.AppLockManagerFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.main.appLockManager.AppLockManagerFragment"
         android:label="AppLockManager"
         tools:layout="@layout/fragment_app_lock_manager">
         <action
@@ -227,11 +227,11 @@
     </fragment>
     <fragment
         android:id="@+id/registerPhoneNo"
-        android:name="com.fictivestudios.demo.ui.fragments.main.registerPhoneNo.FragmentRegisterPhoneNo"
+        android:name="com.fictivestudios.hush.ui.fragments.main.registerPhoneNo.FragmentRegisterPhoneNo"
         android:label="RegisterPhoneNo" />
     <fragment
         android:id="@+id/screenShotFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.main.screenShot.ScreenShotFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.main.screenShot.ScreenShotFragment"
         android:label="ScreenShotFragment">
         <action
             android:id="@+id/action_screenShotFragment_to_imagePreviewFragment"
@@ -250,7 +250,7 @@
     </fragment>
     <fragment
         android:id="@+id/securityFeatureFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.main.securityFeature.SecurityFeatureFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.main.securityFeature.SecurityFeatureFragment"
         android:label="SecurityFeatureFragment">
         <action
             android:id="@+id/action_securityFeatureFragment_to_imagePreviewFragment"
@@ -279,7 +279,7 @@
 
     <fragment
         android:id="@+id/exoPlayerFragment"
-        android:name="com.fictivestudios.demo.ui.fragments.main.player.ExoPlayerFragment"
+        android:name="com.fictivestudios.hush.ui.fragments.main.player.ExoPlayerFragment"
         android:label="ExoPlayerFragment">
         <argument
             android:name="url"

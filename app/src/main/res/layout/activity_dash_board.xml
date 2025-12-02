@@ -160,7 +160,7 @@
 
                 </com.google.android.material.card.MaterialCardView>
 
-                <com.fictivestudios.demo.utils.customLoader.LazyLoader
+                <com.fictivestudios.hush.utils.customLoader.LazyLoader
                     android:id="@+id/progress"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -234,7 +234,7 @@
                             app:strokeColor="@color/white"
                             app:strokeWidth="1dp">
 
-                            <com.fictivestudios.demo.utils.CircleImageView
+                            <com.fictivestudios.hush.utils.CircleImageView
                                 android:id="@+id/imageViewUser"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
@@ -311,7 +311,7 @@
                         android:drawableTint="@color/theme_red"
                         android:gravity="center_vertical"
                         android:paddingStart="10dp"
-                        android:text="Register Phone Number"
+                        android:text="Buy Number"
                         android:textColor="@color/text_labeled"
                         android:textSize="16sp"
                         app:fontFamily="@font/montserrat_semi_bold"
