@@ -9,6 +9,7 @@ import com.fictivestudios.hush.data.responses.ChatInbox
 import com.fictivestudios.hush.data.responses.ChatListResponse
 import com.fictivestudios.hush.data.responses.LoginUserResponse
 import com.fictivestudios.hush.data.responses.Message
+import com.fictivestudios.hush.data.responses.SmsMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -20,10 +21,9 @@ class ChatDetailViewModel @Inject constructor(
     private val repository: ChatDetailRepository
 ) : BaseViewModel(repository) {
 
-    private val _messages = MutableStateFlow<List<ChatInbox>>(emptyList())
-    val messages: StateFlow<List<ChatInbox>> = _messages
+    private val _messages = MutableStateFlow<List<SmsMessage>>(emptyList())
+    val messages: StateFlow<List<SmsMessage>> = _messages
 
-    var messageList = ArrayList<Message>()
 
     var userData: LoginUserResponse? = null
 
@@ -33,9 +33,6 @@ class ChatDetailViewModel @Inject constructor(
     }
 
     fun sendSms(message: String,userId: String,contactId: String){
-        Log.d("userId","$userId")
-        Log.d("contactId","$contactId")
-        Log.d("message","$message")
         repository.sendMessage(message,userId,contactId)
     }
 
@@ -45,11 +42,10 @@ class ChatDetailViewModel @Inject constructor(
             userId,
             contactId,
             onSuccess = { chatList ->
-                Log.d("onSuccess ChatDetailViewModel", "$chatList")
-                _messages.value = chatList     // ← UPDATE FLOW HERE
+                _messages.value = chatList
             },
             onError = { error ->
-                Log.d("onError ChatDetailViewModel", "$error")
+                Log.d("onError ChatDetail", "$error")
             }
         )
     }

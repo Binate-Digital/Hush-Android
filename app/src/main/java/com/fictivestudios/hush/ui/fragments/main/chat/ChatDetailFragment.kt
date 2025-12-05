@@ -19,6 +19,7 @@ import com.fictivestudios.hush.base.fragment.BaseFragment
 import com.fictivestudios.hush.databinding.FragmentChatDetailBinding
 import com.fictivestudios.hush.ui.activities.CallActivity
 import com.fictivestudios.hush.ui.fragments.auth.otp.OtpVerificationFragmentArgs
+import com.fictivestudios.hush.ui.fragments.main.chat.itemView.RowItemChatList
 import com.fictivestudios.hush.ui.fragments.main.chat.itemView.RowItemMyChat
 import com.fictivestudios.hush.ui.fragments.main.chat.itemView.RowItemOtherChat
 import com.fictivestudios.hush.utils.PaginationScrollListener
@@ -85,15 +86,22 @@ class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnC
 
 
     override fun setObserver() {
-        viewTypeArray.clear()
-        for (data in viewModel.messageList) {
-            if (data.id == 1) {
-                viewTypeArray.add(RowItemMyChat(data))
-            } else {
-                viewTypeArray.add(RowItemOtherChat(data))
+
+        lifecycleScope.launch {
+            viewModel.messages.collect { list ->
+                viewTypeArray.clear()
+                Log.d("UserId","${viewModel.userData?._id}")
+                for (data in list) {
+                    if(data.sender == "user"){
+                        viewTypeArray.add(RowItemMyChat(data))
+                    }else{
+                        viewTypeArray.add(RowItemOtherChat(data))
+                    }
+                }
+                adapter.items = viewTypeArray
+                Log.d("Socket IO Message", "$list")
             }
         }
-        adapter.items = viewTypeArray
     }
 
     override fun setOnClickListener() {

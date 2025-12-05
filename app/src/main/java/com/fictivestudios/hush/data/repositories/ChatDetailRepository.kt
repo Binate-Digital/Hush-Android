@@ -5,11 +5,12 @@ import com.fictivestudios.hush.base.network.SocketManager
 import com.fictivestudios.hush.base.preference.DataPreference
 import com.fictivestudios.hush.base.repository.BaseRepository
 import com.fictivestudios.hush.data.networks.AuthApi
-import com.fictivestudios.hush.data.responses.ChatInbox
+import com.fictivestudios.hush.data.responses.SmsMessage
 import org.json.JSONArray
 import org.json.JSONObject
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.String
 
 @Singleton
 class ChatDetailRepository @Inject constructor(
@@ -21,7 +22,7 @@ class ChatDetailRepository @Inject constructor(
     fun initSocket(
         userId: String,
         contactId: String,
-        onSuccess: (List<ChatInbox>) -> Unit,
+        onSuccess: (List<SmsMessage>) -> Unit,
         onError: (JSONObject) -> Unit
     ) {
         socketManager.initSocket()
@@ -30,8 +31,9 @@ class ChatDetailRepository @Inject constructor(
         // Listen for socket success responses
         socketManager.listen("response") { data ->
             val jsonObj = data
-            Log.d("onSuccess ChatDetailViewModel", "$data")
             val dataArray = jsonObj.optJSONArray("data") ?: return@listen
+            Log.d("chat chit","$dataArray")
+            Log.d("chat chit2","$jsonObj")
             val chatList = dataArray.toChatInboxList()
             onSuccess(chatList)
         }
@@ -50,6 +52,7 @@ class ChatDetailRepository @Inject constructor(
     }
 
     fun sendMessage(message: String,userId: String,contactId: String) {
+
         val json = JSONObject().apply {
             put("user_id", userId)
             put("contact_id", contactId)
@@ -58,23 +61,19 @@ class ChatDetailRepository @Inject constructor(
         socketManager.emit("send_sms_message", json)
     }
 
-    fun JSONArray.toChatInboxList(): List<ChatInbox> {
-        val chats = mutableListOf<ChatInbox>()
+    fun JSONArray.toChatInboxList(): List<SmsMessage> {
+        val chats = mutableListOf<SmsMessage>()
 
         for (i in 0 until length()) {
             val item = optJSONObject(i) ?: continue
 
             chats.add(
-                ChatInbox(
-                    id = item.optString("_id"),
-                    phoneNumber = item.optString("phoneNumber"),
-                    contactImage = item.optString("contactImage"),
-                    contactName = item.optString("contactName"),
-                    lastMessage = item.optString("lastMessage"),
-                    lastMessageAt = item.optString("lastMessageAt"),
-                    messageCount = item.optInt("messageCount"),
-                    unreadCount = item.optInt("unreadCount"),
-                    isRead = item.optBoolean("isRead")
+                SmsMessage(
+                    sender = item.optString("sender"),
+                    message = item.optString("message"),
+                    timestamp = item.optString("timestamp"),
+                    twilioMessageSid = item.optString("twilioMessageSid"),
+                    _id = item.optString("_id")
                 )
             )
         }

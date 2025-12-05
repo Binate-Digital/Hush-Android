@@ -2,21 +2,25 @@ package com.fictivestudios.hush.ui.fragments.main.chat.itemView
 
 import android.annotation.SuppressLint
 import androidx.databinding.ViewDataBinding
+import com.bumptech.glide.Glide
 import com.fictivestudios.hush.R
 import com.fictivestudios.hush.base.adapter.OnItemClickListener
 import com.fictivestudios.hush.base.adapter.ViewType
+import com.fictivestudios.hush.data.responses.ChatInbox
 import com.fictivestudios.hush.data.responses.Message
+import com.fictivestudios.hush.data.responses.SmsMessage
 import com.fictivestudios.hush.databinding.RowItemOtherMessageBinding
+import com.fictivestudios.hush.utils.Constants
 
 class RowItemOtherChat(
-    private val data: Message
-) : ViewType<Message> {
+    private val data: SmsMessage
+) : ViewType<SmsMessage> {
 
     override fun layoutId(): Int {
         return R.layout.row_item_other_message
     }
 
-    override fun data(): Message {
+    override fun data(): SmsMessage {
         return data
     }
 
@@ -27,8 +31,10 @@ class RowItemOtherChat(
     @SuppressLint("SetTextI18n")
     override fun bind(bi: ViewDataBinding, position: Int, onClickListener: OnItemClickListener<*>) {
         (bi as RowItemOtherMessageBinding).also { binding ->
-            binding.imageViewUser.setImageResource(data.userImage)
-            binding.textViewMessage.text = data.userMessage
+            Glide.with(binding.imageViewUser.context)
+                .load(Constants.IMAGE_BASE_URL + "null").placeholder(R.drawable.person)
+                .into(binding.imageViewUser)
+            binding.textViewMessage.text = data.message
         }
     }
 

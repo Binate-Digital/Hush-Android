@@ -24,7 +24,7 @@
 
         <variable
             name="itemViewModel"
-            type="com.fictivestudios.hush.data.responses.Message" />
+            type="com.fictivestudios.hush.data.responses.SmsMessage" />
 
     </data>
 

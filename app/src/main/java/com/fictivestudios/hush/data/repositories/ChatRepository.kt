@@ -54,7 +54,8 @@ class ChatRepository @Inject constructor(
 
             chats.add(
                 ChatInbox(
-                    id = item.optString("_id"),
+                    _id = item.optString("_id"),
+                    contactId = item.optString("contactId"),
                     phoneNumber = item.optString("phoneNumber"),
                     contactImage = item.optString("contactImage"),
                     contactName = item.optString("contactName"),

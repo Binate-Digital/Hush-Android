@@ -38,7 +38,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat), SwipeRefreshLayout.On
                         (data as ChatInbox).also {
                             if (isItemClick) {
                                 isItemClick = false
-                                data.id?.let{
+                                data.contactId?.let{
                                     findNavController().navigate(ChatFragmentDirections.actionChatFragmentToChatDetailFragment(it))
                                 }
                             }
