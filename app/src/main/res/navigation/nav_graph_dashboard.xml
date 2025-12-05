@@ -59,7 +59,11 @@
             app:enterAnim="@anim/slide_in_right"
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
-            app:popExitAnim="@anim/slide_out_right" />
+            app:popExitAnim="@anim/slide_out_right" >
+            <argument
+                android:name="userId"
+                app:argType="string" />
+        </action>
     </fragment>
     <fragment
         android:id="@+id/addressFragment"
@@ -85,6 +89,17 @@
                 android:name="userId"
                 app:argType="string" />
 
+        </action>
+        <action
+            android:id="@+id/action_addressFragment_to_chatDetailFragment"
+            app:destination="@id/chatDetailFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right">
+            <argument
+                android:name="userId"
+                app:argType="string" />
         </action>
     </fragment>
     <fragment
@@ -137,6 +152,10 @@
         android:name="com.fictivestudios.hush.ui.fragments.main.chat.ChatDetailFragment"
         android:label="ChatDetailFragment"
         tools:layout="@layout/fragment_chat_detail">
+
+        <argument
+            android:name="userId"
+            app:argType="string" />
         <action
             android:id="@+id/action_chatDetailFragment_to_userProfileFragment"
             app:destination="@id/userProfileFragment"

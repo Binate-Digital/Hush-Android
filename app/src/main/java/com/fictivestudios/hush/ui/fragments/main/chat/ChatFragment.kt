@@ -14,7 +14,7 @@ import com.fictivestudios.hush.base.adapter.GenericListAdapter
 import com.fictivestudios.hush.base.adapter.OnItemClickListener
 import com.fictivestudios.hush.base.adapter.ViewType
 import com.fictivestudios.hush.base.fragment.BaseFragment
-import com.fictivestudios.hush.data.responses.ChatListResponse
+import com.fictivestudios.hush.data.responses.ChatInbox
 import com.fictivestudios.hush.databinding.FragmentChatBinding
 import com.fictivestudios.hush.ui.fragments.main.chat.itemView.RowItemChatList
 import kotlinx.coroutines.delay
@@ -35,10 +35,12 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat), SwipeRefreshLayout.On
             override fun onItemClicked(view: View, item: ViewType<*>, position: Int) {
                 lifecycleScope.launch {
                     item.data()?.let { data ->
-                        (data as ChatListResponse).also {
+                        (data as ChatInbox).also {
                             if (isItemClick) {
                                 isItemClick = false
-                                findNavController().navigate(ChatFragmentDirections.actionChatFragmentToChatDetailFragment())
+                                data.id?.let{
+                                    findNavController().navigate(ChatFragmentDirections.actionChatFragmentToChatDetailFragment(it))
+                                }
                             }
                             delay(1000)
                             isItemClick = true
@@ -74,13 +76,6 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat), SwipeRefreshLayout.On
     override fun initialize() {
         setRecyclerView()
         viewModel.getUserData()
-        lifecycleScope.launch {
-            viewModel.messages.collect { list ->
-                Log.d("Socket IO Message", "$list")
-            }
-        }
-
-
     }
 
     override fun setOnClickListener() {
@@ -88,11 +83,16 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat), SwipeRefreshLayout.On
     }
 
     override fun setObserver() {
-        viewTypeArray.clear()
-        for (data in viewModel.chatList) {
-            viewTypeArray.add(RowItemChatList(data))
+        lifecycleScope.launch {
+            viewModel.messages.collect { list ->
+                viewTypeArray.clear()
+                for (data in list) {
+                    viewTypeArray.add(RowItemChatList(data))
+                }
+                adapter.items = viewTypeArray
+                Log.d("Socket IO Message", "$list")
+            }
         }
-        adapter.items = viewTypeArray
     }
 
     private fun setRecyclerView() {

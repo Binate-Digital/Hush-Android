@@ -10,8 +10,7 @@ import javax.inject.Singleton
 @Singleton
 class SocketManager @Inject constructor() {
 
-  //  private val baseUrl = "https://host2.appsstaging.com:3012/"
-    private val baseUrl = "https://complementary-lakia-manducable.ngrok-free.dev/"
+   private val baseUrl = "https://host2.appsstaging.com:3012/"
     private var socket: Socket? = null
 
     fun initSocket() {

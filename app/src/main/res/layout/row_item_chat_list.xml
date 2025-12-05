@@ -24,7 +24,7 @@
 
         <variable
             name="itemViewModel"
-            type="com.fictivestudios.hush.data.responses.ChatListResponse" />
+            type="com.fictivestudios.hush.data.responses.ChatInbox" />
 
     </data>
 

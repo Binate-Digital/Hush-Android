@@ -1,5 +1,6 @@
 package com.fictivestudios.hush.data.repositories
 
+import android.util.Log
 import com.fictivestudios.hush.base.network.SocketManager
 import com.fictivestudios.hush.base.preference.DataPreference
 import com.fictivestudios.hush.base.repository.BaseRepository
@@ -11,7 +12,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class ChatRepository @Inject constructor(
+class ChatDetailRepository @Inject constructor(
     private val socketManager: SocketManager,
     api: AuthApi,
     preferences: DataPreference
@@ -19,6 +20,7 @@ class ChatRepository @Inject constructor(
 
     fun initSocket(
         userId: String,
+        contactId: String,
         onSuccess: (List<ChatInbox>) -> Unit,
         onError: (JSONObject) -> Unit
     ) {
@@ -28,6 +30,7 @@ class ChatRepository @Inject constructor(
         // Listen for socket success responses
         socketManager.listen("response") { data ->
             val jsonObj = data
+            Log.d("onSuccess ChatDetailViewModel", "$data")
             val dataArray = jsonObj.optJSONArray("data") ?: return@listen
             val chatList = dataArray.toChatInboxList()
             onSuccess(chatList)
@@ -41,10 +44,19 @@ class ChatRepository @Inject constructor(
         // Send request
         val json = JSONObject().apply {
             put("user_id", userId)
+            put("contact_id", contactId)
         }
-        socketManager.emit("get_sms_chats", json)
+        socketManager.emit("get_sms_messages", json)
     }
 
+    fun sendMessage(message: String,userId: String,contactId: String) {
+        val json = JSONObject().apply {
+            put("user_id", userId)
+            put("contact_id", contactId)
+            put("message", message)
+        }
+        socketManager.emit("send_sms_message", json)
+    }
 
     fun JSONArray.toChatInboxList(): List<ChatInbox> {
         val chats = mutableListOf<ChatInbox>()

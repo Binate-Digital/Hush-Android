@@ -13,6 +13,7 @@ import com.fictivestudios.hush.data.responses.AddressResponse
 import com.fictivestudios.hush.data.responses.ContactListResponse
 import com.fictivestudios.hush.data.responses.ContactResponse
 import com.fictivestudios.hush.data.responses.Contacts
+import com.fictivestudios.hush.data.responses.LoginUserResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
@@ -49,6 +50,13 @@ class AddressViewModel @Inject constructor(private val repository: AuthRepositor
             }
         }
 
+    }
+
+    var userData: LoginUserResponse? = null
+    var callToken: String? = null
+    fun getUserData()= viewModelScope.launch {
+        userData = getLoginUserData()
+        callToken = getCallToken()
     }
 
     fun createContactApi(

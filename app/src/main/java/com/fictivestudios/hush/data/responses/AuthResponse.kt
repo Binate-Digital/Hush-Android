@@ -269,7 +269,8 @@ data class Contacts(
     val _id: String,
     val fname: String,
     val lname: String,
-    val contactImage: String
+    val phone: String?,
+    val contactImage: String?
 )
 
 

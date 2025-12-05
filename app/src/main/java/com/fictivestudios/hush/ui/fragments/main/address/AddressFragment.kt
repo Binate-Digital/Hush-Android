@@ -1,8 +1,10 @@
 package com.fictivestudios.hush.ui.fragments.main.address
 
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,7 +21,9 @@ import com.fictivestudios.hush.base.adapter.OnItemClickListener
 import com.fictivestudios.hush.base.adapter.ViewType
 import com.fictivestudios.hush.base.fragment.BaseFragment
 import com.fictivestudios.hush.base.response.Resource
+import com.fictivestudios.hush.data.responses.Contacts
 import com.fictivestudios.hush.databinding.FragmentAddressBinding
+import com.fictivestudios.hush.ui.activities.CallActivity
 import com.fictivestudios.hush.ui.activities.DashBoardActivity
 import com.fictivestudios.hush.ui.fragments.main.address.itemView.OnItemCLick
 import com.fictivestudios.hush.ui.fragments.main.address.itemView.RowItemAddress
@@ -80,6 +84,7 @@ class AddressFragment : BaseFragment(R.layout.fragment_address), View.OnClickLis
     }
 
     override fun initialize() {
+        viewModel.getUserData()
         setRecyclerView()
         binding.multiStateView.viewState =
             MultiStateView.ViewState.LOADING
@@ -218,6 +223,40 @@ class AddressFragment : BaseFragment(R.layout.fragment_address), View.OnClickLis
         binding.textInputEditTextSearch.text?.clear()
         findNavController().navigate(
             AddressFragmentDirections.actionAddressFragmentToUserProfileFragment(
+                id
+            )
+        )
+    }
+
+    override fun onClickCall(data: Contacts) {
+        if (viewModel.userData?.purchasedTwilioSid.isNullOrEmpty()) {
+            showToast("Please register phone number first")
+            findNavController().navigate(R.id.registerPhoneNo)
+            return
+        }
+        if (data.phone.isNullOrEmpty()) {
+            showToast("Invalid phone Number")
+            return
+        }
+        val phoneNo = data.phone
+        Log.d("phoneNo", phoneNo)
+        val intent = Intent(requireActivity(), CallActivity::class.java)
+        intent.putExtra(
+            "phone_no",
+            phoneNo
+        )
+
+        intent.putExtra(
+            "token",
+            viewModel.callToken
+        )
+        intent.putExtra("user_name", viewModel.userData?.name)
+        startActivity(intent)
+    }
+
+    override fun onClickMessage(id: String) {
+        findNavController().navigate(
+            AddressFragmentDirections.actionAddressFragmentToChatDetailFragment(
                 id
             )
         )

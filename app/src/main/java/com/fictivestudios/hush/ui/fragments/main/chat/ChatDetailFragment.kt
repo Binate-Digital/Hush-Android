@@ -2,12 +2,14 @@ package com.fictivestudios.hush.ui.fragments.main.chat
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.fictivestudios.hush.R
 import com.fictivestudios.hush.base.adapter.GenericListAdapter
@@ -16,21 +18,25 @@ import com.fictivestudios.hush.base.adapter.ViewType
 import com.fictivestudios.hush.base.fragment.BaseFragment
 import com.fictivestudios.hush.databinding.FragmentChatDetailBinding
 import com.fictivestudios.hush.ui.activities.CallActivity
+import com.fictivestudios.hush.ui.fragments.auth.otp.OtpVerificationFragmentArgs
 import com.fictivestudios.hush.ui.fragments.main.chat.itemView.RowItemMyChat
 import com.fictivestudios.hush.ui.fragments.main.chat.itemView.RowItemOtherChat
 import com.fictivestudios.hush.utils.PaginationScrollListener
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.getValue
 
 class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnClickListener {
 
     private var _binding: FragmentChatDetailBinding? = null
     val binding
         get() = _binding!!
-    val viewModel: ChatViewModel by viewModels()
 
     private var isItemClick = true
     private var viewTypeArray = ArrayList<ViewType<*>>()
+
+    private val args by navArgs<ChatDetailFragmentArgs>()
+    val viewModel: ChatDetailViewModel by viewModels()
 
     private val adapter by lazy {
         GenericListAdapter(object : OnItemClickListener<ViewType<*>> {
@@ -72,6 +78,8 @@ class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnC
     }
 
     override fun initialize() {
+        Log.d("ChatDetail",args.userId)
+        viewModel.getUserData(args.userId)
         setRecyclerView()
     }
 
@@ -90,6 +98,7 @@ class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnC
 
     override fun setOnClickListener() {
         binding.imageViewCall.setOnClickListener(this)
+        binding.imageViewSent.setOnClickListener(this)
         binding.imageViewBack.setOnClickListener(this)
     }
 
@@ -102,6 +111,9 @@ class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnC
 
             binding.imageViewBack.id -> {
                 findNavController().popBackStack()
+            }
+            binding.imageViewSent.id -> {
+                viewModel.sendSms(binding.textInputEditTextMessage.text.toString(),viewModel.userData!!._id!!,args.userId)
             }
         }
     }

@@ -9,7 +9,6 @@ import com.fictivestudios.hush.base.adapter.ViewType
 import com.fictivestudios.hush.data.responses.Contacts
 import com.fictivestudios.hush.databinding.RowItemAddressBinding
 import com.fictivestudios.hush.utils.Constants
-import com.fictivestudios.hush.utils.showToast
 
 class RowItemAddress(
     private val data: Contacts, private val listener: OnItemCLick
@@ -28,7 +27,7 @@ class RowItemAddress(
         (bi as RowItemAddressBinding).also { binding ->
             binding.textViewUserName.text = data.fname + " " + data.lname
             val url = Constants.IMAGE_BASE_URL + data.contactImage
-            if (data.contactImage == null) {
+            if (data.contactImage.isNullOrEmpty()) {
                 binding.imageViewUser.setImageResource(R.drawable.person)
             } else {
                 Glide.with(binding.imageViewUser.context)
@@ -38,10 +37,10 @@ class RowItemAddress(
             }
 
             binding.imageViewCall.setOnClickListener {
-                showToast(binding.imageViewCall.context, "Will be implement in next phase")
+                listener.onClickCall(data)
             }
             binding.imageViewMessage.setOnClickListener {
-                showToast(binding.imageViewCall.context, "Will be implement in next phase")
+                listener.onClickMessage(data._id)
             }
             binding.cardViewUser.setOnClickListener {
                 listener.onClick(data._id)
@@ -52,6 +51,8 @@ class RowItemAddress(
 
 }
 
-fun interface OnItemCLick {
+interface OnItemCLick {
     fun onClick(id: String)
+    fun onClickCall(data: Contacts)
+    fun onClickMessage(id: String)
 }
