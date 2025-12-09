@@ -11,9 +11,11 @@ import com.fictivestudios.hush.data.responses.LoginUserResponse
 import com.fictivestudios.hush.data.responses.Message
 import com.fictivestudios.hush.data.responses.SmsMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,16 +29,30 @@ class ChatDetailViewModel @Inject constructor(
 
     var userData: LoginUserResponse? = null
 
-    fun getUserData(contactId : String) = viewModelScope.launch {
+    fun getUserData(contactId: String) = viewModelScope.launch {
         userData = getLoginUserData()
-        userData?.let { init(it._id!!,contactId) }
+        userData?.let { init(it._id!!, contactId) }
     }
 
-    fun sendSms(message: String,userId: String,contactId: String){
-        repository.sendMessage(message,userId,contactId)
+    fun sendSms(
+        message: String, userId: String, contactId: String, onSuccess: () -> Unit,
+        onError: (JSONObject) -> Unit
+    ) {
+        repository.sendMessage(
+            message, userId, contactId, onSuccess = {
+                val newMessage = _messages.value + it
+                _messages.value = newMessage
+                onSuccess()
+            },
+            onError = {
+                viewModelScope.launch(Dispatchers.Main) {
+                    onError(it)
+                }
+            }
+        )
     }
 
-    fun init(userId: String,contactId : String) {
+    fun init(userId: String, contactId: String) {
 
         repository.initSocket(
             userId,

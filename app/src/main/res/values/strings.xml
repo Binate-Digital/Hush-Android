@@ -37,4 +37,6 @@
     <string name="google_client_token">285601646974-nebj9q651i99jadj220gsfdi3rmtaqau.apps.googleusercontent.com</string>
     <string name="permission_required">Permission required</string>
     <string name="channelId">111</string>
+    <string name="profile_has_been_updated_successfully">Profile has been updated successfully.</string>
+    <string name="contact_has_been_created_successfully">Contact has been created successfully.</string>
 </resources>

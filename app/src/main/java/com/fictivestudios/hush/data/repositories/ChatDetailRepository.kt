@@ -1,6 +1,5 @@
 package com.fictivestudios.hush.data.repositories
 
-import android.util.Log
 import com.fictivestudios.hush.base.network.SocketManager
 import com.fictivestudios.hush.base.preference.DataPreference
 import com.fictivestudios.hush.base.repository.BaseRepository
@@ -32,8 +31,6 @@ class ChatDetailRepository @Inject constructor(
         socketManager.listen("response") { data ->
             val jsonObj = data
             val dataArray = jsonObj.optJSONArray("data") ?: return@listen
-            Log.d("chat chit","$dataArray")
-            Log.d("chat chit2","$jsonObj")
             val chatList = dataArray.toChatInboxList()
             onSuccess(chatList)
         }
@@ -51,12 +48,37 @@ class ChatDetailRepository @Inject constructor(
         socketManager.emit("get_sms_messages", json)
     }
 
-    fun sendMessage(message: String,userId: String,contactId: String) {
+    fun sendMessage(
+        message: String,
+        userId: String,
+        contactId: String,
+        onSuccess: (SmsMessage) -> Unit,
+        onError: (JSONObject) -> Unit
+    ) {
 
         val json = JSONObject().apply {
             put("user_id", userId)
             put("contact_id", contactId)
             put("message", message)
+        }
+
+
+        socketManager.listen("response") { obj ->
+            val dataObj = obj.optJSONObject("data") ?: return@listen
+
+            val sms = SmsMessage(
+                sender = dataObj.optString("sender"),
+                message = dataObj.optString("message"),
+                timestamp = dataObj.optString("timestamp"),
+                twilioMessageSid = dataObj.optString("twilioMessageSid"),
+                _id = generateRandomId()
+            )
+            onSuccess(sms)
+        }
+
+        // Listen for error
+        socketManager.listen("error") { data ->
+            onError(data)
         }
         socketManager.emit("send_sms_message", json)
     }
@@ -79,5 +101,13 @@ class ChatDetailRepository @Inject constructor(
         }
 
         return chats
+    }
+
+    fun generateRandomId(): String {
+        val chars = "0123456789abcdef"
+        val length = 24
+        return (1..length)
+            .map { chars.random() }
+            .joinToString("")
     }
 }

@@ -2,12 +2,12 @@ package com.fictivestudios.hush.ui.fragments.main.address
 
 import android.app.AlertDialog
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.graphics.drawable.toDrawable
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -18,16 +18,13 @@ import com.fictivestudios.hush.databinding.DialogProfileBinding
 import com.fictivestudios.hush.databinding.FragmentNewContactBinding
 import com.fictivestudios.hush.ui.activities.DashBoardActivity
 import com.fictivestudios.hush.utils.AttachmentTypeEnum
-import com.fictivestudios.hush.utils.UsPhoneNumberFormatter
 import com.fictivestudios.hush.utils.gallery.GalleryBottomSheet
 import com.fictivestudios.hush.utils.gallery.OnImageSelect
 import com.fictivestudios.hush.utils.setSafeOnClickListener
-import com.google.android.material.textfield.TextInputEditText
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
-import java.lang.ref.WeakReference
 
 class CreateNewContactFragment : BaseFragment(R.layout.fragment_new_contact), View.OnClickListener {
 
@@ -65,7 +62,10 @@ class CreateNewContactFragment : BaseFragment(R.layout.fragment_new_contact), Vi
         setOnClickListener()
     }
 
-    override fun initialize() {}
+    override fun initialize() {
+        binding.ccp.registerCarrierNumberEditText(binding.textInputEditTextPhoneNo)
+        binding.ccp.setNumberAutoFormattingEnabled(true)
+    }
 
     override fun setOnClickListener() {
         binding.imageViewBack.setOnClickListener(this)
@@ -73,10 +73,6 @@ class CreateNewContactFragment : BaseFragment(R.layout.fragment_new_contact), Vi
         binding.userPersonImageView.setOnClickListener(this)
         binding.cameraImageView.setOnClickListener(this)
 
-        val addLineNumberFormatter = UsPhoneNumberFormatter(
-            WeakReference<TextInputEditText>(binding.textInputEditTextPhoneNo)
-        )
-        binding.textInputEditTextPhoneNo.addTextChangedListener(addLineNumberFormatter)
     }
 
     override fun setObserver() {
@@ -144,7 +140,6 @@ class CreateNewContactFragment : BaseFragment(R.layout.fragment_new_contact), Vi
     private fun createContact() {
         val fullName = binding.textInputEditTextFullName.text.toString().trim()
         val lastName = binding.textInputEditTextLastName.text.toString().trim()
-        val phoneNo = binding.textInputEditTextPhoneNo.text.toString().trim()
         val notes = binding.textInputEditTextNotes.text.toString().trim()
 
         if (fullName.isEmpty()) {
@@ -155,15 +150,16 @@ class CreateNewContactFragment : BaseFragment(R.layout.fragment_new_contact), Vi
             showToast("Last name field can't be empty.")
             return
         }
-        if (phoneNo.isEmpty()) {
-            showToast("Phone number field is required.")
+        if (binding.textInputEditTextPhoneNo.text.toString().trim().isEmpty()) {
+            showToast("Phone Number field can't be empty")
             return
         }
 
-        if (phoneNo.length < 13) {
-            showToast("Invalid Phone Number")
+        if (!binding.ccp.isValidFullNumber) {
+            showToast("Please enter a valid Phone Number")
             return
         }
+
 
         val requestFile = contactImage?.asRequestBody("image/*".toMediaTypeOrNull())
         val imagePart = (if (contactImage == null) null else requestFile!!)?.let {
@@ -173,7 +169,7 @@ class CreateNewContactFragment : BaseFragment(R.layout.fragment_new_contact), Vi
             )
         }
 
-        viewModel.createContactApi(fullName, lastName, phoneNo, notes, imagePart)
+        viewModel.createContactApi(fullName, lastName, binding.ccp.fullNumberWithPlus, notes, imagePart)
         binding.progress.show()
         disableUserTouch()
     }
@@ -187,11 +183,11 @@ class CreateNewContactFragment : BaseFragment(R.layout.fragment_new_contact), Vi
             false
         )
         dialog?.let { dialog ->
-            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.window!!.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
             dialog.setView(dialogProfileCompletedBinding!!.root)
             dialog.setCancelable(false)
             dialogProfileCompletedBinding?.textViewDes?.text =
-                "Contact has been created successfully."
+                getString(R.string.contact_has_been_created_successfully)
 
             dialogProfileCompletedBinding!!.imageViewCancel.gone()
 

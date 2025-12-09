@@ -39,8 +39,6 @@ class AddressFragment : BaseFragment(R.layout.fragment_address), View.OnClickLis
     val binding
         get() = _binding!!
     val viewModel: AddressViewModel by viewModels()
-    private var isToastShow = false
-
     private var isItemClick = true
     private var viewTypeArray = ArrayList<ViewType<*>>()
 
@@ -105,10 +103,6 @@ class AddressFragment : BaseFragment(R.layout.fragment_address), View.OnClickLis
             binding.swipeRefreshLayout.isRefreshing = false
             when (it) {
                 is Resource.Success -> {
-                    if (!isToastShow) {
-                        requireActivity().runOnUiThread { showToast(it.value.message) }
-                        isToastShow = true
-                    }
                     viewTypeArray.clear()
                     it.value.data?.let { data ->
                         if (data.contacts.isNotEmpty()) {
@@ -254,10 +248,10 @@ class AddressFragment : BaseFragment(R.layout.fragment_address), View.OnClickLis
         startActivity(intent)
     }
 
-    override fun onClickMessage(id: String) {
+    override fun onClickMessage(data: Contacts) {
         findNavController().navigate(
             AddressFragmentDirections.actionAddressFragmentToChatDetailFragment(
-                id
+                data._id,data.contactImage?:"",data.fname+ " "+ data.fname
             )
         )
     }

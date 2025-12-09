@@ -5,6 +5,9 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.ViewCompat
+import androidx.core.view.WindowInsetsCompat
+import androidx.core.view.updatePadding
 import androidx.fragment.app.DialogFragment
 import com.fictivestudios.hush.R
 import com.fictivestudios.hush.databinding.FragmentCropBinding
@@ -31,6 +34,12 @@ class CropFragment(private val imageUri: Uri, val listener: ImageCrop) : DialogF
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentCropBinding.inflate(inflater)
+        ViewCompat.setOnApplyWindowInsetsListener(binding.root) { view, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            view.updatePadding(top = systemBars.top, bottom = systemBars.bottom)
+            insets
+        }
+
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
     }

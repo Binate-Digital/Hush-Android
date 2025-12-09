@@ -1,5 +1,6 @@
 package com.fictivestudios.hush.ui.fragments.main.profile
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.fictivestudios.hush.base.fragment.BaseFragment
 import com.fictivestudios.hush.base.response.Resource
 import com.fictivestudios.hush.data.responses.ContactResponse
 import com.fictivestudios.hush.databinding.FragmentUserProfileBinding
+import com.fictivestudios.hush.ui.activities.CallActivity
 import com.fictivestudios.hush.ui.activities.DashBoardActivity
 import com.fictivestudios.hush.utils.BlockUserBottomSheet
 import com.fictivestudios.hush.utils.Constants
@@ -26,6 +28,8 @@ class UserProfileFragment : BaseFragment(R.layout.fragment_user_profile), View.O
     val viewModel: ProfileViewModel by viewModels()
     private var bottomSheet: BlockUserBottomSheet? = null
     private val args by navArgs<UserProfileFragmentArgs>()
+
+    private var userData: ContactResponse? = null
     private var userImage = ""
 
     override fun onCreateView(
@@ -52,6 +56,7 @@ class UserProfileFragment : BaseFragment(R.layout.fragment_user_profile), View.O
 
     override fun initialize() {
         viewModel.getContactUserProfile(args.userId)
+        viewModel.getUserData()
         binding.progress.show()
     }
 
@@ -62,7 +67,8 @@ class UserProfileFragment : BaseFragment(R.layout.fragment_user_profile), View.O
                 is Resource.Success -> {
                     binding.progress.hide()
                     data.value.data?.let {
-                        setUserProfile(it)
+                        userData = it
+                        setUserProfile()
                     }
                     showToast(data.value.message)
                 }
@@ -162,7 +168,6 @@ class UserProfileFragment : BaseFragment(R.layout.fragment_user_profile), View.O
         binding.buttonMessage.setOnClickListener(this)
     }
 
-
     override fun onClick(v: View?) {
         when (v?.id) {
             binding.imageViewMoreOption.id -> {
@@ -181,8 +186,39 @@ class UserProfileFragment : BaseFragment(R.layout.fragment_user_profile), View.O
                 )
             }
 
-            binding.buttonCall.id, binding.buttonMessage.id -> {
-                showToast("Will be implement in next phase.")
+            binding.buttonMessage.id -> {
+                userData?.let {
+                    findNavController().navigate(
+                        UserProfileFragmentDirections.actionUserProfileFragmentToChatDetailFragment(
+                            it._id,it.contactImage?:"",it.fullName
+                        )
+                    )
+                }
+            }
+
+            binding.buttonCall.id -> {
+                if (viewModel.userData?.purchasedTwilioSid.isNullOrEmpty()) {
+                    showToast("Please register phone number first")
+                    findNavController().navigate(R.id.registerPhoneNo)
+                    return
+                }
+                if (userData?.phone.isNullOrEmpty()) {
+                    showToast("Invalid phone Number")
+                    return
+                }
+                val phoneNo = userData?.phone
+                val intent = Intent(requireActivity(), CallActivity::class.java)
+                intent.putExtra(
+                    "phone_no",
+                    phoneNo
+                )
+
+                intent.putExtra(
+                    "token",
+                    viewModel.callToken
+                )
+                intent.putExtra("user_name", viewModel.userData?.name)
+                startActivity(intent)
             }
 
             binding.imageViewBack.id -> {
@@ -205,24 +241,26 @@ class UserProfileFragment : BaseFragment(R.layout.fragment_user_profile), View.O
         }
     }
 
-    private fun setUserProfile(data: ContactResponse) {
-        binding.userNameTextView.text = data.fullName
-        binding.phoneNoTextView.text = data.phone
-        if (data.notes == "" || data.notes == null) {
-            binding.notesCardView.gone()
-        } else {
-            binding.textViewNotes.text = data.notes
-        }
+    private fun setUserProfile() {
+        userData?.let { data ->
+            binding.userNameTextView.text = data.fullName
+            binding.phoneNoTextView.text = data.phone
+            if (data.notes == "" || data.notes == null) {
+                binding.notesCardView.gone()
+            } else {
+                binding.textViewNotes.text = data.notes
+            }
 
-        val url = Constants.IMAGE_BASE_URL + data.contactImage
-        userImage = data.contactImage ?: ""
-        if (data.contactImage == null) {
-            binding.userPersonImageView.setImageResource(R.drawable.person)
-        } else {
-            Glide.with(binding.userPersonImageView.context)
-                .load(url).placeholder(R.drawable.person)
-                .into(binding.userPersonImageView)
+            val url = Constants.IMAGE_BASE_URL + data.contactImage
+            userImage = data.contactImage ?: ""
+            if (data.contactImage == null) {
+                binding.userPersonImageView.setImageResource(R.drawable.person)
+            } else {
+                Glide.with(binding.userPersonImageView.context)
+                    .load(url).placeholder(R.drawable.person)
+                    .into(binding.userPersonImageView)
 
+            }
         }
     }
 }

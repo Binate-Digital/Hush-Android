@@ -2,15 +2,16 @@ package com.fictivestudios.hush.ui.fragments.main.chat
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.bumptech.glide.Glide
 import com.fictivestudios.hush.R
 import com.fictivestudios.hush.base.adapter.GenericListAdapter
 import com.fictivestudios.hush.base.adapter.OnItemClickListener
@@ -18,10 +19,9 @@ import com.fictivestudios.hush.base.adapter.ViewType
 import com.fictivestudios.hush.base.fragment.BaseFragment
 import com.fictivestudios.hush.databinding.FragmentChatDetailBinding
 import com.fictivestudios.hush.ui.activities.CallActivity
-import com.fictivestudios.hush.ui.fragments.auth.otp.OtpVerificationFragmentArgs
-import com.fictivestudios.hush.ui.fragments.main.chat.itemView.RowItemChatList
 import com.fictivestudios.hush.ui.fragments.main.chat.itemView.RowItemMyChat
 import com.fictivestudios.hush.ui.fragments.main.chat.itemView.RowItemOtherChat
+import com.fictivestudios.hush.utils.Constants
 import com.fictivestudios.hush.utils.PaginationScrollListener
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -79,9 +79,13 @@ class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnC
     }
 
     override fun initialize() {
-        Log.d("ChatDetail",args.userId)
-        viewModel.getUserData(args.userId)
+        Glide.with(requireContext())
+            .load(Constants.IMAGE_BASE_URL + args.userImage)
+            .placeholder(R.drawable.person)
+            .into(binding.imageViewUser)
+        binding.textViewUserName.text = args.userName
         setRecyclerView()
+        viewModel.getUserData(args.userId)
     }
 
 
@@ -89,17 +93,29 @@ class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnC
 
         lifecycleScope.launch {
             viewModel.messages.collect { list ->
-                viewTypeArray.clear()
-                Log.d("UserId","${viewModel.userData?._id}")
-                for (data in list) {
-                    if(data.sender == "user"){
-                        viewTypeArray.add(RowItemMyChat(data))
-                    }else{
-                        viewTypeArray.add(RowItemOtherChat(data))
+                requireActivity().runOnUiThread {
+                    viewTypeArray.clear()
+                    for (data in list) {
+                        if (data.sender == "user") {
+                            viewTypeArray.add(
+                                RowItemMyChat(
+                                    data,
+                                    viewModel.userData?.profileImage ?: ""
+                                )
+                            )
+                        } else {
+                            viewTypeArray.add(RowItemOtherChat(data, args.userImage))
+                        }
+                    }
+                    adapter.items = viewTypeArray
+                    // 🔥 Scroll to bottom after items updated
+                    binding.recyclerView.post {
+                        if (adapter.itemCount > 0) {
+                            binding.recyclerView.scrollToPosition(adapter.itemCount - 1)
+                        }
                     }
                 }
-                adapter.items = viewTypeArray
-                Log.d("Socket IO Message", "$list")
+
             }
         }
     }
@@ -120,8 +136,29 @@ class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnC
             binding.imageViewBack.id -> {
                 findNavController().popBackStack()
             }
+
             binding.imageViewSent.id -> {
-                viewModel.sendSms(binding.textInputEditTextMessage.text.toString(),viewModel.userData!!._id!!,args.userId)
+                if(binding.textInputEditTextMessage.text.toString().isNotEmpty()){
+                    viewModel.sendSms(
+                        binding.textInputEditTextMessage.text.toString(),
+                        viewModel.userData!!._id!!,
+                        args.userId,
+                        {
+                            if (isAdded) {
+                                activity?.runOnUiThread {
+                                    binding.textInputEditTextMessage.text?.clear()
+                                }
+                            }
+                        },
+                        {
+                            if (isAdded) {
+                                activity?.runOnUiThread {
+                                    Toast.makeText(requireContext(), "SomeThing Went Wrong", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                        }
+                    )
+                }
             }
         }
     }

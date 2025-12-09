@@ -55,7 +55,7 @@
             android:layout_height="57dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="2dp"
-            app:cardBackgroundColor="@color/white"
+            app:cardBackgroundColor="@color/edit_text_labeled"
             app:cardCornerRadius="10dp"
             app:layout_constraintEnd_toStartOf="@+id/textInputLayoutPhone"
             app:layout_constraintStart_toStartOf="parent"
@@ -69,6 +69,8 @@
                 android:layout_height="wrap_content"
                 android:paddingVertical="5dp"
                 app:ccp_textSize="14sp"
+                app:ccp_arrowColor="@color/text_labeled"
+                app:ccp_contentColor="@color/text_labeled"
                 android:layout_gravity="center"
                 app:ccp_autoDetectCountry="true" />
         </com.google.android.material.card.MaterialCardView>

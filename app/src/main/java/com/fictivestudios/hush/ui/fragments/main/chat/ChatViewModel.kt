@@ -22,8 +22,6 @@ class ChatViewModel @Inject constructor(
     private val _messages = MutableStateFlow<List<ChatInbox>>(emptyList())
     val messages: StateFlow<List<ChatInbox>> = _messages
 
-    var messageList = ArrayList<Message>()
-
     var userData: LoginUserResponse? = null
 
     fun getUserData() = viewModelScope.launch {

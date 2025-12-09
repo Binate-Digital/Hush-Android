@@ -49,10 +49,7 @@ class LoginWithPhoneFragment : BaseFragment(R.layout.fragment_login_with_phone),
     override fun initialize() {
         binding.ccp.registerCarrierNumberEditText(binding.textInputEditTextPhoneNo)
         binding.ccp.setNumberAutoFormattingEnabled(true)
-//        val addLineNumberFormatter = UsPhoneNumberFormatter(
-//            WeakReference<TextInputEditText>(binding.textInputEditTextPhoneNo)
-//        )
-//        binding.textInputEditTextPhoneNo.addTextChangedListener(addLineNumberFormatter)
+
     }
 
     override fun setObserver() {

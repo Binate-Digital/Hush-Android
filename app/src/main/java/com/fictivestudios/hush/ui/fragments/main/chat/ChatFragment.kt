@@ -38,8 +38,14 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat), SwipeRefreshLayout.On
                         (data as ChatInbox).also {
                             if (isItemClick) {
                                 isItemClick = false
-                                data.contactId?.let{
-                                    findNavController().navigate(ChatFragmentDirections.actionChatFragmentToChatDetailFragment(it))
+                                data.let {
+                                    findNavController().navigate(
+                                        ChatFragmentDirections.actionChatFragmentToChatDetailFragment(
+                                            it.contactId ?: "",
+                                            it.contactImage ?: "",
+                                            it.contactName ?: ""
+                                        )
+                                    )
                                 }
                             }
                             delay(1000)
@@ -97,21 +103,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat), SwipeRefreshLayout.On
 
     private fun setRecyclerView() {
         binding.recyclerView.adapter = adapter
-//        val linearLayoutManager = binding.recyclerView.layoutManager as LinearLayoutManager
-//        binding.recyclerView.addOnScrollListener(object :
-//            PaginationScrollListener(linearLayoutManager) {
-//            override fun onScrolled(dy: Int) {
-//            }
-//
-//            override fun loadMoreItems() {
-//                // viewModel.loadNextPage()
-//            }
-//        })
     }
-
-//    override fun onClick() {
-//        findNavController().navigate(ChatFragmentDirections.actionChatFragmentToUserProfileFragment(""))
-//    }
 
     override fun onRefresh() {
         binding.swipeRefreshLayout.isRefreshing = false

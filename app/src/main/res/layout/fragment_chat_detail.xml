@@ -104,7 +104,7 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-
+<!--
         <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
             android:id="@+id/swipeRefreshLayout"
             android:layout_width="match_parent"
@@ -113,11 +113,16 @@
             app:layout_constraintBottom_toTopOf="@id/textInputLayoutMessage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/actionBar">
+            app:layout_constraintTop_toBottomOf="@id/actionBar">-->
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="0dp"
+                android:layout_marginTop="10dp"
+                app:layout_constraintBottom_toTopOf="@id/textInputLayoutMessage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/actionBar">
 
                 <com.kennyc.view.MultiStateView
                     android:id="@+id/multiStateView"
@@ -156,7 +161,7 @@
                     </FrameLayout>
                 </com.kennyc.view.MultiStateView>
             </androidx.constraintlayout.widget.ConstraintLayout>
-        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+      <!--  </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>-->
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/textInputLayoutMessage"

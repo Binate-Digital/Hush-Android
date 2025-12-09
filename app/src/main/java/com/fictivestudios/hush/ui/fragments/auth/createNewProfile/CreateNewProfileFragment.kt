@@ -2,7 +2,6 @@ package com.fictivestudios.hush.ui.fragments.auth.createNewProfile
 
 import android.app.AlertDialog
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -37,6 +36,7 @@ import okhttp3.MultipartBody
 import okhttp3.RequestBody.Companion.asRequestBody
 import java.io.File
 import java.lang.ref.WeakReference
+import androidx.core.graphics.drawable.toDrawable
 
 class CreateNewProfileFragment : BaseFragment(R.layout.fragment_create_new_profile),
     View.OnClickListener, MapDialog.MapDialogListener {
@@ -51,7 +51,6 @@ class CreateNewProfileFragment : BaseFragment(R.layout.fragment_create_new_profi
     private var profileImage: File? = null
     private var lat: Double = 0.0
     private var long: Double = 0.0
-
     private var dialogProfileCompletedBinding: DialogProfileBinding? = null
     private var dialog: AlertDialog? = null
 
@@ -82,7 +81,8 @@ class CreateNewProfileFragment : BaseFragment(R.layout.fragment_create_new_profi
         if (args.name != "") {
             binding.textInputEditTextFullName.setText(args.name)
         }
-
+        binding.ccp.registerCarrierNumberEditText(binding.textInputEditTextPhoneNo)
+        binding.ccp.setNumberAutoFormattingEnabled(true)
         if (args.phoneNo != "") {
             binding.textInputEditTextPhoneNo.setText(args.phoneNo)
             binding.textInputEditTextPhoneNo.isEnabled = false
@@ -175,7 +175,6 @@ class CreateNewProfileFragment : BaseFragment(R.layout.fragment_create_new_profi
 
     private fun createNewProfile() {
 
-        val phoneNo = binding.textInputEditTextPhoneNo.text.toString().trim()
         val fullName = binding.textInputEditTextFullName.text.toString().trim()
         val address = binding.textInputEditTextLocation.text.toString().trim()
         val description = binding.textInputEditTextDescription.text.toString().trim()
@@ -186,12 +185,13 @@ class CreateNewProfileFragment : BaseFragment(R.layout.fragment_create_new_profi
         }
 
 
-        if (phoneNo.isEmpty()) {
-            showToast("Phone number field can't be empty")
+        if (binding.textInputEditTextPhoneNo.text.toString().trim().isEmpty()) {
+            showToast("Phone Number field can't be empty")
             return
         }
-        if (phoneNo.length > 15) {
-            showToast("Invalid Phone Number")
+
+        if (!binding.ccp.isValidFullNumber) {
+            showToast("Please enter a valid Phone Number")
             return
         }
 
@@ -210,7 +210,7 @@ class CreateNewProfileFragment : BaseFragment(R.layout.fragment_create_new_profi
         binding.progress.show()
         viewModel.createNewProfileApi(
             name = fullName,
-            phoneNo = phoneNo,
+            phoneNo = binding.ccp.fullNumberWithPlus,
             profileImage = imagePart,
             description = description,
             lat = lat.toString(),
@@ -252,7 +252,7 @@ class CreateNewProfileFragment : BaseFragment(R.layout.fragment_create_new_profi
             false
         )
         dialog?.let { dialog ->
-            dialog.window!!.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+            dialog.window!!.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
             dialog.setView(dialogProfileCompletedBinding!!.root)
             dialog.setCancelable(false)
 

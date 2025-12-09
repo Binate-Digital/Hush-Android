@@ -49,7 +49,7 @@
                 android:layout_margin="20dp"
                 android:fontFamily="@font/montserrat"
                 android:text="Preview"
-                android:textColor="@color/black"
+                android:textColor="@color/text_labeled"
                 android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"

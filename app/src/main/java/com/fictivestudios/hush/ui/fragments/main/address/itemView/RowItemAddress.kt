@@ -40,7 +40,7 @@ class RowItemAddress(
                 listener.onClickCall(data)
             }
             binding.imageViewMessage.setOnClickListener {
-                listener.onClickMessage(data._id)
+                listener.onClickMessage(data)
             }
             binding.cardViewUser.setOnClickListener {
                 listener.onClick(data._id)
@@ -54,5 +54,5 @@ class RowItemAddress(
 interface OnItemCLick {
     fun onClick(id: String)
     fun onClickCall(data: Contacts)
-    fun onClickMessage(id: String)
+    fun onClickMessage(data: Contacts)
 }

@@ -13,7 +13,8 @@ import com.fictivestudios.hush.databinding.RowItemOtherMessageBinding
 import com.fictivestudios.hush.utils.Constants
 
 class RowItemOtherChat(
-    private val data: SmsMessage
+    private val data: SmsMessage,
+    private val image: String,
 ) : ViewType<SmsMessage> {
 
     override fun layoutId(): Int {
@@ -32,9 +33,11 @@ class RowItemOtherChat(
     override fun bind(bi: ViewDataBinding, position: Int, onClickListener: OnItemClickListener<*>) {
         (bi as RowItemOtherMessageBinding).also { binding ->
             Glide.with(binding.imageViewUser.context)
-                .load(Constants.IMAGE_BASE_URL + "null").placeholder(R.drawable.person)
+                .load(Constants.IMAGE_BASE_URL + image)
+                .placeholder(R.drawable.person)
                 .into(binding.imageViewUser)
             binding.textViewMessage.text = data.message
+
         }
     }
 

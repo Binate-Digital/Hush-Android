@@ -54,6 +54,13 @@ ProfileViewModel @Inject constructor(private val repository: AuthRepository) :
     val contactUserProfileResponse: LiveData<Resource<BaseNetworkResponse<ContactResponse>>?>
         get() = _contactUserProfileResponse
 
+    var userData: LoginUserResponse? = null
+    var callToken: String? = null
+    fun getUserData()= viewModelScope.launch {
+        userData = getLoginUserData()
+        callToken = getCallToken()
+    }
+
 
     fun createNewProfileApi(
         name: String,
