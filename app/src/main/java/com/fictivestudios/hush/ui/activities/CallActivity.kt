@@ -77,7 +77,7 @@ class CallActivity : BaseActivity(), View.OnClickListener {
         userPhoneNo = intent.getStringExtra("phone_no") ?: ""
         token = intent.getStringExtra("token") ?: ""
         userName = intent.getStringExtra("user_name") ?: ""
-        viewModel.init()
+
         binding.textViewUserName.text = userName
         setContentView(binding.root)
         initialize()
@@ -93,6 +93,7 @@ class CallActivity : BaseActivity(), View.OnClickListener {
 
 
     override fun initialize() {
+
         if (!checkAudioCallPermission()) {
             requestCallPermission()
         } else {
@@ -199,23 +200,30 @@ class CallActivity : BaseActivity(), View.OnClickListener {
             this.finish()
         }
 
-        val params = hashMapOf<String, String>()
-        val from = viewModel.userData?.phone ?: ""
-        Log.d("from", from)
-        params["From"] = from
-        params["To"] = phoneNumber
-        Voice.enableInsights(true)
-//        Voice.setRegion(region)
-        val connectOptions = ConnectOptions.Builder(token)
-            .params(params)
-            .build()
-        activeCall = Voice.connect(this, connectOptions, OutgoingCallListener())
+        viewModel.init{ phone,tokens->
+            phone?.let {
+                val params = hashMapOf<String, String>()
+                val from = it
+                Log.d("from",from)
+                Log.d("from", from)
+                params["from"] = from
+                params["to"] = phoneNumber
+                Voice.enableInsights(true)
+                val connectOptions = ConnectOptions.Builder(token)
+                    .params(params)
+                    .build()
+                activeCall = Voice.connect(this, connectOptions, OutgoingCallListener())
+            }?: showToast("phone no null")
+
+        }
+
+
     }
 
     private inner class OutgoingCallListener : Call.Listener {
         override fun onConnectFailure(call: Call, callException: CallException) {
-            Log.d("TAG", "onConnectFailure: connect fail")
-            showToast("Call Failed")
+            Log.d("TAG", "onConnectFailure: connect fail $callException")
+            showToast("Call Failed $callException")
             finish()
         }
 
@@ -246,7 +254,7 @@ class CallActivity : BaseActivity(), View.OnClickListener {
         }
 
         override fun onDisconnected(call: Call, callException: CallException?) {
-            Log.d("TAG", "onDisconnected: ondisconnected")
+            Log.d("TAG", "onDisconnected: ondisconnected $callException")
             activeCall = call
             finish()
         }

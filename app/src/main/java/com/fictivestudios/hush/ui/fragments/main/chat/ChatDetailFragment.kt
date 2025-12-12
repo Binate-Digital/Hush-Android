@@ -1,11 +1,16 @@
 package com.fictivestudios.hush.ui.fragments.main.chat
 
+import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -17,15 +22,24 @@ import com.fictivestudios.hush.base.adapter.GenericListAdapter
 import com.fictivestudios.hush.base.adapter.OnItemClickListener
 import com.fictivestudios.hush.base.adapter.ViewType
 import com.fictivestudios.hush.base.fragment.BaseFragment
+import com.fictivestudios.hush.databinding.DialogRecoverAccountBinding
 import com.fictivestudios.hush.databinding.FragmentChatDetailBinding
 import com.fictivestudios.hush.ui.activities.CallActivity
 import com.fictivestudios.hush.ui.fragments.main.chat.itemView.RowItemMyChat
 import com.fictivestudios.hush.ui.fragments.main.chat.itemView.RowItemOtherChat
 import com.fictivestudios.hush.utils.Constants
 import com.fictivestudios.hush.utils.PaginationScrollListener
+import com.fictivestudios.hush.utils.setSafeOnClickListener
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.getValue
+import androidx.core.graphics.drawable.toDrawable
+import com.fictivestudios.hush.base.response.Resource
+import com.fictivestudios.hush.ui.activities.DashBoardActivity
+import com.fictivestudios.hush.ui.fragments.auth.PreLoginFragmentDirections
+import com.fictivestudios.hush.ui.fragments.auth.login.LoginProfileVerifiedEnum
+import com.fictivestudios.hush.ui.fragments.auth.login.LoginUserDeleteEnum
+import com.fictivestudios.hush.utils.startNewActivity
 
 class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnClickListener {
 
@@ -35,6 +49,9 @@ class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnC
 
     private var isItemClick = true
     private var viewTypeArray = ArrayList<ViewType<*>>()
+
+    private var dialogChatDeleteBinding: DialogRecoverAccountBinding? = null
+    private var dialog: AlertDialog? = null
 
     private val args by navArgs<ChatDetailFragmentArgs>()
     val viewModel: ChatDetailViewModel by viewModels()
@@ -86,14 +103,34 @@ class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnC
         binding.textViewUserName.text = args.userName
         setRecyclerView()
         viewModel.getUserData(args.userId)
+        Log.d("contactId",args.userId)
     }
 
 
     override fun setObserver() {
 
+        viewModel.deleteChatResponse.observe(viewLifecycleOwner) { data ->
+            when (data) {
+                is Resource.Success -> {
+                    showToast(data.value.message)
+                }
+
+
+                is Resource.Failure -> {
+                    showToast(data.message.toString())
+                }
+
+                is Resource.Loading -> {
+                }
+
+                else -> {}
+            }
+        }
+
         lifecycleScope.launch {
             viewModel.messages.collect { list ->
                 requireActivity().runOnUiThread {
+                    Log.d("chatDetailList","$list")
                     viewTypeArray.clear()
                     for (data in list) {
                         if (data.sender == "user") {
@@ -124,6 +161,7 @@ class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnC
         binding.imageViewCall.setOnClickListener(this)
         binding.imageViewSent.setOnClickListener(this)
         binding.imageViewBack.setOnClickListener(this)
+        binding.imageViewMoreOption.setOnClickListener(this)
     }
 
     override fun onClick(v: View?) {
@@ -137,8 +175,12 @@ class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnC
                 findNavController().popBackStack()
             }
 
+            binding.imageViewMoreOption.id -> {
+                showDeleteDialog(args.userId)
+            }
+
             binding.imageViewSent.id -> {
-                if(binding.textInputEditTextMessage.text.toString().isNotEmpty()){
+                if (binding.textInputEditTextMessage.text.toString().isNotEmpty()) {
                     viewModel.sendSms(
                         binding.textInputEditTextMessage.text.toString(),
                         viewModel.userData!!._id!!,
@@ -153,7 +195,11 @@ class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnC
                         {
                             if (isAdded) {
                                 activity?.runOnUiThread {
-                                    Toast.makeText(requireContext(), "SomeThing Went Wrong", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(
+                                        requireContext(),
+                                        "SomeThing Went Wrong",
+                                        Toast.LENGTH_SHORT
+                                    ).show()
                                 }
                             }
                         }
@@ -176,6 +222,44 @@ class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnC
                 // viewModel.loadNextPage()
             }
         })
+    }
+
+
+    private fun showDeleteDialog(chatId: String) {
+        // Build and show the alert dialog
+        dialog = AlertDialog.Builder(requireContext()).create()
+        dialogChatDeleteBinding = DataBindingUtil.inflate(
+            LayoutInflater.from(requireContext()),
+            R.layout.dialog_recover_account,
+            null,
+            false
+        )
+        dialog?.let { dialog ->
+            dialog.window!!.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
+            dialog.setView(dialogChatDeleteBinding!!.root)
+            dialog.setCancelable(false)
+
+            dialogChatDeleteBinding!!.buttonCancel.setOnClickListener {
+                dialog.dismiss()
+            }
+            dialogChatDeleteBinding!!.buttonDelete.text = getString(R.string.delete)
+            dialogChatDeleteBinding!!.textViewActionTitle.text = getString(R.string.delete_chat)
+            dialogChatDeleteBinding!!.textViewDes.text =
+                getString(R.string.are_you_sure_you_want_to_delete_this_chat)
+
+            dialogChatDeleteBinding!!.buttonDelete.setSafeOnClickListener {
+                viewModel.deleteChatApi(chatId)
+                disableUserTouch()
+                dialog.dismiss()
+
+            }
+
+            dialogChatDeleteBinding!!.imageViewBack.setOnClickListener {
+                dialog.dismiss()
+            }
+
+            dialog.show()
+        }
     }
 
 

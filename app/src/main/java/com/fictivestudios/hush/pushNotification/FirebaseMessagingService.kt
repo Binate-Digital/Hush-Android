@@ -8,18 +8,21 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import com.fictivestudios.hush.base.preference.DataPreference
 import com.fictivestudios.hush.ui.activities.DashBoardActivity
+import com.fictivestudios.hush.ui.activities.IncomingCallActivity
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
+import com.twilio.voice.Voice
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import org.json.JSONObject
 import javax.inject.Inject
 import javax.inject.Singleton
-
+import java.net.URLDecoder
 @Singleton
 @AndroidEntryPoint
-class FirebaseMessagingService : FirebaseMessagingService() {
+class MyFirebaseMessagingService : FirebaseMessagingService() {
     @Inject
     lateinit var notifications: Notification
 
@@ -38,46 +41,39 @@ class FirebaseMessagingService : FirebaseMessagingService() {
 
     }
 
+
     override fun onMessageReceived(remoteMessage: RemoteMessage) {
         super.onMessageReceived(remoteMessage)
-        Log.d("messageType", remoteMessage.data.toString())
-        val notificationType = remoteMessage.data["notificationType"]
-        if (notificationType == "number_notify") {
-            notifications.notify(
-                remoteMessage.notification?.body.toString()
-            )
-            val phoneNumber = remoteMessage.data["phoneNumber"]
-            val status = remoteMessage.data["status"]
-            val sid = remoteMessage.data["sid"]
-            Log.d("notificationType", notificationType.toString())
-            if (status == "success") {
-                applicationScope.launch {
-                    preferences.updatePhoneNoRegisterData(sid ?: "", phoneNumber)
-                    delay(1500)
-                }
+
+        val type = remoteMessage.data["type"]
+        Log.d("FCM DATA TYPE",type.toString())
+        Log.d("FCM DATA remoteMessage",remoteMessage.data.toString())
+        if (type == "incoming_call") {
+
+            // URL-decode the token
+            val encodedToken = remoteMessage.data["twi_token"] ?: ""
+//            val decodedToken = URLDecoder.decode(encodedToken, "UTF-8")
+            val decodedJson = URLDecoder.decode(encodedToken, "UTF-8")
+            val tokenJson = JSONObject(decodedJson)
+            val twilioToken = tokenJson.getString("parentCallInfoToken")
+
+            // If you need JSON object (optional)
+            // val tokenJson = JSONObject(decodedToken)
+
+            val callSid = remoteMessage.data["twi_call_sid"] ?: ""
+            val from = remoteMessage.data["twi_from"] ?: ""
+
+            val intent = Intent(this, IncomingCallActivity::class.java).apply {
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                putExtra("token", twilioToken) // pass decoded token
+                putExtra("callSid", callSid)
+                putExtra("from", from)
             }
-            val isRunning = isAppRunning("com.fictivestudios.hush")
-
-            val intent: Intent?
-            if (isRunning) {
-                intent = Intent(applicationContext, DashBoardActivity::class.java).apply {
-                    putExtra("notificationType", "notificationType")
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                }
-
-            } else {
-                intent = Intent(applicationContext, DashBoardActivity::class.java).apply {
-                    putExtra("notificationType", "notificationType")
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-                }
-                intent.action = "com.fictivestudios.hush.NOTIFICATION_ACTION"
-                intent.action = "android.intent.action.MAIN"
-                intent.action = "android.intent.category.LAUNCHER"
-            }
-
             startActivity(intent)
         }
     }
+
+
 
     private fun isAppRunning(packageName: String): Boolean {
         val activityManager = applicationContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager

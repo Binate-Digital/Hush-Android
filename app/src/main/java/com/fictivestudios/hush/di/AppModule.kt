@@ -6,7 +6,10 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.fictivestudios.hush.base.network.BaseApi
 import com.fictivestudios.hush.base.network.CertificateOkHttpClient
+import com.fictivestudios.hush.base.preference.DataPreference
+import com.fictivestudios.hush.base.repository.BaseRepository
 import com.fictivestudios.hush.utils.Constants.BASE_URL
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,6 +19,7 @@ import kotlinx.coroutines.DelicateCoroutinesApi
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 import javax.inject.Singleton
 
 @Module
@@ -57,8 +61,22 @@ object AppModule {
     fun provideAuthApiService(retrofit: Retrofit): AuthApi {
         return retrofit.create(AuthApi::class.java)
     }
+    @Module
+    @InstallIn(SingletonComponent::class)
+    abstract class RepositoryModule {
 
+        @Binds
+        @Singleton
+        abstract fun bindBaseRepository(
+            impl: BaseRepositoryImpl
+        ): BaseRepository
+    }
 
+    @Singleton
+    class BaseRepositoryImpl @Inject constructor(
+        api: BaseApi,
+        preferences: DataPreference
+    ) : BaseRepository(api, preferences)
 
 //    @Provides
 //    @Singleton

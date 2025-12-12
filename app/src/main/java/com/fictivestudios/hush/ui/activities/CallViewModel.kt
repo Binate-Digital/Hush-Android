@@ -1,5 +1,6 @@
 package com.fictivestudios.hush.ui.activities
 
+import android.util.Log
 import androidx.lifecycle.viewModelScope
 import com.fictivestudios.hush.base.viewModel.BaseViewModel
 import com.fictivestudios.hush.data.repositories.AuthRepository
@@ -16,8 +17,13 @@ class CallViewModel @Inject constructor(val repository: AuthRepository) :
     var callAccessToken = ""
 
 
-    fun init() =  viewModelScope.launch {
+    fun init(onGetData:(String?,String?)->Unit) =  viewModelScope.launch {
         userData = getLoginUserData()
         callAccessToken = getCallToken()
+        onGetData(getLoginUserData()?.purchasedTwilioNumber,getCallToken())
+        Log.d("CallViewModel",callAccessToken)
+        Log.d("CallViewModel userData",userData.toString())
+
     }
+
 }

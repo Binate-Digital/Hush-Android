@@ -113,6 +113,20 @@
         </com.google.android.material.card.MaterialCardView>
 
         <androidx.appcompat.widget.AppCompatImageView
+            android:id="@+id/imageViewAccept"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="20dp"
+            android:padding="20dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_decline"
+            app:layout_constraintBottom_toTopOf="@id/imageViewEndCall"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imageViewEndCall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

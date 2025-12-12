@@ -1,12 +1,18 @@
 package com.fictivestudios.hush.ui.fragments.main.chat
 
 import android.util.Log
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.fictivestudios.hush.base.response.BaseNetworkResponse
+import com.fictivestudios.hush.base.response.Resource
 import com.fictivestudios.hush.base.viewModel.BaseViewModel
+import com.fictivestudios.hush.data.repositories.AuthRepository
 import com.fictivestudios.hush.data.repositories.ChatDetailRepository
 import com.fictivestudios.hush.data.repositories.ChatRepository
 import com.fictivestudios.hush.data.responses.ChatInbox
 import com.fictivestudios.hush.data.responses.ChatListResponse
+import com.fictivestudios.hush.data.responses.LoginUserRequest
 import com.fictivestudios.hush.data.responses.LoginUserResponse
 import com.fictivestudios.hush.data.responses.Message
 import com.fictivestudios.hush.data.responses.SmsMessage
@@ -20,7 +26,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ChatDetailViewModel @Inject constructor(
-    private val repository: ChatDetailRepository
+    private val repository: ChatDetailRepository,
+    private val authRepository: AuthRepository,
 ) : BaseViewModel(repository) {
 
     private val _messages = MutableStateFlow<List<SmsMessage>>(emptyList())
@@ -32,6 +39,17 @@ class ChatDetailViewModel @Inject constructor(
     fun getUserData(contactId: String) = viewModelScope.launch {
         userData = getLoginUserData()
         userData?.let { init(it._id!!, contactId) }
+    }
+
+    private val _deleteChatResponse: MutableLiveData<Resource<BaseNetworkResponse<Unit>>?> =
+        MutableLiveData()
+    val deleteChatResponse: LiveData<Resource<BaseNetworkResponse<Unit>>?>
+        get() = _deleteChatResponse
+
+    fun deleteChatApi(chatId:String) = viewModelScope.launch {
+        _deleteChatResponse.value = Resource.Loading
+        _deleteChatResponse.value = authRepository.deleteChatApi(chatId)
+        _deleteChatResponse.value = null
     }
 
     fun sendSms(

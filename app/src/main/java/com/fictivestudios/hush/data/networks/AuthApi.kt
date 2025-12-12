@@ -12,12 +12,19 @@ import retrofit2.http.Header
 import retrofit2.http.Multipart
 import retrofit2.http.POST
 import retrofit2.http.Part
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface AuthApi : BaseApi {
 
     @POST("api/signin")
     suspend fun login(@Body data: LoginUserRequest): BaseNetworkResponse<SignUpUserResponse>
+
+    @DELETE("user/sms-chats/{id}")
+    suspend fun deleteChat(
+        @Header("Authorization") authToken: String,
+        @Path("id") id: String
+    ): BaseNetworkResponse<Unit>
 
     @POST("api/recoverAccount")
     suspend fun recoverAccount(@Body data: RecoverUserRequest): BaseNetworkResponse<LoginUserResponse>

@@ -1,5 +1,6 @@
 package com.fictivestudios.hush.ui.fragments.auth.login
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -12,6 +13,8 @@ import com.fictivestudios.hush.data.responses.LoginUserResponse
 import com.fictivestudios.hush.data.responses.RecoverUserRequest
 import com.fictivestudios.hush.data.responses.SignUpUserResponse
 import com.fictivestudios.hush.data.responses.SocialLoginRequest
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.firebase.messaging.FirebaseMessaging
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -21,10 +24,14 @@ class LoginViewModel @Inject constructor(private val repository: AuthRepository)
     BaseViewModel(repository) {
 
     var deviceToken = ""
+    var fcmToken:String? = ""
 
-    init {
+    fun init() {
         viewModelScope.launch {
             deviceToken = repository.getDeviceToken()
+            getFirebaseTokenFromFireBase()
+            Log.d("FCM TOKEN FROM LOGIN","$fcmToken")
+
         }
     }
 
@@ -72,5 +79,24 @@ class LoginViewModel @Inject constructor(private val repository: AuthRepository)
         repository.saveLoginUserInfo(userInfo)
         repository.setUserLoggedIn()
     }
+    private fun getFirebaseTokenFromFireBase() {
 
+        FirebaseMessaging.getInstance().token.addOnCompleteListener(OnCompleteListener { task ->
+            if (!task.isSuccessful) {
+                Log.w(
+                    "firebase_token_failed",
+                    "Fetching FCM registration token failed",
+                    task.exception
+                )
+                return@OnCompleteListener
+            }
+
+            // Get new FCM registration token
+            val token = task.result
+
+            Log.d("FCM TOKEN", token!!)
+            fcmToken = token
+
+        })
+    }
 }

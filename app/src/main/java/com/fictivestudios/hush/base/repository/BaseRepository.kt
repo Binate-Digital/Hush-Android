@@ -2,6 +2,7 @@ package com.fictivestudios.hush.base.repository
 
 import android.util.Log
 import com.fictivestudios.hush.base.network.BaseApi
+import com.fictivestudios.hush.base.network.Register
 import com.fictivestudios.hush.base.network.SafeApiCall
 import com.fictivestudios.hush.base.preference.DataPreference
 import com.fictivestudios.hush.base.preference.DataPreference.Companion.USER_INFO
@@ -25,10 +26,14 @@ abstract class BaseRepository(
 
 
     suspend fun getLoginUserData(): LoginUserResponse? {
-        Log.d("GetLogin Data","${Gson().fromJson(
-            preferences.getStringData(USER_INFO),
-            LoginUserResponse::class.java
-        )}")
+        Log.d(
+            "GetLogin Data", "${
+                Gson().fromJson(
+                    preferences.getStringData(USER_INFO),
+                    LoginUserResponse::class.java
+                )
+            }"
+        )
         return Gson().fromJson(
             preferences.getStringData(USER_INFO),
             LoginUserResponse::class.java
@@ -80,6 +85,7 @@ abstract class BaseRepository(
             RegisterPhoneNoData::class.java
         )
     }
+
     suspend fun saveUserPinType(isPinVerified: Int) {
         val user = Gson().fromJson(
             preferences.getStringData(USER_INFO),
@@ -94,6 +100,7 @@ abstract class BaseRepository(
             preferences.getStringData(USER_INFO),
             LoginUserResponse::class.java
         )
+
         user.pinLock = pinLock
         user.fingerprintLock = 0
         user.patternLock = 0
@@ -106,7 +113,7 @@ abstract class BaseRepository(
             LoginUserResponse::class.java
         )
         user.patternLock = patternLock
-        Log.d("repoPattern",patternLock.toString())
+        Log.d("repoPattern", patternLock.toString())
         user.fingerprintLock = 0
         user.pinLock = 0
         preferences.setStringData(USER_INFO, Gson().toJson(user))
@@ -131,6 +138,10 @@ abstract class BaseRepository(
 
     suspend fun logout() = safeApiCall {
         api.logout(preferences.accessToken.first())
+    }
+
+    suspend fun register(token: String) = safeApiCall {
+        api.register(preferences.accessToken.first(), Register(token))
     }
 
 
@@ -163,9 +174,10 @@ abstract class BaseRepository(
         return preferences.deviceToken.first()
     }
 
-    suspend fun setDeviceThemeSelection(value:Boolean) {
+    suspend fun setDeviceThemeSelection(value: Boolean) {
         preferences.setBooleanData(DataPreference.DEVICE_MODE, value)
     }
+
     suspend fun getDeviceThemeSelection(): Boolean {
         return preferences.isDeviceModeDark.first()
     }

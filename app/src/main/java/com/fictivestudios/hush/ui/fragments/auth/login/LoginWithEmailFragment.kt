@@ -56,7 +56,7 @@ class LoginWithEmailFragment : BaseFragment(R.layout.fragment_login_with_email),
         setOnClickListener()
     }
 
-    override fun initialize() {}
+    override fun initialize() {viewModel.init()}
 
     override fun setObserver() {
         viewModel.loginUserResponse.observe(viewLifecycleOwner) { data ->
@@ -168,7 +168,7 @@ class LoginWithEmailFragment : BaseFragment(R.layout.fragment_login_with_email),
         val data =
             LoginUserRequest(
                 binding.textInputEditTextEmail.text.toString().trim(),
-                viewModel.deviceToken,
+                viewModel.fcmToken?:"",
                 "android"
             )
         viewModel.loginUserApi(data)

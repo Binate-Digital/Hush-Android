@@ -46,6 +46,10 @@
             android:name=".ui.activities.CallActivity"
             android:exported="false" />
 
+        <activity
+            android:name=".ui.activities.IncomingCallActivity"
+            android:exported="false" />
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.fictivestudios.hush.fileprovider"
@@ -90,7 +94,7 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/theme_red" />
         <service
-            android:name=".pushNotification.FirebaseMessagingService"
+            android:name=".pushNotification.MyFirebaseMessagingService"
             android:exported="true"
             android:label="service">
             <intent-filter>
