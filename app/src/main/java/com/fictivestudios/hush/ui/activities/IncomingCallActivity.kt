@@ -11,6 +11,7 @@ import androidx.activity.viewModels
 import com.fictivestudios.hush.R
 import com.fictivestudios.hush.base.activity.BaseActivity
 import com.fictivestudios.hush.databinding.ActivityCallBinding
+import com.fictivestudios.hush.pushNotification.CallManager
 import com.twilio.voice.Call
 import com.twilio.voice.CallException
 import com.twilio.voice.CallInvite
@@ -54,7 +55,7 @@ class IncomingCallActivity : BaseActivity(), View.OnClickListener {
     override fun initialize() {
 
         // Get FCM data from intent
-Log.d("init called","called")
+        Log.d("init called","called")
 
         callSid = intent.getStringExtra("callSid") ?: ""
         fromNumber = intent.getStringExtra("from") ?: ""
@@ -75,7 +76,34 @@ Log.d("init called","called")
         binding.cardViewSpeaker.setOnClickListener(this)
         binding.imageViewEndCall.setOnClickListener(this)
         binding.imageViewAccept.setOnClickListener {
-            connectTwilioCall()
+//            connectTwilioCall()
+            val callInvite = CallManager.currentCallInvite
+            if (callInvite != null) {
+                activeCall = callInvite.accept(this, object : Call.Listener {
+                    override fun onConnected(call: Call) {
+                        Log.d("Twilio", "Call connected")
+                    }
+
+                    override fun onReconnecting(
+                        call: Call,
+                        callException: CallException
+                    ) {
+                        Log.d("onReconnecting","called")
+                    }
+
+                    override fun onReconnected(call: Call) {
+                        Log.d("onReconnected","called")
+                        activeCall = call
+                    }
+
+                    override fun onDisconnected(call: Call, error: CallException?) {}
+                    override fun onConnectFailure(call: Call, error: CallException) {}
+                    override fun onRinging(call: Call) {
+                        Log.d("onRinging","called")
+                    }
+                })
+                CallManager.currentCallInvite = null
+            }
             binding.imageViewAccept.visibility = View.GONE
         }
     }
@@ -107,42 +135,42 @@ Log.d("init called","called")
 
 
         viewModel.init{ phone,tokens->
-           if(phone.isNullOrEmpty() || token.isNullOrEmpty()){
-               Log.d("income data null issue","$phone $token")
-           }else{
-               val params = mapOf("callSid" to callSid)
+            if(phone.isNullOrEmpty() || token.isNullOrEmpty()){
+                Log.d("income data null issue","$phone $token")
+            }else{
+                val params = mapOf("callSid" to callSid)
 
-               val connectOptions = ConnectOptions.Builder(token.trim())
-                   .params(params)
-                   .build()
+                val connectOptions = ConnectOptions.Builder(token.trim())
+                    .params(params)
+                    .build()
 
 
 
-               activeCall = Voice.connect(this, connectOptions, object : Call.Listener {
-                   override fun onConnected(call: Call) {
-                       activeCall = call
-                       setupTimer()
-                       enableMicrophone(true)
-                       enableLoudspeaker(false)
-                   }
+                activeCall = Voice.connect(this, connectOptions, object : Call.Listener {
+                    override fun onConnected(call: Call) {
+                        activeCall = call
+                        setupTimer()
+                        enableMicrophone(true)
+                        enableLoudspeaker(false)
+                    }
 
-                   override fun onDisconnected(call: Call, error: CallException?) {
-                       activeCall = null
-                       finish()
-                   }
+                    override fun onDisconnected(call: Call, error: CallException?) {
+                        activeCall = null
+                        finish()
+                    }
 
-                   override fun onConnectFailure(call: Call, error: CallException) {
-                       showToast("Call failed: ${error.message}")
-                       Log.d("income token",error.toString())
-                       activeCall?.disconnect()
-                       finish()
-                   }
+                    override fun onConnectFailure(call: Call, error: CallException) {
+                        showToast("Call failed: ${error.message}")
+                        Log.d("income token",error.toString())
+                        activeCall?.disconnect()
+                        finish()
+                    }
 
-                   override fun onRinging(call: Call) {}
-                   override fun onReconnecting(call: Call, error: CallException) {}
-                   override fun onReconnected(call: Call) {}
-               })
-           }
+                    override fun onRinging(call: Call) {}
+                    override fun onReconnecting(call: Call, error: CallException) {}
+                    override fun onReconnected(call: Call) {}
+                })
+            }
 
         }
 

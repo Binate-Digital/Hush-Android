@@ -17,6 +17,7 @@
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT" />
     <uses-permission
         android:name="android.permission.CAMERA"
         tools:ignore="PermissionImpliesUnsupportedChromeOsHardware" />
@@ -46,9 +47,16 @@
             android:name=".ui.activities.CallActivity"
             android:exported="false" />
 
+<!--        <activity-->
+<!--            android:name=".ui.activities.IncomingCallActivity"-->
+<!--            android:exported="false" />-->
+
         <activity
             android:name=".ui.activities.IncomingCallActivity"
-            android:exported="false" />
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:showWhenLocked="true"
+            android:turnScreenOn="true" />
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -95,8 +103,7 @@
             android:resource="@color/theme_red" />
         <service
             android:name=".pushNotification.MyFirebaseMessagingService"
-            android:exported="true"
-            android:label="service">
+            android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

@@ -1,6 +1,10 @@
 package com.fictivestudios.hush
 
 import android.app.Application
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
+import android.os.Build
 import android.util.Log
 import androidx.activity.viewModels
 import com.fictivestudios.hush.base.network.SocketManager
@@ -31,7 +35,7 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         FirebaseApp.initializeApp(this)
-
+        createCallNotificationChannel(this)
         // Initialize and connect socket immediately
         socketManager.initSocket()
         socketManager.connect()
@@ -57,21 +61,36 @@ class App : Application() {
     }
 
     private fun registerWithTwilio(fcmToken: String, accessToken: String) {
-//        Log.d("App", "Registering with Twilio: accessToken=$accessToken, fcmToken=$fcmToken")
-//
-//        Voice.register(
-//            accessToken,
-//            Voice.RegistrationChannel.FCM,
-//            fcmToken,
-//            object : RegistrationListener {
-//                override fun onRegistered(accessToken: String, fcmToken: String) {
-//                    Log.d("Twilio", "Successfully registered with Twilio")
-//                }
-//
-//                override fun onError(error: RegistrationException, accessToken: String, fcmToken: String) {
-//                    Log.e("Twilio", "Twilio registration failed: ${error.message}")
-//                }
-//            }
-//        )
+        Log.d("App", "Registering with Twilio: accessToken=$accessToken, fcmToken=$fcmToken")
+
+        Voice.register(
+            accessToken,
+            Voice.RegistrationChannel.FCM,
+            fcmToken,
+            object : RegistrationListener {
+                override fun onRegistered(accessToken: String, fcmToken: String) {
+                    Log.d("Twilio", "Successfully registered with Twilio")
+                }
+
+                override fun onError(error: RegistrationException, accessToken: String, fcmToken: String) {
+                    Log.e("Twilio", "Twilio registration failed: ${error.message}")
+                }
+            }
+        )
+    }
+
+    private fun createCallNotificationChannel(context: Context) {
+        val channel = NotificationChannel(
+            "CALL_CHANNEL", // Use a consistent ID
+            "Incoming Calls",
+            NotificationManager.IMPORTANCE_HIGH
+        ).apply {
+            description = "Incoming call notifications"
+            lockscreenVisibility = 5
+        }
+
+        val manager =
+            context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        manager.createNotificationChannel(channel)
     }
 }
