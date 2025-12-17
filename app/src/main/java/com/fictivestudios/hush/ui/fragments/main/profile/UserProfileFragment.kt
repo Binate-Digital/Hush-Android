@@ -190,7 +190,7 @@ class UserProfileFragment : BaseFragment(R.layout.fragment_user_profile), View.O
                 userData?.let {
                     findNavController().navigate(
                         UserProfileFragmentDirections.actionUserProfileFragmentToChatDetailFragment(
-                            it._id,it.contactImage?:"",it.fullName
+                            it._id,it.contactImage?:"",it.fullName,it.phone
                         )
                     )
                 }
@@ -214,8 +214,8 @@ class UserProfileFragment : BaseFragment(R.layout.fragment_user_profile), View.O
                 )
 
                 intent.putExtra(
-                    "token",
-                    viewModel.callToken
+                    "user_image",
+                    userData?.contactImage?:""
                 )
                 intent.putExtra("user_name", viewModel.userData?.name)
                 startActivity(intent)

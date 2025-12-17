@@ -1,27 +1,21 @@
 package com.fictivestudios.hush.ui.activities
 
-import android.content.Context
+import android.annotation.SuppressLint
 import android.content.pm.ActivityInfo
 import android.media.AudioManager
 import android.os.Bundle
 import android.os.CountDownTimer
-import android.util.Log
 import android.view.View
-import androidx.activity.viewModels
 import com.fictivestudios.hush.R
 import com.fictivestudios.hush.base.activity.BaseActivity
-import com.fictivestudios.hush.databinding.ActivityCallBinding
+import com.fictivestudios.hush.databinding.ActivityIncomingCallBinding
 import com.fictivestudios.hush.pushNotification.CallManager
 import com.twilio.voice.Call
 import com.twilio.voice.CallException
-import com.twilio.voice.CallInvite
-import com.twilio.voice.ConnectOptions
-import com.twilio.voice.Voice
-import org.json.JSONObject
 
 class IncomingCallActivity : BaseActivity(), View.OnClickListener {
 
-    private var _binding: ActivityCallBinding? = null
+    private var _binding: ActivityIncomingCallBinding? = null
     private val binding get() = _binding!!
 
     private var activeCall: Call? = null
@@ -30,16 +24,15 @@ class IncomingCallActivity : BaseActivity(), View.OnClickListener {
     private var countDownTimer: CountDownTimer? = null
     private var elapsedTime: Long = 0
 
-    private val viewModel: CallViewModel by viewModels()
-
     private var callSid: String = ""
     private var fromNumber: String = ""
     private var token: String = ""
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         super.onCreate(savedInstanceState)
-        _binding = ActivityCallBinding.inflate(layoutInflater)
+        _binding = ActivityIncomingCallBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initialize()
         setObserver()
@@ -49,23 +42,20 @@ class IncomingCallActivity : BaseActivity(), View.OnClickListener {
     override fun onDestroy() {
         super.onDestroy()
         countDownTimer?.cancel()
+        activeCall?.disconnect()
         _binding = null
     }
 
     override fun initialize() {
 
         // Get FCM data from intent
-        Log.d("init called","called")
 
         callSid = intent.getStringExtra("callSid") ?: ""
         fromNumber = intent.getStringExtra("from") ?: ""
         token = intent.getStringExtra("token") ?: ""
         // Get FCM data from intent
-        Log.d("init token","$token")
 
         binding.textViewUserName.text = fromNumber
-        binding.textViewTimeStamp.text = "Incoming Call"
-        binding.imageViewAccept.visibility = View.VISIBLE
         setOnClickListener()
 
     }
@@ -75,36 +65,9 @@ class IncomingCallActivity : BaseActivity(), View.OnClickListener {
         binding.cardViewMike.setOnClickListener(this)
         binding.cardViewSpeaker.setOnClickListener(this)
         binding.imageViewEndCall.setOnClickListener(this)
-        binding.imageViewAccept.setOnClickListener {
-//            connectTwilioCall()
-            val callInvite = CallManager.currentCallInvite
-            if (callInvite != null) {
-                activeCall = callInvite.accept(this, object : Call.Listener {
-                    override fun onConnected(call: Call) {
-                        Log.d("Twilio", "Call connected")
-                    }
-
-                    override fun onReconnecting(
-                        call: Call,
-                        callException: CallException
-                    ) {
-                        Log.d("onReconnecting","called")
-                    }
-
-                    override fun onReconnected(call: Call) {
-                        Log.d("onReconnected","called")
-                        activeCall = call
-                    }
-
-                    override fun onDisconnected(call: Call, error: CallException?) {}
-                    override fun onConnectFailure(call: Call, error: CallException) {}
-                    override fun onRinging(call: Call) {
-                        Log.d("onRinging","called")
-                    }
-                })
-                CallManager.currentCallInvite = null
-            }
-            binding.imageViewAccept.visibility = View.GONE
+        binding.imageViewEndCall2.setOnClickListener(this)
+        binding.imageViewAcceptCall.setOnClickListener {
+          handleCall()
         }
     }
 
@@ -124,61 +87,38 @@ class IncomingCallActivity : BaseActivity(), View.OnClickListener {
                     if (isLoudSpeakerOn) R.drawable.ic_speaker else R.drawable.ic_off_speaker
                 )
             }
-            binding.imageViewEndCall.id -> {
+            binding.imageViewEndCall.id,  binding.imageViewEndCall2.id -> {
                 activeCall?.disconnect()
                 finish()
             }
         }
     }
 
-    private fun connectTwilioCall() {
+    private fun handleCall(){
+        val callInvite = CallManager.currentCallInvite
+        if (callInvite != null) {
+            activeCall = callInvite.accept(this, object : Call.Listener {
+                override fun onConnected(call: Call) {
+                    activeCall = call
+                    setupTimer()
+                }
 
-
-        viewModel.init{ phone,tokens->
-            if(phone.isNullOrEmpty() || token.isNullOrEmpty()){
-                Log.d("income data null issue","$phone $token")
-            }else{
-                val params = mapOf("callSid" to callSid)
-
-                val connectOptions = ConnectOptions.Builder(token.trim())
-                    .params(params)
-                    .build()
-
-
-
-                activeCall = Voice.connect(this, connectOptions, object : Call.Listener {
-                    override fun onConnected(call: Call) {
-                        activeCall = call
-                        setupTimer()
-                        enableMicrophone(true)
-                        enableLoudspeaker(false)
-                    }
-
-                    override fun onDisconnected(call: Call, error: CallException?) {
-                        activeCall = null
-                        finish()
-                    }
-
-                    override fun onConnectFailure(call: Call, error: CallException) {
-                        showToast("Call failed: ${error.message}")
-                        Log.d("income token",error.toString())
-                        activeCall?.disconnect()
-                        finish()
-                    }
-
-                    override fun onRinging(call: Call) {}
-                    override fun onReconnecting(call: Call, error: CallException) {}
-                    override fun onReconnected(call: Call) {}
-                })
-            }
-
+                override fun onReconnected(call: Call) { activeCall = call }
+                override fun onReconnecting(call: Call, callException: CallException) {}
+                override fun onDisconnected(call: Call, error: CallException?) {}
+                override fun onConnectFailure(call: Call, error: CallException) {}
+                override fun onRinging(call: Call) {}
+            })
+            CallManager.currentCallInvite = null
         }
-
-
+        binding.imageViewAcceptCall.visibility = View.GONE
+        binding.imageViewEndCall.visibility = View.GONE
+        binding.imageViewEndCall2.visibility = View.VISIBLE
     }
 
     private fun setupTimer() {
         countDownTimer = object : CountDownTimer(Long.MAX_VALUE, 1000) {
+            @SuppressLint("DefaultLocale")
             override fun onTick(millisUntilFinished: Long) {
                 elapsedTime += 1000
                 val seconds = elapsedTime / 1000
@@ -192,12 +132,12 @@ class IncomingCallActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun enableLoudspeaker(enable: Boolean) {
-        val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
         audioManager.isSpeakerphoneOn = enable
     }
 
     private fun enableMicrophone(enable: Boolean) {
-        val audioManager = getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val audioManager = getSystemService(AUDIO_SERVICE) as AudioManager
         audioManager.isMicrophoneMute = !enable
     }
 

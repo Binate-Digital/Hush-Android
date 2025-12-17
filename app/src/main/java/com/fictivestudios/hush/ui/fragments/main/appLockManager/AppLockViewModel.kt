@@ -22,10 +22,9 @@ class AppLockViewModel @Inject constructor(private val repository: AuthRepositor
     val lockTypeResponse: LiveData<Resource<BaseNetworkResponse<Any>>?>
         get() = _lockTypeResponse
 
-    var userData: LoginUserResponse? = null
 
-    init {
-        viewModelScope.launch { userData = getLoginUserData() }
+    fun init(data:(LoginUserResponse?)->Unit) {
+        viewModelScope.launch { data( getLoginUserData()) }
     }
 
     suspend fun saveUserPinOffOn(pinLock: Int) {

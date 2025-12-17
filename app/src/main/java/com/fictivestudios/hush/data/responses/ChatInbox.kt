@@ -18,5 +18,6 @@ data class SmsMessage(
     val message: String,
     val timestamp: String,
     val twilioMessageSid: String,
-    val _id: String
+    val _id: String,
+    val chatId: String,
 )

@@ -62,6 +62,13 @@ class AppLockManagerFragment : BaseFragment(R.layout.fragment_app_lock_manager),
     }
 
     override fun initialize() {
+        viewModel.init{data->
+            data?.let { data->
+                binding.pinSwitch.isChecked = data.pinLock == 1
+                binding.fingerPrintSwitch.isChecked = data.fingerprintLock == 1
+                binding.patternSwitch.isChecked = data.patternLock == 1
+            }
+        }
         biometricManager = BiometricManager.from(requireContext())
         when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {
             BiometricManager.BIOMETRIC_SUCCESS -> {
@@ -91,14 +98,10 @@ class AppLockManagerFragment : BaseFragment(R.layout.fragment_app_lock_manager),
                 Log.d("MY_APP_TAG", "initialize: BIOMETRIC_ERROR_NONE_ENROLLED")
                 binding.cardViewFingerPrint.show()
                 binding.fingerPrintView.show()
-                // Prompts the user to create credentials that your app accepts.
-
             }
         }
         setOnBackPressedListener()
-        binding.pinSwitch.isChecked = viewModel.userData?.pinLock == 1
-        binding.fingerPrintSwitch.isChecked = viewModel.userData?.fingerprintLock == 1
-        binding.patternSwitch.isChecked = viewModel.userData?.patternLock == 1
+
 
     }
 
@@ -171,25 +174,30 @@ class AppLockManagerFragment : BaseFragment(R.layout.fragment_app_lock_manager),
                 is Resource.Failure -> {
                     binding.progress.hide()
                     showToast(it.message.toString())
-                    requireActivity().runOnUiThread {
-                        if (viewModel.userData?.pinLock == 1) {
-                            binding.pinSwitch.isChecked = true
-                            binding.patternSwitch.isChecked = false
-                            binding.fingerPrintSwitch.isChecked = false
-                        } else if (viewModel.userData?.patternLock == 1) {
-                            binding.pinSwitch.isChecked = false
-                            binding.patternSwitch.isChecked = true
-                            binding.fingerPrintSwitch.isChecked = false
-                        } else if (viewModel.userData?.fingerprintLock == 1) {
-                            binding.pinSwitch.isChecked = false
-                            binding.patternSwitch.isChecked = false
-                            binding.fingerPrintSwitch.isChecked = true
-                        } else {
-                            binding.pinSwitch.isChecked = false
-                            binding.patternSwitch.isChecked = false
-                            binding.fingerPrintSwitch.isChecked = false
+                    viewModel.init{data->
+                        data?.let { data->
+                            requireActivity().runOnUiThread {
+                                if (data.pinLock == 1) {
+                                    binding.pinSwitch.isChecked = true
+                                    binding.patternSwitch.isChecked = false
+                                    binding.fingerPrintSwitch.isChecked = false
+                                } else if (data.patternLock == 1) {
+                                    binding.pinSwitch.isChecked = false
+                                    binding.patternSwitch.isChecked = true
+                                    binding.fingerPrintSwitch.isChecked = false
+                                } else if (data.fingerprintLock == 1) {
+                                    binding.pinSwitch.isChecked = false
+                                    binding.patternSwitch.isChecked = false
+                                    binding.fingerPrintSwitch.isChecked = true
+                                } else {
+                                    binding.pinSwitch.isChecked = false
+                                    binding.patternSwitch.isChecked = false
+                                    binding.fingerPrintSwitch.isChecked = false
+                                }
+                            }
                         }
                     }
+
                     enableUserTouch()
                     if (it.errorCode == 401) {
                         (requireActivity() as DashBoardActivity).logout()

@@ -103,7 +103,7 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash) {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        Log.d("Splash","called")
+        Log.d("Splash", "called")
         _binding = FragmentSplashBinding.inflate(inflater)
         binding.lifecycleOwner = viewLifecycleOwner
         return binding.root
@@ -252,12 +252,14 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash) {
     private fun getSession() {
 
         lifecycleScope.launch {
+            viewModel.getData()
+
             delay(500)
             if (DataPreference(requireContext()).getBooleanData(IS_LOGIN)) {
                 requireActivity().runOnUiThread {
                     startCamera()
                 }
-
+                Log.d("Splash", viewModel.userData.toString())
                 if (viewModel.userData?.pinVerified == 1 && viewModel.userData?.pinLock == 1) {
                     requireActivity().runOnUiThread {
                         showMessageBox()
@@ -291,7 +293,8 @@ class SplashFragment : BaseFragment(R.layout.fragment_splash) {
 
     private fun showFingerPrintDialog() {
         executor = ContextCompat.getMainExecutor(requireContext())
-        biometricPrompt = BiometricPrompt(requireActivity(), executor,
+        biometricPrompt = BiometricPrompt(
+            requireActivity(), executor,
             object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationError(
                     errorCode: Int,

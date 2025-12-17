@@ -23,17 +23,16 @@ class CallLogViewModel @Inject constructor(private val repository: AuthRepositor
     val callLogResponse: LiveData<Resource<BaseNetworkResponse<ArrayList<CallLogResponse>>>?>
         get() = _callLogResponse
 
-    var userData: LoginUserResponse? = null
 
-    init {
+    fun init(data:(LoginUserResponse?)->Unit) {
         viewModelScope.launch {
-            userData = getLoginUserData()
+           data(getLoginUserData())
         }
     }
 
-    fun getAllCallLogs() = viewModelScope.launch {
+    fun getAllCallLogs(phone:String) = viewModelScope.launch {
         _callLogResponse.value = Resource.Loading
-        _callLogResponse.value = repository.getAllCallLogs(userData?.phone ?: "")
+        _callLogResponse.value = repository.getAllCallLogs(phone)
         _callLogResponse.value
     }
 }

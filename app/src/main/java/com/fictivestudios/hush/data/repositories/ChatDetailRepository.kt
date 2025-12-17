@@ -1,5 +1,6 @@
 package com.fictivestudios.hush.data.repositories
 
+import android.util.Log
 import com.fictivestudios.hush.base.network.SocketManager
 import com.fictivestudios.hush.base.preference.DataPreference
 import com.fictivestudios.hush.base.repository.BaseRepository
@@ -24,14 +25,19 @@ class ChatDetailRepository @Inject constructor(
         onSuccess: (List<SmsMessage>) -> Unit,
         onError: (JSONObject) -> Unit
     ) {
-        socketManager.initSocket()
-        socketManager.connect()
+        if (!socketManager.isSocketConnected()) {
+            socketManager.initSocket()
+            socketManager.connect()
+        }
+
 
         // Listen for socket success responses
         socketManager.listen("response") { data ->
             val jsonObj = data
             val dataArray = jsonObj.optJSONArray("data") ?: return@listen
             val chatList = dataArray.toChatInboxList()
+            Log.d("chatDetailList", dataArray.toString())
+
             onSuccess(chatList)
         }
 
@@ -45,7 +51,10 @@ class ChatDetailRepository @Inject constructor(
             put("user_id", userId)
             put("contact_id", contactId)
         }
+
+        Log.d("json", json.toString())
         socketManager.emit("get_sms_messages", json)
+        markAsRead(userId, contactId)
     }
 
     fun sendMessage(
@@ -71,7 +80,8 @@ class ChatDetailRepository @Inject constructor(
                 message = dataObj.optString("message"),
                 timestamp = dataObj.optString("timestamp"),
                 twilioMessageSid = dataObj.optString("twilioMessageSid"),
-                _id = generateRandomId()
+                _id = generateRandomId(),
+                chatId = generateRandomId()
             )
             onSuccess(sms)
         }
@@ -81,6 +91,27 @@ class ChatDetailRepository @Inject constructor(
             onError(data)
         }
         socketManager.emit("send_sms_message", json)
+    }
+
+    fun markAsRead(
+        userId: String,
+        contactId: String,
+    ) {
+
+        val json = JSONObject().apply {
+            put("user_id", userId)
+            put("contact_id", contactId)
+        }
+
+        socketManager.listen("response") { obj ->
+            Log.d("READ_SMS_SOCKET_RESPONSE", obj.toString())
+        }
+
+        // Listen for error
+        socketManager.listen("error") { data ->
+            Log.d("READ_SMS_SOCKET_RESPONSE", data.toString())
+        }
+        socketManager.emit("mark_sms_chat_read", json)
     }
 
     fun JSONArray.toChatInboxList(): List<SmsMessage> {
@@ -95,7 +126,9 @@ class ChatDetailRepository @Inject constructor(
                     message = item.optString("message"),
                     timestamp = item.optString("timestamp"),
                     twilioMessageSid = item.optString("twilioMessageSid"),
-                    _id = item.optString("_id")
+                    _id = item.optString("_id"),
+                    chatId = item.optString("chatId"),
+
                 )
             )
         }

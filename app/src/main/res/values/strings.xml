@@ -42,4 +42,7 @@
     <string name="delete">Delete</string>
     <string name="are_you_sure_you_want_to_delete_this_chat">Are you sure you want to delete this chat</string>
     <string name="delete_chat">Delete Chat</string>
+    <string name="connected">Connected</string>
+    <string name="reconnecting">Reconnecting</string>
+    <string name="ringing">Ringing</string>
 </resources>

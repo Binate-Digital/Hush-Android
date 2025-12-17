@@ -79,11 +79,6 @@ class DialPadFragment : BaseFragment(R.layout.fragment_dial_pad), View.OnClickLi
                 "phone_no",
                 phoneNo
             )
-
-            intent.putExtra(
-                "token",
-                viewModel.callToken
-            )
             intent.putExtra("user_name", viewModel.userData?.name)
             startActivity(intent)
         }

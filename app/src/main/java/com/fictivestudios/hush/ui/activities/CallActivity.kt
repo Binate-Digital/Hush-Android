@@ -1,6 +1,7 @@
 package com.fictivestudios.hush.ui.activities
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.content.pm.PackageManager
@@ -13,9 +14,11 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.bumptech.glide.Glide
 import com.fictivestudios.hush.R
 import com.fictivestudios.hush.base.activity.BaseActivity
 import com.fictivestudios.hush.databinding.ActivityCallBinding
+import com.fictivestudios.hush.utils.Constants
 import com.fictivestudios.hush.utils.gallery.RecordAudioPermissionTextProvider
 import com.fictivestudios.hush.utils.gallery.showPermissionDialog
 import com.fictivestudios.hush.utils.openAppSettings
@@ -24,7 +27,7 @@ import com.twilio.voice.CallException
 import com.twilio.voice.ConnectOptions
 import com.twilio.voice.Voice
 
-
+@Suppress("DEPRECATION")
 class CallActivity : BaseActivity(), View.OnClickListener {
 
     private var _binding: ActivityCallBinding? = null
@@ -38,8 +41,8 @@ class CallActivity : BaseActivity(), View.OnClickListener {
     private val viewModel: CallViewModel by viewModels()
     private var activeCall: Call? = null
     private var userName = ""
+    private var userImage = ""
     private var userPhoneNo = ""
-    private var token = ""
     private var elapsedTime: Long = 0
 
     private val requestCallPermissionLauncher =
@@ -69,16 +72,17 @@ class CallActivity : BaseActivity(), View.OnClickListener {
         }
 
 
+    @SuppressLint("SourceLockedOrientationActivity")
     override fun onCreate(savedInstanceState: Bundle?) {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         super.onCreate(savedInstanceState)
         _binding = ActivityCallBinding.inflate(layoutInflater)
 
         userPhoneNo = intent.getStringExtra("phone_no") ?: ""
-        token = intent.getStringExtra("token") ?: ""
         userName = intent.getStringExtra("user_name") ?: ""
+        userImage = intent.getStringExtra("user_image") ?: ""
 
-        binding.textViewUserName.text = userName
+        binding.textViewUserName.text = userName.ifEmpty { userPhoneNo }
         setContentView(binding.root)
         initialize()
         setObserver()
@@ -103,7 +107,14 @@ class CallActivity : BaseActivity(), View.OnClickListener {
                 showToast("Invalid phone number.")
                 finish()
             }
+        }
 
+        if (userImage.isEmpty()) {
+            binding.imageViewUser.setImageResource(R.drawable.ic_profile)
+        } else {
+            Glide.with(this)
+                .load(Constants.IMAGE_BASE_URL + userImage).placeholder(R.drawable.person)
+                .into(binding.imageViewUser)
         }
     }
 
@@ -184,40 +195,34 @@ class CallActivity : BaseActivity(), View.OnClickListener {
     }
 
     private fun enableLoudspeaker(enable: Boolean) {
-        val audioManager = this.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val audioManager = this.getSystemService(AUDIO_SERVICE) as AudioManager
         audioManager.isSpeakerphoneOn = enable
     }
 
-    // Function to enable/disable microphone
-    private fun enableMicrophone(enable: Boolean) {
-        val audioManager = this.getSystemService(Context.AUDIO_SERVICE) as AudioManager
-        audioManager.isMicrophoneMute = !enable
-    }
-
     private fun makeTwilioVoiceCall(phoneNumber: String) {
-        if (token.isEmpty()) {
-            showToast("Invalid Token")
-            this.finish()
-        }
+        viewModel.init { phone, tokens ->
+            if (tokens?.isEmpty() == true) {
+                showToast("Invalid Token")
+                this.finish()
+            }
 
-        viewModel.init{ phone,tokens->
+            if (tokens?.isEmpty() == true) {
+                showToast("Invalid Phone Number")
+                this.finish()
+            }
             phone?.let {
                 val params = hashMapOf<String, String>()
                 val from = it
-                Log.d("from",from)
-                Log.d("from", from)
                 params["from"] = from
                 params["to"] = phoneNumber
                 Voice.enableInsights(true)
-                val connectOptions = ConnectOptions.Builder(token)
+                val connectOptions = ConnectOptions.Builder(tokens!!)
                     .params(params)
                     .build()
                 activeCall = Voice.connect(this, connectOptions, OutgoingCallListener())
-            }?: showToast("phone no null")
+            } ?: showToast("phone no null")
 
         }
-
-
     }
 
     private inner class OutgoingCallListener : Call.Listener {
@@ -229,11 +234,11 @@ class CallActivity : BaseActivity(), View.OnClickListener {
 
         override fun onRinging(call: Call) {
             Log.d("TAG", "onRinging: ringing")
-            binding.textViewTimeStamp.text = "Ringing"
+            binding.textViewTimeStamp.text = getString(R.string.ringing)
         }
 
         override fun onConnected(call: Call) {
-            Log.d("TAG", "onConnected: .connected")
+            Log.d("onConnected", "Called")
             activeCall = call
             setupTimer()
             enableLoudspeaker(false)
@@ -241,20 +246,21 @@ class CallActivity : BaseActivity(), View.OnClickListener {
         }
 
         override fun onReconnecting(call: Call, callException: CallException) {
-            Log.d("onReconnecting", "onReconnecting: reconnecting")
-            Log.d("onReconnecting", "onReconnecting: ${callException.message}")
-            Log.d("onReconnecting", "onReconnecting: ${callException.cause}")
-            binding.textViewTimeStamp.text = "Reconnecting"
+            Log.d(
+                "onReconnecting",
+                "onReconnecting: Message ${callException.message} Cause ${callException.cause}"
+            )
+            binding.textViewTimeStamp.text = getString(R.string.reconnecting)
         }
 
         override fun onReconnected(call: Call) {
             activeCall = call
             updateUI(elapsedTime)
-            Log.d("TAG", "onReconnected: reconnected")
+            Log.d("onReconnected", "onReconnected: reconnected")
         }
 
         override fun onDisconnected(call: Call, callException: CallException?) {
-            Log.d("TAG", "onDisconnected: ondisconnected $callException")
+            Log.d("onDisconnected", "onDisconnected: onDisconnected $callException")
             activeCall = call
             finish()
         }
@@ -277,7 +283,7 @@ class CallActivity : BaseActivity(), View.OnClickListener {
     }
 
     fun toggleMicMute(mute: Boolean) {
-        val audioManager = this.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        val audioManager = this.getSystemService(AUDIO_SERVICE) as AudioManager
 
         // Check if the app has MODIFY_AUDIO_SETTINGS permission
         if (ContextCompat.checkSelfPermission(
@@ -298,6 +304,7 @@ class CallActivity : BaseActivity(), View.OnClickListener {
         audioManager.isMicrophoneMute = mute
     }
 
+    @SuppressLint("DefaultLocale")
     private fun updateUI(elapsedTime: Long) {
         val seconds = elapsedTime / 1000
         val hours = seconds / 3600
@@ -315,9 +322,13 @@ class CallActivity : BaseActivity(), View.OnClickListener {
         binding.textViewTimeStamp.text = formattedTime
     }
 
-    companion object {
-        private const val PERMISSION_REQUEST_CODE = 1000
+    private fun enableMicrophone(enable: Boolean) {
+        val audioManager = this.getSystemService(Context.AUDIO_SERVICE) as AudioManager
+        audioManager.isMicrophoneMute = !enable
     }
 
 
+    companion object {
+        private const val PERMISSION_REQUEST_CODE = 1000
+    }
 }

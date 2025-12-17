@@ -79,7 +79,12 @@ class CallLogFragment : BaseFragment(R.layout.fragment_call_log), View.OnClickLi
 
     override fun initialize() {
         setRecyclerView()
-        viewModel.getAllCallLogs()
+        viewModel.init {
+            it?.let {data->
+                viewModel.getAllCallLogs(data.phone!!)
+            }
+        }
+
         binding.multiStateView.viewState =
             MultiStateView.ViewState.LOADING
     }
@@ -159,7 +164,12 @@ class CallLogFragment : BaseFragment(R.layout.fragment_call_log), View.OnClickLi
     }
 
     override fun onRefresh() {
-        viewModel.getAllCallLogs()
+        viewModel.init {
+           it?.let {data->
+               viewModel.getAllCallLogs(data.phone!!)
+           }
+        }
+
 
     }
 

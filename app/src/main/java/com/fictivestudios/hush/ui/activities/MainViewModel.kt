@@ -57,6 +57,11 @@ class MainViewModel @Inject constructor(val repository: AuthRepository) :
         }
     }
 
+   suspend fun getData(){
+        userData = getLoginUserData()
+    }
+
+
     fun uploadScreenShot(
         profileImage: MultipartBody.Part? = null,
 

@@ -1,6 +1,5 @@
 package com.fictivestudios.hush.pushNotification
 
-import android.app.ActivityManager
 import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
@@ -29,10 +28,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
-import org.json.JSONObject
 import javax.inject.Inject
 import javax.inject.Singleton
-import java.net.URLDecoder
+
 @Singleton
 @AndroidEntryPoint
 class MyFirebaseMessagingService : FirebaseMessagingService() {
@@ -62,62 +60,24 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         super.onMessageReceived(remoteMessage)
 
         val type = remoteMessage.data["type"]
-        Log.d("FCM DATA TYPE",type.toString())
-        Log.d("FCM DATA remoteMessage",remoteMessage.data.toString())
+        Log.d("FCM DATA TYPE", type.toString())
+        Log.d("FCM DATA remoteMessage", remoteMessage.data.toString())
+        register(repo)
 
-            // Get FCM token first
-            FirebaseMessaging.getInstance().token.addOnSuccessListener { fcmToken ->
-                Log.d("App", "FCM token: $fcmToken")
-
-                // Launch a coroutine to get the suspend call token
-                CoroutineScope(Dispatchers.Main).launch {
-                    try {
-                        val callToken = repo.getCallToken()
-                        repo.register(fcmToken)
-                        Log.d("AppFCM", "Call token: $callToken")
-                        registerWithTwilio(fcmToken, callToken)
-                    } catch (e: Exception) {
-                        Log.e("AppFCM", "Failed to get call token: ${e.message}")
-                    }
-                }
-            }.addOnFailureListener { e ->
-                Log.e("App", "Failed to get FCM token: ${e.message}")
+        Voice.handleMessage(this, remoteMessage.data, object : MessageListener {
+            override fun onCallInvite(callInvite: CallInvite) {
+                // Incoming call invite
+                handleIncomingCall(callInvite)
+                Log.d("onCallInvite", "called $callInvite")
             }
-            Voice.handleMessage(this,  remoteMessage.data, object : MessageListener {
-                override fun onCallInvite(callInvite: CallInvite) {
-                    // Incoming call invite
-                    handleIncomingCall(callInvite)
-                    Log.d("onCallInvite","called $callInvite")
-                }
 
-                override fun onCancelledCallInvite(
-                    cancelledCallInvite: CancelledCallInvite,
-                    callException: CallException?
-                ) {
-                    Log.d("onCancelledCallInvite","called $callException")
-                }
-            })
-//            // URL-decode the token
-//            val encodedToken = remoteMessage.data["twi_token"] ?: ""
-////            val decodedToken = URLDecoder.decode(encodedToken, "UTF-8")
-//            val decodedJson = URLDecoder.decode(encodedToken, "UTF-8")
-//            val tokenJson = JSONObject(decodedJson)
-//            val twilioToken = tokenJson.getString("parentCallInfoToken")
-//
-//            // If you need JSON object (optional)
-//            // val tokenJson = JSONObject(decodedToken)
-//
-//            val callSid = remoteMessage.data["twi_call_sid"] ?: ""
-//            val from = remoteMessage.data["twi_from"] ?: ""
-//
-//            val intent = Intent(this, IncomingCallActivity::class.java).apply {
-//                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//                putExtra("token", twilioToken) // pass decoded token
-//                putExtra("callSid", callSid)
-//                putExtra("from", from)
-//            }
-//            startActivity(intent)
-
+            override fun onCancelledCallInvite(
+                cancelledCallInvite: CancelledCallInvite,
+                callException: CallException?
+            ) {
+                Log.d("onCancelledCallInvite", "called $callException")
+            }
+        })
     }
 
     private fun handleIncomingCall(callInvite: CallInvite) {
@@ -150,27 +110,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         nm.notify(1001, notification)
     }
 
-
-    private fun isAppRunning(packageName: String): Boolean {
-        val activityManager = applicationContext.getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
-        val runningAppProcesses = activityManager.runningAppProcesses
-
-        if (runningAppProcesses != null) {
-            for (processInfo in runningAppProcesses) {
-                if (processInfo.processName == packageName) {
-                    // Found a running process with the package name
-                    return true
-                }
-            }
-        }
-
-        // No running process matches the package name
-        return false
-    }
-
     private fun registerWithTwilio(fcmToken: String, accessToken: String) {
-        Log.d("App", "Registering with Twilio: accessToken=$accessToken, fcmToken=$fcmToken")
-
         Voice.register(
             accessToken,
             Voice.RegistrationChannel.FCM,
@@ -180,13 +120,38 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
                     Log.d("TwilioFCM", "Successfully registered with Twilio")
                 }
 
-                override fun onError(error: RegistrationException, accessToken: String, fcmToken: String) {
+                override fun onError(
+                    error: RegistrationException,
+                    accessToken: String,
+                    fcmToken: String
+                ) {
                     Log.e("TwilioFCM", "Twilio registration failed: ${error.message}")
                 }
             }
         )
     }
+    private fun register(repo: BaseRepository){
+        FirebaseMessaging.getInstance().token.addOnSuccessListener { fcmToken ->
+            Log.d("App", "FCM token: $fcmToken")
+
+            // Launch a coroutine to get the suspend call token
+            CoroutineScope(Dispatchers.Main).launch {
+                try {
+                    val callToken = repo.getCallToken()
+                    repo.register(fcmToken)
+                    Log.d("AppFCM", "Call token: $callToken")
+                    registerWithTwilio(fcmToken, callToken)
+                } catch (e: Exception) {
+                    Log.e("AppFCM", "Failed to get call token: ${e.message}")
+                }
+            }
+        }.addOnFailureListener { e ->
+            Log.e("App", "Failed to get FCM token: ${e.message}")
+        }
+    }
 }
+
+
 
 object CallManager {
     var currentCallInvite: CallInvite? = null

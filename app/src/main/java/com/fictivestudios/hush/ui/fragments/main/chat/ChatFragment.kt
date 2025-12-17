@@ -25,6 +25,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat), SwipeRefreshLayout.On
     private var _binding: FragmentChatBinding? = null
     val binding
         get() = _binding!!
+
     val viewModel: ChatViewModel by viewModels()
 
     private var isItemClick = true
@@ -43,7 +44,8 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat), SwipeRefreshLayout.On
                                         ChatFragmentDirections.actionChatFragmentToChatDetailFragment(
                                             it.contactId ?: "",
                                             it.contactImage ?: "",
-                                            it.contactName ?: ""
+                                            it.contactName ?: "",
+                                            it.phoneNumber?:""
                                         )
                                     )
                                 }
@@ -69,7 +71,7 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat), SwipeRefreshLayout.On
 
     override fun onDestroyView() {
         super.onDestroyView()
-        _binding = null
+       // _binding = null
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -91,12 +93,14 @@ class ChatFragment : BaseFragment(R.layout.fragment_chat), SwipeRefreshLayout.On
     override fun setObserver() {
         lifecycleScope.launch {
             viewModel.messages.collect { list ->
-                viewTypeArray.clear()
-                for (data in list) {
-                    viewTypeArray.add(RowItemChatList(data))
+                requireActivity().runOnUiThread {
+                    Log.d("list",list.toString())
+                    viewTypeArray.clear()
+                    for (data in list) {
+                        viewTypeArray.add(RowItemChatList(data))
+                    }
+                    adapter.items = viewTypeArray
                 }
-                adapter.items = viewTypeArray
-                Log.d("Socket IO Message", "$list")
             }
         }
     }

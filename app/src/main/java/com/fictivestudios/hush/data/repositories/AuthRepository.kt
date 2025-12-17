@@ -30,7 +30,7 @@ class AuthRepository @Inject constructor(
 
 
     suspend fun loginUserApi(data: LoginUserRequest) = safeApiCall { api.login(data) }
-    suspend fun deleteChatApi(chatId:String) = safeApiCall { api.deleteChat(preferences.accessToken.first(),"69386bef6074408a71f2dcab") }
+    suspend fun deleteChatApi(chatId:String) = safeApiCall { api.deleteChat(preferences.accessToken.first(),chatId) }
     suspend fun recoverUserAccountApi(data: RecoverUserRequest) =
         safeApiCall { api.recoverAccount(data) }
 

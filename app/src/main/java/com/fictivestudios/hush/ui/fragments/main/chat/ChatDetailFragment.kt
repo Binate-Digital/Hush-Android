@@ -3,9 +3,7 @@ package com.fictivestudios.hush.ui.fragments.main.chat
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,11 +33,6 @@ import kotlinx.coroutines.launch
 import kotlin.getValue
 import androidx.core.graphics.drawable.toDrawable
 import com.fictivestudios.hush.base.response.Resource
-import com.fictivestudios.hush.ui.activities.DashBoardActivity
-import com.fictivestudios.hush.ui.fragments.auth.PreLoginFragmentDirections
-import com.fictivestudios.hush.ui.fragments.auth.login.LoginProfileVerifiedEnum
-import com.fictivestudios.hush.ui.fragments.auth.login.LoginUserDeleteEnum
-import com.fictivestudios.hush.utils.startNewActivity
 
 class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnClickListener {
 
@@ -52,6 +45,7 @@ class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnC
 
     private var dialogChatDeleteBinding: DialogRecoverAccountBinding? = null
     private var dialog: AlertDialog? = null
+    private var chatId = ""
 
     private val args by navArgs<ChatDetailFragmentArgs>()
     val viewModel: ChatDetailViewModel by viewModels()
@@ -103,7 +97,6 @@ class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnC
         binding.textViewUserName.text = args.userName
         setRecyclerView()
         viewModel.getUserData(args.userId)
-        Log.d("contactId",args.userId)
     }
 
 
@@ -113,14 +106,18 @@ class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnC
             when (data) {
                 is Resource.Success -> {
                     showToast(data.value.message)
+                    binding.progress.hide()
+                    viewModel.getUserData(args.userId)
                 }
 
 
                 is Resource.Failure -> {
                     showToast(data.message.toString())
+                    binding.progress.hide()
                 }
 
                 is Resource.Loading -> {
+                    binding.progress.show()
                 }
 
                 else -> {}
@@ -130,9 +127,12 @@ class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnC
         lifecycleScope.launch {
             viewModel.messages.collect { list ->
                 requireActivity().runOnUiThread {
-                    Log.d("chatDetailList","$list")
                     viewTypeArray.clear()
-                    for (data in list) {
+                   if(list.isNotEmpty()){
+                       chatId = list[0].chatId
+                   }
+                        for (data in list) {
+
                         if (data.sender == "user") {
                             viewTypeArray.add(
                                 RowItemMyChat(
@@ -168,6 +168,8 @@ class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnC
         when (v?.id) {
             binding.imageViewCall.id -> {
                 val intent = Intent(requireContext(), CallActivity::class.java)
+                intent.putExtra("phone_no", args.userPhone)
+                intent.putExtra("user_image", args.userImage)
                 requireActivity().startActivity(intent)
             }
 
@@ -176,7 +178,12 @@ class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnC
             }
 
             binding.imageViewMoreOption.id -> {
-                showDeleteDialog(args.userId)
+                if(chatId.isNotEmpty()){
+                    showDeleteDialog(chatId)
+                }else{
+                    showToast("Invalid chat id")
+                }
+
             }
 
             binding.imageViewSent.id -> {

@@ -44,6 +44,8 @@ class SocketManager @Inject constructor() {
         socket?.disconnect()
     }
 
+    fun isSocketConnected() = socket?.isActive?:false
+
     fun listen(event: String, callback: (JSONObject) -> Unit) {
         socket?.on(event) { args ->
             if (args.isNotEmpty()) {

@@ -22,8 +22,10 @@ class ChatRepository @Inject constructor(
         onSuccess: (List<ChatInbox>) -> Unit,
         onError: (JSONObject) -> Unit
     ) {
-        socketManager.initSocket()
-        socketManager.connect()
+        if (!socketManager.isSocketConnected()) {
+            socketManager.initSocket()
+            socketManager.connect()
+        }
 
         // Listen for socket success responses
         socketManager.listen("response") { data ->

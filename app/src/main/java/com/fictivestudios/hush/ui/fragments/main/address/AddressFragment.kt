@@ -232,26 +232,17 @@ class AddressFragment : BaseFragment(R.layout.fragment_address), View.OnClickLis
             showToast("Invalid phone Number")
             return
         }
-        val phoneNo = data.phone
-        Log.d("phoneNo", phoneNo)
         val intent = Intent(requireActivity(), CallActivity::class.java)
-        intent.putExtra(
-            "phone_no",
-            phoneNo
-        )
-
-        intent.putExtra(
-            "token",
-            viewModel.callToken
-        )
-        intent.putExtra("user_name", viewModel.userData?.name)
+        intent.putExtra("phone_no", data.phone)
+        intent.putExtra("user_name", data.fname)
+        intent.putExtra("user_image", data.contactImage)
         startActivity(intent)
     }
 
     override fun onClickMessage(data: Contacts) {
         findNavController().navigate(
             AddressFragmentDirections.actionAddressFragmentToChatDetailFragment(
-                data._id,data.contactImage?:"",data.fname+ " "+ data.fname
+                data._id,data.contactImage?:"",data.fname+ " "+ data.fname,data.phone?:""
             )
         )
     }
