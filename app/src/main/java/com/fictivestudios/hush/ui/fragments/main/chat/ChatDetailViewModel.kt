@@ -9,12 +9,7 @@ import com.fictivestudios.hush.base.response.Resource
 import com.fictivestudios.hush.base.viewModel.BaseViewModel
 import com.fictivestudios.hush.data.repositories.AuthRepository
 import com.fictivestudios.hush.data.repositories.ChatDetailRepository
-import com.fictivestudios.hush.data.repositories.ChatRepository
-import com.fictivestudios.hush.data.responses.ChatInbox
-import com.fictivestudios.hush.data.responses.ChatListResponse
-import com.fictivestudios.hush.data.responses.LoginUserRequest
 import com.fictivestudios.hush.data.responses.LoginUserResponse
-import com.fictivestudios.hush.data.responses.Message
 import com.fictivestudios.hush.data.responses.SmsMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -69,6 +64,7 @@ class ChatDetailViewModel @Inject constructor(
             }
         )
     }
+
 
     fun init(userId: String, contactId: String) {
 

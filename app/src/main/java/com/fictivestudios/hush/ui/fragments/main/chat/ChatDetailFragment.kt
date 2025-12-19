@@ -133,7 +133,7 @@ class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnC
                    }
                         for (data in list) {
 
-                        if (data.sender == "user") {
+                        if (data.sender == "user" && data.message.isNotEmpty()) {
                             viewTypeArray.add(
                                 RowItemMyChat(
                                     data,
@@ -141,7 +141,10 @@ class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnC
                                 )
                             )
                         } else {
-                            viewTypeArray.add(RowItemOtherChat(data, args.userImage))
+                            if(data.message.isNotEmpty()){
+                                viewTypeArray.add(RowItemOtherChat(data, args.userImage))
+                            }
+
                         }
                     }
                     adapter.items = viewTypeArray
@@ -188,16 +191,17 @@ class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnC
 
             binding.imageViewSent.id -> {
                 if (binding.textInputEditTextMessage.text.toString().isNotEmpty()) {
+
                     viewModel.sendSms(
                         binding.textInputEditTextMessage.text.toString(),
                         viewModel.userData!!._id!!,
                         args.userId,
                         {
-                            if (isAdded) {
-                                activity?.runOnUiThread {
-                                    binding.textInputEditTextMessage.text?.clear()
-                                }
-                            }
+//                            if (isAdded) {
+//                                activity?.runOnUiThread {
+//                                    binding.textInputEditTextMessage.text?.clear()
+//                                }
+//                            }
                         },
                         {
                             if (isAdded) {
@@ -211,6 +215,7 @@ class ChatDetailFragment : BaseFragment(R.layout.fragment_chat_detail), View.OnC
                             }
                         }
                     )
+                    binding.textInputEditTextMessage.text?.clear()
                 }
             }
         }
